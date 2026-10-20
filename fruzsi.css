@@ -262,61 +262,8 @@ html.fz-menu { overflow: hidden; }
   hyphens: none;
 }
 .fz-ch { display: inline-block; }
-
-/* --------------------------------------------------------------------------
-   KÉZJEGY: körömtip-legyező
-   Öt mandula alakú tip, bennük a munkák fotói – úgy nyílik szét, mint egy
-   lakkminta-legyező a szegecse körül; aztán lassan ring, görgetésre tovább
-   nyílik, és csillámok villannak körülötte.
-   -------------------------------------------------------------------------- */
-.fz-fan {
-  --w: clamp(5.8rem, 26cqi, 9rem);
-  --h: calc(var(--w) * 16 / 9);
-  --pivot: 1rem;
-  --spread: 18deg;
-  --fz-p: 0;                                   /* görgetési haladás, JS írja */
-  position: relative;
-  order: -1;                                   /* telefonon a név fölött */
-  width: 100%;
-  max-width: 32rem;
-  height: calc(var(--h) * 1.14 + var(--pivot));
-  margin-inline: auto;
-  pointer-events: none;
-}
-.fz-fan__sway {
-  position: absolute;
-  inset: 0;
-  transform-origin: 50% calc(100% - var(--pivot));
-}
-.fz-tip {
-  position: absolute;
-  left: 50%;
-  bottom: calc(var(--h) * 0.08 + var(--pivot));
-  width: var(--w);
-  height: var(--h);
-  margin-left: calc(var(--w) / -2);
-  border: 3px solid var(--fz-milk);
-  border-radius: 50% 50% 46% 46% / 64% 64% 36% 36%;
-  overflow: hidden;
-  background: linear-gradient(160deg, var(--pv-secondary), var(--pv-primary));
-  box-shadow: 0 18px 36px -20px rgb(22 17 15 / 0.55);
-  transform-origin: 50% 108%;
-  rotate: calc(var(--i) * (var(--spread) + var(--fz-p) * 9deg));
-}
-.fz-tip img { width: 100%; height: 100%; object-fit: cover; }
-.fz-fan::after {                               /* a szegecs */
-  content: "";
-  position: absolute;
-  z-index: 1;
-  left: 50%;
-  bottom: var(--pivot);
-  width: 1.2rem;
-  height: 1.2rem;
-  border: 3px solid var(--fz-milk);
-  border-radius: 50%;
-  background: var(--pv-primary);
-  translate: -50% 50%;
-}
+/* a háttérfotón a halvány szürke bevezető elveszne – teljes szövegszín */
+#sec-hero .pv-lead { color: var(--pv-text); }
 
 /* ==========================================================================
    3. FUTÓSZALAG – sötét sáv, nagy dőlt betű, ✦ elválasztó
@@ -899,15 +846,7 @@ html:has(.fz-lb[open]) { overflow: hidden; }
    5. MOZGÁS – csak ha a látogató nem kért csökkentett mozgást
    ========================================================================== */
 @media (prefers-reduced-motion: no-preference) {
-  /* --- hero betöltés: legyező nyílik, betűk felszállnak, a többi utánuk --- */
-  .fz-fan:not(.is-open) .fz-tip { rotate: 0deg; translate: 0 1.5rem; opacity: 0; }
-  .fz-tip {
-    transition: rotate 1.3s var(--fz-ease), translate 1.3s var(--fz-ease), opacity 0.6s ease;
-    transition-delay: calc(var(--d) * 110ms);
-  }
-  .fz-fan.is-live .fz-tip { transition: rotate 0.25s linear; }
-  .fz-fan.is-open .fz-fan__sway { animation: fz-sway 7s ease-in-out 1.6s infinite alternate; }
-
+  /* --- hero betöltés: a betűk felszállnak, a többi utánuk --- */
   .fz-intro .fz-ch { opacity: 0; translate: 0 0.55em; rotate: 8deg; }
   .fz-intro.is-in .fz-ch {
     opacity: 1; translate: 0 0; rotate: 0deg;
@@ -967,7 +906,6 @@ html:has(.fz-lb[open]) { overflow: hidden; }
   .fz-lb[open]::backdrop { animation: fz-fade 0.3s ease both; }
   .pv-nav.is-open { animation: fz-fade 0.35s ease both; }
 }
-@keyframes fz-sway    { from { rotate: -2.5deg; } to { rotate: 2.5deg; } }
 @keyframes fz-sheen   { 0%, 70% { translate: -80% 0; } 100% { translate: 80% 0; } }
 @keyframes fz-menu-in { from { opacity: 0; translate: 0 1.4rem; } to { opacity: 1; translate: 0 0; } }
 @keyframes fz-fade    { from { opacity: 0; } to { opacity: 1; } }
@@ -984,9 +922,6 @@ html:has(.fz-lb[open]) { overflow: hidden; }
   #sec-pricing .pv-prices { padding: 1.8rem 2.4rem 2.2rem; }
 }
 @container (min-width: 56rem) {
-  /* data-hero="none" a pv.css-ben egy oszlopot ad – a legyező foglalja el a kép helyét */
-  .pv[data-hero] .pv-hero__inner:has(.fz-fan) { grid-template-columns: 1.05fr 0.95fr; align-items: center; }
-  .fz-fan { order: 0; --w: clamp(7.5rem, 12cqi, 10rem); }
   .pv-hero__copy h1 { --pv-h1-k: 1.2; }
   /* árlista: két hasáb, a kategória-cím a tételeivel marad */
   #sec-pricing .pv-prices { display: block; columns: 2; column-gap: 3rem; }

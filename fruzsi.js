@@ -42,39 +42,6 @@
     split(h1);
   }
 
-  /* --- Körömtip-legyező a galéria kézfotóiból (pedikűr nélkül) ------------ */
-  function fan() {
-    const inner = $(".pv-hero__inner");
-    if (!inner || $(".fz-fan", inner)) return null;
-    /* a galériában már nincs kategória – a lábfotót a fájlnév szűri ki */
-    const srcs = $$("#sec-gallery .pv-item img")
-      .map((img) => img.getAttribute("src")).filter((s) => s && !/pedik/i.test(s)).slice(0, 5);
-    if (srcs.length < 3) return null;
-    const mid = (srcs.length - 1) / 2;
-    const el = document.createElement("div");
-    el.className = "fz-fan";
-    el.setAttribute("aria-hidden", "true");
-    el.innerHTML =
-      `<div class="fz-fan__sway">` +
-      srcs.map((src, k) =>
-        `<span class="fz-tip" style="--i:${k - mid};--d:${Math.abs(k - mid)}"><img src="${src}" alt="" decoding="async"></span>`).join("") +
-      `</div>`;
-    inner.append(el);
-    return el;
-  }
-
-  /* --- Görgetésre: a legyező tovább nyílik, ahogy a hero kifut ------------ */
-  function fanScroll(el) {
-    const hero = $("#sec-hero");
-    let ticking = false;
-    const sync = () => {
-      ticking = false;
-      const p = Math.min(1, Math.max(0, scrollY / (hero.offsetHeight || 1)));
-      el.style.setProperty("--fz-p", p.toFixed(3));
-    };
-    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(sync); } }, { passive: true });
-  }
-
   /* --- Beúszás görgetésre ------------------------------------------------- */
   const RV = [".pv-head", ".pv-item", ".pv-prices li", ".pv-about__media", ".pv-about__copy",
     ".pv-contact__list li", ".pv-map__frame", ".pv-chips", "#bk-root"];
@@ -288,7 +255,6 @@
     });
     pricing();
     gallery();
-    const el = fan();
     if (calm) return;
     stack(cards);
     const copy = $(".pv-hero__copy");
@@ -297,10 +263,6 @@
     reveal();
     next(() => {
       copy?.classList.add("is-in");
-      if (!el) return;
-      el.classList.add("is-open");
-      /* a nyitás után a görgetés közvetlenül vezeti a szöget, lassú átmenet nélkül */
-      setTimeout(() => { el.classList.add("is-live"); fanScroll(el); }, 1900);
     });
   }
 

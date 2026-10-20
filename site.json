@@ -65,8 +65,8 @@
         "src": "og-rozsaszin-kez.jpg",
         "focus": "center",
         "media": "",
-        "hero": true,
-        "alt": "Rózsaszín manikűrös kéz élénk rózsaszín háttér előtt"
+        "hero": false,
+        "alt": "Fukszia géllakkos körmök Fruzsi stúdiójában"
       },
       {
         "spot": "Rólam",
@@ -74,7 +74,15 @@
         "focus": "center",
         "media": "",
         "hero": false,
-        "alt": "Manikűr készül a stúdióban, a vendég keze a munkaasztalon"
+        "alt": "Fruzsi munkaasztala: kézpárna és UV-lámpa a stúdióban"
+      },
+      {
+        "spot": "Hero",
+        "src": "hero-pink-kezek.jpg",
+        "focus": "center",
+        "media": "",
+        "hero": true,
+        "alt": "Fukszia géllakkos, szögletes körmök"
       }
     ],
     "imgPick": {
@@ -110,44 +118,84 @@
     "lists": {
       "gallery": [
         {
-          "name": "Mályva géllakk, csillámos gyűrűsujj",
+          "name": "Rózsaszín króm, 3D virággal",
           "text": "",
-          "image": "galeria-malyva-csillam.jpg"
+          "image": "galeria-rozsa-krom.jpg"
         },
         {
-          "name": "Nude géllakk, minimál díszítés",
+          "name": "Francia, kövekkel díszítve",
           "text": "",
-          "image": "galeria-nude-minimal.jpg"
+          "image": "galeria-francia-kovek.jpg"
         },
         {
-          "name": "Babyboomer építés, mandula forma",
+          "name": "Piros stiletto",
           "text": "",
-          "image": "galeria-babyboomer.jpg"
+          "image": "galeria-piros-stiletto.jpg"
         },
         {
-          "name": "Rózsaszín csillám építés",
+          "name": "Babarózsaszín, pöttyös díszítés",
           "text": "",
-          "image": "galeria-rozsa-csillam.jpg"
+          "image": "galeria-pottyos.jpg"
         },
         {
-          "name": "Pedikűr, pink géllakk",
+          "name": "Kék króm francia",
           "text": "",
-          "image": "galeria-pedikur.jpg"
+          "image": "galeria-kek-krom.jpg"
         },
         {
-          "name": "Kézzel festett díszítés",
+          "name": "Stiletto, kézzel festett virág",
           "text": "",
-          "image": "galeria-festett-diszites.jpg"
+          "image": "galeria-festett-virag.jpg"
         },
         {
-          "name": "Csillámpor, rózsaszín alapon",
+          "name": "Bordó krokomintás",
           "text": "",
-          "image": "galeria-csillampor.jpg"
+          "image": "galeria-bordo-kroko.jpg"
         },
         {
-          "name": "Natúr rózsa, rövid forma",
+          "name": "Arany csillámos ombré",
           "text": "",
-          "image": "galeria-natur-rozsa.jpg"
+          "image": "galeria-arany-ombre.jpg"
+        },
+        {
+          "name": "Óceánkék, díszített mandula",
+          "text": "",
+          "image": "galeria-oceankek.jpg"
+        },
+        {
+          "name": "Bordó mandula",
+          "text": "",
+          "image": "galeria-bordo-mandula.jpg"
+        },
+        {
+          "name": "Rózsa ombré, festett díszítés",
+          "text": "",
+          "image": "galeria-rozsa-ombre.jpg"
+        },
+        {
+          "name": "Meggypiros, vékony francia csíkkal",
+          "text": "",
+          "image": "galeria-meggypiros.jpg"
+        },
+        {
+          "name": "Sötétlila stiletto",
+          "text": "",
+          "image": "galeria-lila-stiletto.jpg"
+        },
+        {
+          "name": "Neon pink francia",
+          "text": "",
+          "image": "galeria-neon-francia.jpg"
+        },
+        {
+          "name": "Narancs, festett virággal",
+          "text": "",
+          "image": "galeria-narancs-virag.jpg"
+        },
+        {
+          "name": "Narancs stiletto, kövekkel",
+          "text": "",
+          "image": "galeria-narancs-kovek.jpg"
         }
       ],
       "videos": [],
@@ -409,7 +457,7 @@
     "align": "center",
     "radius": 0,
     "layout": "split",
-    "hero": "none",
+    "hero": "stage",
     "secHead": "stack",
     "edge": "none",
     "flow": "stagger",
