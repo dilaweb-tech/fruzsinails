@@ -1,0 +1,113 @@
+/* ==========================================================================
+   Fruzsinails – saját réteg a termék (pv.css) fölött
+   A pv.css érintetlen marad (a sync-eszközök futhatnak rá), minden egyedi
+   döntés itt van. Fruzsi tervezőbeli beállításai (betűk, paletta, split,
+   arch keret, hullám, link-gombok) a site.json-ból jönnek – ez csak kiegészít.
+   ========================================================================== */
+.pv { --fz-milk: #fff6fa; }
+.pv[data-mode="dark"] { --fz-milk: #2c0b19; }
+
+/* --- Fejléc: telefonon a generált monogram kimarad, így a név kifér -------- */
+.pv-brand img { display: none; }
+@container (min-width: 30rem) { .pv-brand img { display: block; } }
+
+/* --- Hero: a név a főszereplő ---------------------------------------------- */
+/* telefonon a nyitva-állapot már a felső sávban áll – a címke így egy sorba fér */
+#pv-status { display: none; }
+@container (min-width: 30rem) { #pv-status { display: revert; } }
+.pv-hero__copy h1 { --pv-h1-k: 1.45; letter-spacing: -0.02em; overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+
+/* --------------------------------------------------------------------------
+   KÉZJEGY: körömtip-legyező
+   Öt mandula alakú tip, bennük a galéria fotói – úgy nyílik szét, mint egy
+   lakkminta-legyező a szegecse körül, aztán egy géllakk-fény fut végig rajta.
+   Az oldal EGYETLEN hangsúlyos animációja; csak transform/opacity mozog.
+   -------------------------------------------------------------------------- */
+.fz-fan {
+  --w: clamp(5.2rem, 23cqi, 8.4rem);
+  --h: calc(var(--w) * 16 / 9);
+  --pivot: 0.9rem;
+  position: relative;
+  order: -1;                                   /* telefonon a név fölött */
+  width: 100%;
+  max-width: 30rem;
+  height: calc(var(--h) * 1.12 + var(--pivot));
+  margin-inline: auto;
+  pointer-events: none;
+}
+.fz-tip {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--h) * 0.08 + var(--pivot));
+  width: var(--w);
+  height: var(--h);
+  margin-left: calc(var(--w) / -2);
+  border: 3px solid var(--fz-milk);
+  border-radius: 50% 50% 46% 46% / 64% 64% 36% 36%;
+  overflow: hidden;
+  background: linear-gradient(160deg, var(--pv-secondary), var(--pv-primary));
+  box-shadow: 0 18px 36px -20px rgb(22 17 15 / 0.55);
+  transform-origin: 50% 108%;
+  transform: rotate(calc(var(--i) * 18deg));
+}
+.fz-tip img { width: 100%; height: 100%; object-fit: cover; }
+/* géllakk-fény: ferde csík, alapból a tipen kívül áll */
+.fz-tip::after {
+  content: "";
+  position: absolute;
+  inset: -20% -60%;
+  background: linear-gradient(105deg, transparent 42%, rgb(255 255 255 / 0.6) 50%, transparent 58%);
+  transform: translateX(-70%);
+}
+/* a szegecs, ami körül a legyező forog */
+.fz-fan::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: var(--pivot);
+  width: 1.1rem;
+  height: 1.1rem;
+  border: 3px solid var(--fz-milk);
+  border-radius: 50%;
+  background: var(--pv-primary);
+  transform: translate(-50%, 50%);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .pv-ready .fz-tip {
+    animation: fz-open 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+    animation-delay: calc(0.2s + var(--d) * 90ms);
+  }
+  .pv-ready .fz-tip::after {
+    animation: fz-gloss 1.3s ease-in-out both;
+    animation-delay: calc(1.2s + var(--d) * 110ms);
+  }
+}
+@keyframes fz-open {
+  from { transform: rotate(0deg) translateY(1.5rem); opacity: 0; }
+  35%  { opacity: 1; }
+  to   { transform: rotate(calc(var(--i) * 18deg)); opacity: 1; }
+}
+@keyframes fz-gloss {
+  from { transform: translateX(-70%); }
+  to   { transform: translateX(70%); }
+}
+
+/* Asztalin a split: balra a szöveg, jobbra a legyező */
+@container (min-width: 56rem) {
+  /* data-hero="none" a pv.css-ben egy oszlopot ad – a legyező foglalja el a kép helyét */
+  .pv[data-hero] .pv-hero__inner:has(.fz-fan) { grid-template-columns: 1.05fr 0.95fr; align-items: center; }
+  .fz-fan { order: 0; --w: clamp(7rem, 12cqi, 9rem); }
+  .pv-hero__copy h1 { --pv-h1-k: 1.2; }
+}
+
+/* --- Képkivágás: a fotón a körmök a kép felső részén vannak ---------------- */
+img[src$="gellakk.jpg"] { object-position: 50% 22%; }
+
+/* --- Galéria: telefonon két oszlop, hogy ne legyen végtelen görgetés -------- */
+#sec-gallery .pv-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+#sec-gallery .pv-item__cap { font-size: 0.78rem; }
+@container (min-width: 56rem) {
+  #sec-gallery .pv-items { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.1rem; }
+  #sec-gallery .pv-item__cap { font-size: 0.85rem; }
+}
