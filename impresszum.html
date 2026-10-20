@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Impresszum</title>
+  <meta name="description" content="A szolgáltató adatai és elérhetősége.">
+  <meta name="theme-color" content="#070B11">
+
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <!-- Villanásmentes indulás: a tools/plan-to-site.mjs süti be a site.json
+       háttérszíneiből (tools/meta.mjs → bootBlock) – kézzel ne írd át. -->
+  <!-- >>> BOOT -->
+  <style>
+    html { background: #e5eaef; }
+    html:not(.pv-ready) body { visibility: hidden; animation: pv-boot 0s 3s forwards; }
+    @keyframes pv-boot { to { visibility: visible; } }
+    @media (prefers-reduced-motion: no-preference) { html.pv-ready body { animation: pv-in 0.3s ease-out; } }
+    @keyframes pv-in { from { opacity: 0; } }
+  </style>
+  <!-- a mentett mód már az első képkockán: a kulcs a site.js MODE_KEY-e -->
+  <script>try { var m = localStorage.getItem("dilaweb:mode"); if (m === "dark" || m === "light") document.documentElement.style.background = m === "dark" ? "#10151A" : "#e5eaef"; } catch (e) {}</script>
+  <noscript><style>html:not(.pv-ready) body { visibility: visible; animation: none; }</style></noscript>
+  <!-- <<< BOOT -->
+  <link rel="stylesheet" href="pv.css">
+</head>
+
+<!-- Az adatokat a site.js írja be a site.json `legal` blokkjából: a szöveg
+     minden ügyfélnél ugyanaz, csak a cégadat más. -->
+<body class="pv" id="pv" data-mode="dark">
+
+  <a class="skip-link" href="#pv-main">Ugrás a tartalomra</a>
+
+  <header class="pv-header">
+   <div class="pv-header__inner">
+    <a class="pv-brand" href="index.html">
+      <img id="pv-logo" alt="" width="40" height="40">
+      <span id="pv-company-sm">Cégnév</span>
+    </a>
+   </div>
+  </header>
+
+  <main class="pv-main" id="pv-main">
+    <section class="pv-section">
+      <div class="pv-wrap pv-legal">
+
+        <header class="pv-head">
+          <p class="pv-eyebrow"><span class="pv-dot" aria-hidden="true"></span><span>Jogi tudnivalók</span></p>
+          <h1>Impresszum</h1>
+        </header>
+
+        <h2>A szolgáltató</h2>
+        <dl class="pv-legal__facts">
+          <div>
+            <dt>Név</dt>
+            <dd data-legal="name">—</dd>
+          </div>
+          <div>
+            <dt>Székhely</dt>
+            <dd data-legal="seat">—</dd>
+          </div>
+          <div>
+            <dt>Nyilvántartási / cégjegyzékszám</dt>
+            <dd data-legal="regNumber">—</dd>
+          </div>
+          <div>
+            <dt>Adószám</dt>
+            <dd data-legal="taxNumber">—</dd>
+          </div>
+          <div>
+            <dt>Képviselő</dt>
+            <dd data-legal="representative">—</dd>
+          </div>
+        </dl>
+
+        <h2>Elérhetőség</h2>
+        <dl class="pv-legal__facts">
+          <div>
+            <dt>E-mail</dt>
+            <dd><a data-legal="email" href="#">—</a></dd>
+          </div>
+          <div>
+            <dt>Telefon</dt>
+            <dd><a data-legal="phone" href="#">—</a></dd>
+          </div>
+        </dl>
+
+        <!-- Csak akkor jelenik meg, ha a legal.supervisor ki van töltve:
+             engedélyköteles vagy kamarai szakmáknál kötelező adat. -->
+        <div data-legal-if="supervisor" hidden>
+          <h2>Felügyeleti szerv, kamarai tagság</h2>
+          <p data-legal="supervisor">—</p>
+        </div>
+
+        <h2>Tárhelyszolgáltató</h2>
+        <dl class="pv-legal__facts">
+          <div>
+            <dt>Név</dt>
+            <dd data-legal="hostName">—</dd>
+          </div>
+          <div>
+            <dt>E-mail</dt>
+            <dd><a data-legal="hostMail" href="#">—</a></dd>
+          </div>
+        </dl>
+
+        <h2>Adatkezelés</h2>
+        <p>
+          Az oldalon megadott személyes adatok kezeléséről az
+          <a href="adatkezeles.html">adatkezelési tájékoztató</a> szól részletesen.
+        </p>
+
+        <h2>Szerzői jog</h2>
+        <p>
+          Az oldalon szereplő szövegek, képek és grafikai elemek szerzői jogi
+          védelem alatt állnak. Felhasználásuk – a személyes, nem üzleti célú
+          megtekintésen túl – csak előzetes írásbeli engedéllyel lehetséges.
+        </p>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="pv-footer">
+    <span>&copy; <span id="pv-year">2026</span> <span id="pv-company-ft">Cégnév</span></span>
+    <nav class="pv-footer__links" aria-label="Jogi információk">
+      <a href="adatkezeles.html">Adatkezelési tájékoztató</a>
+      <a href="impresszum.html" aria-current="page">Impresszum</a>
+    </nav>
+    <div class="pv-credit"><a href="https://dilaweb.hu" target="_blank" rel="noopener"><svg viewBox="0 0 44 32" aria-hidden="true" focusable="false"><rect x="4" y="4" width="36" height="24" rx="12" fill="none" stroke="currentColor" stroke-width="7"/><circle cx="22" cy="16" r="6.5" fill="currentColor"/></svg><span data-i18n="pv.credit">Készítette: dilaweb.hu</span></a></div>
+  </footer>
+
+  <script src="site.js"></script>
+</body>
+</html>

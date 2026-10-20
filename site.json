@@ -1,0 +1,516 @@
+{
+  "meta": {
+    "app": "DilaWEB Sablontervező",
+    "version": 3,
+    "lang": "hu",
+    "trade": "auto",
+    "exportedAt": "2026-08-26T08:30:23.244Z",
+    "note": "A feltöltött képek helyett csak a fájlnevük szerepel – a képfájlokat az ügyféltől külön kell bekérni."
+  },
+  "content": {
+    "company": "MotorPont Autószerviz",
+    "tagline": "Márkafüggetlen szerviz és műszaki vizsga a XIII. kerületben. Fix áras olajcsere, ingyenes hibakód-olvasás, autómosás után adjuk vissza a kocsit.",
+    "about": "2011 óta javítunk autót ugyanabban a műhelyben, hat emelővel és két szerelővel, akik húsz éve csinálják. Márkafüggetlenek vagyunk: japán, német és francia autókhoz is van diagnosztikánk.\n\nMielőtt bármihez hozzákezdünk, telefonon elmondjuk, mennyi lesz. Ha munka közben derül ki, hogy más is kell, előbb megkérdezünk – engedély nélkül nem szerelünk semmit. A cserélt alkatrészt megmutatjuk.",
+    "address": "1135 Budapest, Reitter Ferenc utca 58.",
+    "phone": "+36 70 331 4409",
+    "email": "szerviz@motorpont.hu",
+    "logo": "",
+    "images": [
+      {
+        "spot": "Hero – 1. slide · Szolgáltatások – 1. kártya képe · Rólunk szekció képe",
+        "src": "skica911-oil-3979023.jpg",
+        "focus": "center",
+        "media": ""
+      },
+      {
+        "spot": "Hero – 2. slide · Szolgáltatások – 2. kártya képe",
+        "src": "joenomias-car-mechanic-2267350_1920.jpg",
+        "focus": "center",
+        "media": ""
+      },
+      {
+        "spot": "Hero – 3. slide · Szolgáltatások – 3. kártya képe",
+        "src": "avtoritetkhv-young-woman-346231.jpg",
+        "focus": "center",
+        "media": ""
+      },
+      {
+        "spot": "Hero – 4. slide · Szolgáltatások – 4. kártya képe",
+        "src": "pexels-tools-1845426_1920.jpg",
+        "focus": "center",
+        "media": ""
+      }
+    ],
+    "uploadedFiles": [
+      "skica911-oil-3979023.jpg",
+      "joenomias-car-mechanic-2267350_1920.jpg",
+      "avtoritetkhv-young-woman-346231.jpg",
+      "pexels-tools-1845426_1920.jpg",
+      "toby_parsons-ford-focus-rs-3079452_1920.jpg",
+      "ermakovasve-model-2875192_1920.jpg",
+      "joenomias-car-mechanic-2267350_1920.jpg",
+      "sava86-cafe-4816651_1920.jpg",
+      "storme22k-bread-8503298_1920.jpg",
+      "jarmoluk-the-cake-268259_1920.jpg"
+    ],
+    "services": [
+      {
+        "name": "Olajcsere",
+        "text": "Vestibulum id ligula porta felis euismod semper. Donec sed odio dui, nulla vitae elit libero."
+      },
+      {
+        "name": "Fék- és futómű-ellenőrzés",
+        "text": "Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo."
+      },
+      {
+        "name": "Műszaki vizsga előkészítés",
+        "text": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Integer posuere erat a ante."
+      },
+      {
+        "name": "Klímatisztítás",
+        "text": "Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed."
+      }
+    ],
+    "lists": {
+      "gallery": [
+        {
+          "name": "Asztalaink",
+          "text": "",
+          "tag": "",
+          "image": "sava86-cafe-4816651_1920.jpg"
+        },
+        {
+          "name": "Pék mester munka közben",
+          "text": "",
+          "tag": "",
+          "image": "storme22k-bread-8503298_1920.jpg"
+        },
+        {
+          "name": "Legszebb sütemény",
+          "text": "",
+          "tag": "",
+          "image": "jarmoluk-the-cake-268259_1920.jpg"
+        }
+      ],
+      "team": [],
+      "faq": [
+        {
+          "name": "Kell időpontot foglalni?",
+          "text": "Olajcseréhez és vizsgához igen, hibakód-olvasáshoz nem – azzal bármikor beállhatsz.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Márkaszervizes garanciám megmarad?",
+          "text": "Meg. Gyári minőségű alkatrészt építünk be, és a szervizkönyvet is vezetjük.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Mennyi a garancia?",
+          "text": "Két év a munkára és a beépített alkatrészre is, kilométer-korlát nélkül.",
+          "tag": "",
+          "image": ""
+        }
+      ],
+      "rating": [
+        {
+          "name": "4,8",
+          "text": "417 Google-értékelés",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "4,7",
+          "text": "96 vélemény a Facebookon",
+          "tag": "",
+          "image": ""
+        }
+      ],
+      "stats": [
+        {
+          "name": "18 év",
+          "text": "ugyanazon a telephelyen",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "11 400",
+          "text": "javítás",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "2 év",
+          "text": "garancia minden munkára",
+          "tag": "",
+          "image": ""
+        }
+      ],
+      "reviews": [
+        {
+          "name": "Nagy Zoltán",
+          "text": "Felhívtak az árral, mielőtt hozzákezdtek. Ez a szerviznél nem szokás – nálunk mégis ez volt.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Szabó Ildikó",
+          "text": "Kiderült, hogy a másik szerviz feleslegesen cserélt volna kuplungot. Megmutatták, miért nem kell.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Rácz Péter",
+          "text": "Vizsga előtt átnézték, két apróságot javítottak, elsőre átment.",
+          "tag": "",
+          "image": ""
+        }
+      ],
+      "process": [
+        {
+          "name": "Hibafelvétel",
+          "text": "Behozod, meghallgatunk, kiolvassuk a hibakódot. Ez ingyen van, akkor is, ha nem nálunk javíttatsz.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Árajánlat telefonon",
+          "text": "Mielőtt egy csavart is kicsavarnánk, felhívunk a tételes összeggel. Nincs utólagos meglepetés a számlán.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Javítás és átadás",
+          "text": "Bontott alkatrészt megmutatjuk, a kocsit mosva adjuk vissza. Számla, garancialevél, kész.",
+          "tag": "",
+          "image": ""
+        }
+      ],
+      "logos": []
+    },
+    "pricing": {
+      "enabled": true,
+      "cards": false,
+      "items": [
+        {
+          "name": "Olajcsere (szűrőkkel, olaj nélkül)",
+          "price": "12 000 Ft",
+          "tag": "",
+          "time": "",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Fékbetét-csere tengelyenként",
+          "price": "9 000 Ft-tól",
+          "tag": "",
+          "time": "",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Műszaki vizsga, ügyintézéssel",
+          "price": "34 000 Ft",
+          "tag": "",
+          "time": "",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Klímatisztítás és -töltés",
+          "price": "19 000 Ft",
+          "tag": "",
+          "time": "",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Hibakód-olvasás, diagnosztika",
+          "price": "díjmentes",
+          "tag": "",
+          "time": "",
+          "image": "",
+          "file": ""
+        }
+      ]
+    },
+    "hoursShow": true,
+    "cta2": "route",
+    "booking": {
+      "enabled": true,
+      "services": [
+        {
+          "id": "s3av56m",
+          "name": "Olajcsere",
+          "durationMin": 60,
+          "price": "12000"
+        },
+        {
+          "id": "s4s1tub",
+          "name": "Fék- és futómű-ellenőrzés",
+          "durationMin": 45,
+          "price": ""
+        },
+        {
+          "id": "spgstoh",
+          "name": "Műszaki vizsga előkészítés",
+          "durationMin": 90,
+          "price": "34000"
+        },
+        {
+          "id": "sbjtheb",
+          "name": "Klímatisztítás",
+          "durationMin": 60,
+          "price": "19000"
+        }
+      ],
+      "staff": [
+        {
+          "id": "wvrsu3z",
+          "name": "Nagy Zoltán",
+          "photo": "",
+          "file": "",
+          "serviceIds": [
+            "s3av56m",
+            "s4s1tub",
+            "spgstoh",
+            "sbjtheb"
+          ]
+        },
+        {
+          "id": "wdn29jv",
+          "name": "Tóth Gábor",
+          "photo": "",
+          "file": "",
+          "serviceIds": [
+            "s3av56m",
+            "s4s1tub",
+            "spgstoh",
+            "sbjtheb"
+          ]
+        }
+      ],
+      "hours": {
+        "mon": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "tue": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "wed": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "thu": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "fri": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "sat": {
+          "open": "08:00",
+          "close": "12:00",
+          "closed": false
+        },
+        "sun": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": true
+        }
+      },
+      "slot": 30,
+      "currency": "HUF"
+    },
+    "references": [
+      {
+        "caption": "Vezérműszíj-csere, Ford Focus 1.6 TDCi",
+        "image": "toby_parsons-ford-focus-rs-3079452_1920.jpg"
+      },
+      {
+        "caption": "Klímarendszer felújítás szivárgáskereséssel",
+        "image": "ermakovasve-model-2875192_1920.jpg"
+      },
+      {
+        "caption": "Vizsgára felkészítés fékpad-méréssel",
+        "image": "joenomias-car-mechanic-2267350_1920.jpg"
+      }
+    ]
+  },
+  "design": {
+    "font": "dmsans",
+    "fontHead": "oswald",
+    "align": "left",
+    "radius": 4,
+    "layout": "grid",
+    "hero": "banner",
+    "secHead": "wide",
+    "edge": "tape",
+    "flow": "stack",
+    "cols": 3,
+    "width": 76,
+    "spacing": 95,
+    "imgRatio": 133,
+    "typeset": "condensed",
+    "surface": "outline",
+    "texture": "diagonal",
+    "bgDepth": "scroll",
+    "bgArt": "wrench",
+    "bgMotion": "still",
+    "bgSpot": "corner",
+    "reveal": "rise",
+    "band": "soft",
+    "divider": "slant",
+    "accent": "number",
+    "sig": "none",
+    "media": "cut",
+    "btn": "sharp",
+    "navBg": "tint",
+    "navShape": "bar",
+    "navAlign": "end",
+    "navLink": "caps",
+    "navPos": "sticky",
+    "seed": 42,
+    "fontScale": "md",
+    "fontScaleBy": {
+      "hero": "lg"
+    },
+    "mode": "light",
+    "colors": {
+      "dark": {
+        "primary": "#FF6A13",
+        "secondary": "#5B7285",
+        "bg": "#10151A",
+        "text": "#E8EEF4"
+      },
+      "light": {
+        "bg": "#e5eaef",
+        "text": "#0b1117",
+        "primary": "#d54e00",
+        "secondary": "#5B7285"
+      }
+    }
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "rating",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "services",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "stats",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "process",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "references",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "reviews",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "about",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "faq",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "map",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "contact",
+      "on": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "gallery",
+      "on": false,
+      "sub": [],
+      "nav": false
+    },
+    {
+      "id": "team",
+      "on": false,
+      "sub": []
+    },
+    {
+      "id": "logos",
+      "on": false,
+      "sub": []
+    }
+  ],
+  "moduleAfter": {
+    "pricing": "services",
+    "booking": "services"
+  },
+  "legal": {
+    "_name": "A szolgáltató teljes, hivatalos neve – egyéni vállalkozónál a személynév, cégnél a cégforma is.",
+    "name": "",
+    "seat": "",
+    "_regNumber": "Cégjegyzékszám, egyéni vállalkozónál a nyilvántartási szám.",
+    "regNumber": "",
+    "taxNumber": "",
+    "_representative": "A képviseletre jogosult neve. Egyéni vállalkozónál ugyanaz, mint a név.",
+    "representative": "",
+    "_contact": "Ha üresen hagyod, a content.email és content.phone értéke kerül be.",
+    "email": "",
+    "phone": "",
+    "_supervisor": "Ha a szakma engedélyköteles vagy kamarai: a felügyeleti szerv, illetve a kamara neve. Üresen a blokk nem jelenik meg.",
+    "supervisor": "",
+    "_hosting": "A tárhelyszolgáltató – ez a DilaWEB, ha a karbantartási csomag részeként mi üzemeltetjük.",
+    "hosting": {
+      "name": "Látkóczki Dániel e.v. és Dinya Kristóf e.v. (DilaWEB)",
+      "seat": "",
+      "email": "info@dilaweb.hu"
+    },
+    "_retentionMonths": "A foglalási adatok megőrzési ideje hónapban. Az adatkezelési tájékoztatóban ez jelenik meg.",
+    "retentionMonths": 12,
+    "_updated": "A tájékoztató hatálybalépésének dátuma (ÉÉÉÉ-HH-NN).",
+    "updated": "2026-08-26"
+  }
+}
