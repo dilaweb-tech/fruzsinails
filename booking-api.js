@@ -191,6 +191,20 @@ async function taken(staffId, monday) {
   return new Set(data?.taken || []);
 }
 
+/* Előnézet (backend nélkül): determinisztikus kamu-foglaltság, ugyanaz, mint
+   a tervező demójában – ugyanarra a hétre mindig ugyanaz látszik. */
+function demoTaken(staffId, monday) {
+  const set = new Set();
+  const seed = [...String(staffId) + monday].reduce((a, ch) => (a * 33 + ch.charCodeAt(0)) >>> 0, 5381);
+  for (let d = 0; d < 7; d++) {
+    const date = Booking.shiftDay(monday, d);
+    for (let m = 0; m < 24 * 60; m += 15) {
+      if ((seed + d * 977 + m * 31) % 100 < 12) set.add(`${date}T${Booking.toHhmm(m)}`);
+    }
+  }
+  return Promise.resolve(set);
+}
+
 /* A payload alakja a booking.js collect() függvényéből jön; a szerver csak
    ezt a hét mezőt fogadja el, az árat és a hosszt az adatbázisból veszi. */
 async function submit(p) {
@@ -219,7 +233,8 @@ function mountWizard() {
       hours: S.cfg.hours, slot: S.cfg.slot, currency: S.cfg.currency,
     },
     lang: S.lang,
-    taken, submit,
+    demo: S.demo,
+    taken: S.demo ? demoTaken : taken, submit,
     auth: authState,
     /* A főoldalon a varázsló be van ágyazva, de profil-nézet nincs – ott a
        fiókoldalra visz. A fiókoldalon marad a helyben váltás. */
@@ -460,7 +475,15 @@ async function init() {
   try { savedLang = localStorage.getItem("bk:lang"); } catch { /* privát mód */ }
 
   /* Egyetlen kérés adja az egész indulóadatot – ügyfélenkénti JS-fájl nincs. */
-  const cfg = await api("/api/booking/config").catch(() => null);
+  let cfg = await api("/api/booking/config").catch(() => null);
+  /* Előnézet: backend nincs, de az ügyfél lássa a varázslót – a site.json
+     adataiból demóban fut, valódi foglalás nem jön létre. CSAK noindex-es
+     (élesítés előtti) lapon: éles leállásnál kamu időpont nem mutatkozhat. */
+  if (!cfg && document.querySelector('meta[name="robots"][content*="noindex"]')) {
+    cfg = await fetch("site.json").then((r) => r.json()).then((j) => j.content?.booking).catch(() => null);
+    S.demo = !!cfg?.services?.length;
+    if (!S.demo) cfg = null;
+  }
   S.offline = !cfg;
   if (cfg) {
     S.cfg = { slot: Number(cfg.slot) || 30, hours: cfg.hours || {}, currency: cfg.currency || "HUF" };

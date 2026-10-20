@@ -189,7 +189,7 @@
       const tags = s ? [s.durationMin ? `${s.durationMin} perc` : "", s.price ? `${huf(s.price)}-tól` : ""].filter(Boolean) : [];
       body.insertAdjacentHTML("beforeend",
         (tags.length ? `<p class="fz-meta">${tags.map((t) => `<span class="fz-tag">${esc(t)}</span>`).join("")}</p>` : "") +
-        `<a class="fz-want" href="#sec-booking">Ezt kérem <span aria-hidden="true">→</span></a>`);
+        `<a class="fz-want" href="#sec-booking"${s ? ` data-service="${esc(s.id)}"` : ""}>Ezt kérem <span aria-hidden="true">→</span></a>`);
     });
     return items;
   }
@@ -264,6 +264,12 @@
     menu();
     const cards = services();
     bookingServices().then((b) => b.length && services(b));
+    /* „Ezt kérem": a varázslóban ki is választja a kártya szolgáltatását,
+       így a látogató egyből az időpontoknál nyit (ha a varázsló az 1. lépésen áll) */
+    document.addEventListener("click", (e) => {
+      const id = e.target.closest(".fz-want[data-service]")?.dataset.service;
+      if (id) $$("#bk-root [data-service]").find((b) => b.dataset.service === id)?.click();
+    });
     pricing();
     gallery();
     const el = fan();
