@@ -287,13 +287,6 @@ html.fz-menu { overflow: hidden; }
   rotate: calc(var(--i) * (var(--spread) + var(--fz-p) * 9deg));
 }
 .fz-tip img { width: 100%; height: 100%; object-fit: cover; }
-.fz-tip::after {                               /* géllakk-fény */
-  content: "";
-  position: absolute;
-  inset: -20% -60%;
-  background: linear-gradient(105deg, transparent 42%, rgb(255 255 255 / 0.6) 50%, transparent 58%);
-  translate: -70% 0;
-}
 .fz-fan::after {                               /* a szegecs */
   content: "";
   position: absolute;
@@ -307,16 +300,6 @@ html.fz-menu { overflow: hidden; }
   background: var(--pv-primary);
   translate: -50% 50%;
 }
-/* csillámok: négyágú csillagok a legyező körül */
-.fz-spark {
-  position: absolute;
-  z-index: 2;
-  width: var(--s, 1rem);
-  height: var(--s, 1rem);
-  color: var(--c, var(--pv-primary));
-  opacity: 0;
-}
-.fz-spark svg { width: 100%; height: 100%; fill: currentColor; }
 
 /* ==========================================================================
    3. FUTÓSZALAG – sötét sáv, nagy dőlt betű, ✦ elválasztó
@@ -798,9 +781,7 @@ html:has(.fz-lb[open]) { overflow: hidden; }
     transition-delay: calc(var(--d) * 110ms);
   }
   .fz-fan.is-live .fz-tip { transition: rotate 0.25s linear; }
-  .fz-fan.is-open .fz-tip::after { animation: fz-gloss 1.4s ease-in-out both; animation-delay: calc(1.1s + var(--d) * 120ms); }
   .fz-fan.is-open .fz-fan__sway { animation: fz-sway 7s ease-in-out 1.6s infinite alternate; }
-  .fz-fan.is-open .fz-spark { animation: fz-twinkle var(--t, 3s) ease-in-out var(--dl, 0s) infinite; }
 
   .fz-intro .fz-ch { opacity: 0; translate: 0 0.55em; rotate: 8deg; }
   .fz-intro.is-in .fz-ch {
@@ -861,13 +842,8 @@ html:has(.fz-lb[open]) { overflow: hidden; }
   .fz-lb[open]::backdrop { animation: fz-fade 0.3s ease both; }
   .pv-nav.is-open { animation: fz-fade 0.35s ease both; }
 }
-@keyframes fz-gloss   { from { translate: -70% 0; } to { translate: 70% 0; } }
 @keyframes fz-sway    { from { rotate: -2.5deg; } to { rotate: 2.5deg; } }
 @keyframes fz-sheen   { 0%, 70% { translate: -80% 0; } 100% { translate: 80% 0; } }
-@keyframes fz-twinkle {
-  0%, 100% { opacity: 0; scale: 0.3; rotate: 0deg; }
-  50%      { opacity: 1; scale: 1;   rotate: 90deg; }
-}
 @keyframes fz-menu-in { from { opacity: 0; translate: 0 1.4rem; } to { opacity: 1; translate: 0 0; } }
 @keyframes fz-fade    { from { opacity: 0; } to { opacity: 1; } }
 @keyframes fz-zoom-in { from { opacity: 0; scale: 0.92; } to { opacity: 1; scale: 1; } }

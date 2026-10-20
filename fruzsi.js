@@ -43,22 +43,12 @@
   }
 
   /* --- Körömtip-legyező a galéria kézfotóiból (pedikűr nélkül) ------------ */
-  const SPARK = '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0c.6 6.2 5.8 11.4 12 12-6.2.6-11.4 5.8-12 12-.6-6.2-5.8-11.4-12-12C6.2 11.4 11.4 6.2 12 0z"/></svg>';
-  /* hely (%), méret, szín, ütem – kézzel elszórva, hogy ne rácsszerű legyen */
-  const SPARKS = [
-    [8, 18, "1.1rem", "var(--pv-primary)", "3.2s", "0s"],
-    [88, 12, "0.8rem", "var(--pv-secondary)", "2.6s", "0.8s"],
-    [94, 52, "1.3rem", "var(--pv-primary)", "3.8s", "1.6s"],
-    [3, 60, "0.7rem", "var(--pv-secondary)", "2.9s", "2.1s"],
-    [50, 2, "0.9rem", "var(--fz-milk)", "3.4s", "1.1s"],
-    [72, 30, "0.6rem", "var(--fz-milk)", "2.4s", "0.4s"],
-    [24, 34, "0.65rem", "var(--fz-milk)", "3s", "2.6s"],
-  ];
   function fan() {
     const inner = $(".pv-hero__inner");
     if (!inner || $(".fz-fan", inner)) return null;
-    const srcs = $$('#sec-gallery .pv-item:not([data-cat="Pedikűr"]) img')
-      .map((img) => img.getAttribute("src")).filter(Boolean).slice(0, 5);
+    /* a galériában már nincs kategória – a lábfotót a fájlnév szűri ki */
+    const srcs = $$("#sec-gallery .pv-item img")
+      .map((img) => img.getAttribute("src")).filter((s) => s && !/pedik/i.test(s)).slice(0, 5);
     if (srcs.length < 3) return null;
     const mid = (srcs.length - 1) / 2;
     const el = document.createElement("div");
@@ -68,9 +58,7 @@
       `<div class="fz-fan__sway">` +
       srcs.map((src, k) =>
         `<span class="fz-tip" style="--i:${k - mid};--d:${Math.abs(k - mid)}"><img src="${src}" alt="" decoding="async"></span>`).join("") +
-      `</div>` +
-      SPARKS.map(([x, y, s, c, t, dl]) =>
-        `<span class="fz-spark" style="left:${x}%;top:${y}%;--s:${s};--c:${c};--t:${t};--dl:${dl}">${SPARK}</span>`).join("");
+      `</div>`;
     inner.append(el);
     return el;
   }
