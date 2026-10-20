@@ -10,6 +10,9 @@
 /* --- Fejléc: telefonon a generált monogram kimarad, így a név kifér -------- */
 .pv-brand img { display: none; }
 @container (min-width: 30rem) { .pv-brand img { display: block; } }
+/* a legkeskenyebb telefonon (320 px) a mód-váltó is kimarad – a név fontosabb */
+#pv-mode-toggle { display: none; }
+@container (min-width: 22rem) { #pv-mode-toggle { display: grid; } }
 
 /* --- Hero: a név a főszereplő ---------------------------------------------- */
 /* telefonon a nyitva-állapot már a felső sávban áll – a címke így egy sorba fér */
