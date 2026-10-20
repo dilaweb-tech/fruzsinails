@@ -2,41 +2,204 @@
    Fruzsinails – saját réteg a termék (pv.css) fölött
    A pv.css érintetlen marad (a sync-eszközök futhatnak rá), minden egyedi
    döntés itt van. Fruzsi tervezőbeli beállításai (betűk, paletta, split,
-   arch keret, hullám, link-gombok) a site.json-ból jönnek – ez csak kiegészít.
+   arch keret, hullám, link-gombok) a site.json-ból jönnek – ez kiegészít.
+
+   Mozgás: csak transform-jellegű tulajdonság (translate/rotate/scale) és
+   opacity mozog. `prefers-reduced-motion: reduce` mellett MINDEN kikapcsol –
+   a JS ilyenkor osztályt sem tesz fel, a CSS pedig a @media alatt él.
    ========================================================================== */
-.pv { --fz-milk: #fff6fa; }
-.pv[data-mode="dark"] { --fz-milk: #2c0b19; }
+.pv {
+  --fz-milk: #fff6fa;
+  --fz-glass: color-mix(in srgb, #fff6fa 74%, transparent);
+  --fz-edge: rgb(255 255 255 / 0.75);
+  --fz-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+.pv[data-mode="dark"] {
+  --fz-milk: #2c0b19;
+  --fz-glass: color-mix(in srgb, #2c0b19 72%, transparent);
+  --fz-edge: rgb(255 255 255 / 0.12);
+}
 
-/* --- Fejléc: telefonon a generált monogram kimarad, így a név kifér -------- */
+/* ==========================================================================
+   1. FEJLÉC – lebegő üveg-kapszula
+   ========================================================================== */
+.pv-header { padding-block: 0.7rem; }
+.pv-header__inner {
+  position: relative;
+  isolation: isolate;
+  padding: 0.4rem 0.4rem 0.4rem 1.1rem;
+  border-radius: 999px;
+  transition: padding 0.4s var(--fz-ease);
+}
+/* Az üveg egy ÁLELEMEN van, nem a kapszulán: a backdrop-filter a saját
+   leszármazottainak a position:fixed-et is a dobozhoz kötné – a teljes
+   képernyős mobilmenü így tud a nézetablakhoz igazodni. */
+.pv-header__inner::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: var(--fz-glass);
+  -webkit-backdrop-filter: blur(16px) saturate(1.5);
+  backdrop-filter: blur(16px) saturate(1.5);
+  border: 1px solid var(--fz-edge);
+  box-shadow:
+    0 14px 34px -18px color-mix(in srgb, var(--pv-primary) 55%, transparent),
+    inset 0 1px 0 var(--fz-edge);
+}
+.pv-header.is-scrolled .pv-header__inner { padding-block: 0.28rem; }
+
+/* Szóvédjegy: Fruzsi + dőlt, fukszia „nails” – ugyanaz, mint a heróban */
 .pv-brand img { display: none; }
-@container (min-width: 30rem) { .pv-brand img { display: block; } }
-/* a legkeskenyebb telefonon (320 px) a mód-váltó is kimarad – a név fontosabb */
-#pv-mode-toggle { display: none; }
-@container (min-width: 22rem) { #pv-mode-toggle { display: grid; } }
+#pv-company-sm {
+  font-family: var(--pv-font-head);
+  font-size: 1.28rem;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  overflow: visible;
+}
+#pv-company-sm em { font-style: italic; color: var(--pv-primary); }
 
-/* --- Hero: a név a főszereplő ---------------------------------------------- */
+/* Foglalás-gomb: tömör kapszula, időnként végigfut rajta a géllakk-fény */
+.pv .pv-header .pv-nav__cta {
+  position: relative;
+  overflow: hidden;
+  padding: 0.55rem 0.85rem;
+  border: 0;
+  border-radius: 999px;
+  font-size: 0.74rem;
+  white-space: nowrap;
+  background: var(--pv-primary);
+  color: var(--pv-on-primary);
+  font-weight: 700;
+  box-shadow: 0 8px 20px -10px var(--pv-primary);
+}
+.pv .pv-header .pv-nav__cta::before {
+  content: "";
+  position: absolute;
+  inset: 0 -40%;
+  background: linear-gradient(105deg, transparent 40%, rgb(255 255 255 / 0.55) 50%, transparent 60%);
+  translate: -80% 0;
+  pointer-events: none;
+}
+
+/* telefonon a nyíl nélkül fér ki a név mellé */
+.pv .pv-header .pv-nav__cta::after { display: none; }
+@container (min-width: 30rem) {
+  .pv .pv-header .pv-nav__cta { font-size: 0.82rem; padding: 0.6rem 1.05rem; }
+  .pv .pv-header .pv-nav__cta::after { display: inline-block; }
+}
+
+/* Menügomb: két vonal, ami nyitva X-szé fordul */
+.pv-burger {
+  position: relative;
+  width: 2.6rem;
+  height: 2.6rem;
+  border: 0;
+  border-radius: 50%;
+  background: var(--pv-text);
+  color: var(--pv-bg);
+}
+.pv-burger svg { display: none; }
+.pv-burger::before,
+.pv-burger::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1.05rem;
+  height: 2px;
+  margin: -1px 0 0 -0.525rem;
+  border-radius: 2px;
+  background: currentColor;
+  translate: 0 -4px;
+  transition: translate 0.35s var(--fz-ease), rotate 0.35s var(--fz-ease);
+}
+.pv-burger::after { translate: 0 4px; }
+.pv-burger[aria-expanded="true"]::before { translate: 0 0; rotate: 45deg; }
+.pv-burger[aria-expanded="true"]::after  { translate: 0 0; rotate: -45deg; }
+
+/* Telefonon a mód-váltó kimarad: a kapszulában a név és a foglalás-gomb a fontos */
+#pv-mode-toggle { display: none; }
+@container (min-width: 30rem) { #pv-mode-toggle { display: grid; } }
+
+/* Menü: teljes képernyős lap, nagy betűs, egymás után beúszó pontok. Nyolc
+   menüpontnál a termék asztalon is lenyíló menüt ad (.is-crowded) – ez ott is ez. */
+.pv-nav.is-open {
+  position: fixed;
+  inset: 0;
+  max-height: none;
+  z-index: -2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.2rem;
+  padding: 6rem 2rem 3rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background:
+    radial-gradient(60% 40% at 85% 10%, color-mix(in srgb, var(--pv-primary) 22%, transparent), transparent 70%),
+    radial-gradient(50% 35% at 0% 100%, color-mix(in srgb, var(--pv-secondary) 25%, transparent), transparent 70%),
+    var(--pv-bg);
+  overflow-y: auto;
+}
+.pv-nav.is-open .pv-nav__item { border: 0; }
+.pv-nav.is-open .pv-nav__top {
+  display: block;
+  padding: 0.35rem 0;
+  font-family: var(--pv-font-head);
+  font-size: clamp(1.6rem, 8cqi, 2.2rem);
+  color: var(--pv-text);
+  background: none;
+}
+.pv-nav.is-open .pv-nav__top[aria-current] { color: var(--pv-primary); font-style: italic; }
+.fz-menu-foot { display: none; }
+.pv-nav.is-open .fz-menu-foot { display: block; margin-top: 1.4rem; padding-top: 1.2rem; border-top: 1px solid color-mix(in srgb, var(--pv-primary) 30%, transparent); }
+.pv-nav.is-open .fz-menu-foot a { font-weight: 700; color: var(--pv-primary); }
+html.fz-menu { overflow: hidden; }
+
+/* ==========================================================================
+   2. HERO
+   ========================================================================== */
 /* telefonon a nyitva-állapot már a felső sávban áll – a címke így egy sorba fér */
 #pv-status { display: none; }
 @container (min-width: 30rem) { #pv-status { display: revert; } }
-.pv-hero__copy h1 { --pv-h1-k: 1.45; letter-spacing: -0.02em; overflow-wrap: normal; word-break: keep-all; hyphens: none; }
+#sec-hero { overflow-x: clip; }
+.pv-hero__copy h1 {
+  --pv-h1-k: 1.45;
+  letter-spacing: -0.02em;
+  overflow-wrap: normal;
+  word-break: keep-all;
+  hyphens: none;
+}
+.fz-ch { display: inline-block; }
 
 /* --------------------------------------------------------------------------
    KÉZJEGY: körömtip-legyező
-   Öt mandula alakú tip, bennük a galéria fotói – úgy nyílik szét, mint egy
-   lakkminta-legyező a szegecse körül, aztán egy géllakk-fény fut végig rajta.
-   Az oldal EGYETLEN hangsúlyos animációja; csak transform/opacity mozog.
+   Öt mandula alakú tip, bennük a munkák fotói – úgy nyílik szét, mint egy
+   lakkminta-legyező a szegecse körül; aztán lassan ring, görgetésre tovább
+   nyílik, és csillámok villannak körülötte.
    -------------------------------------------------------------------------- */
 .fz-fan {
-  --w: clamp(5.2rem, 23cqi, 8.4rem);
+  --w: clamp(5.8rem, 26cqi, 9rem);
   --h: calc(var(--w) * 16 / 9);
-  --pivot: 0.9rem;
+  --pivot: 1rem;
+  --spread: 18deg;
+  --fz-p: 0;                                   /* görgetési haladás, JS írja */
   position: relative;
   order: -1;                                   /* telefonon a név fölött */
   width: 100%;
-  max-width: 30rem;
-  height: calc(var(--h) * 1.12 + var(--pivot));
+  max-width: 32rem;
+  height: calc(var(--h) * 1.14 + var(--pivot));
   margin-inline: auto;
   pointer-events: none;
+}
+.fz-fan__sway {
+  position: absolute;
+  inset: 0;
+  transform-origin: 50% calc(100% - var(--pivot));
 }
 .fz-tip {
   position: absolute;
@@ -51,74 +214,196 @@
   background: linear-gradient(160deg, var(--pv-secondary), var(--pv-primary));
   box-shadow: 0 18px 36px -20px rgb(22 17 15 / 0.55);
   transform-origin: 50% 108%;
-  transform: rotate(calc(var(--i) * 18deg));
+  rotate: calc(var(--i) * (var(--spread) + var(--fz-p) * 9deg));
 }
 .fz-tip img { width: 100%; height: 100%; object-fit: cover; }
-/* géllakk-fény: ferde csík, alapból a tipen kívül áll */
-.fz-tip::after {
+.fz-tip::after {                               /* géllakk-fény */
   content: "";
   position: absolute;
   inset: -20% -60%;
   background: linear-gradient(105deg, transparent 42%, rgb(255 255 255 / 0.6) 50%, transparent 58%);
-  transform: translateX(-70%);
+  translate: -70% 0;
 }
-/* a szegecs, ami körül a legyező forog */
-.fz-fan::after {
+.fz-fan::after {                               /* a szegecs */
   content: "";
   position: absolute;
+  z-index: 1;
   left: 50%;
   bottom: var(--pivot);
-  width: 1.1rem;
-  height: 1.1rem;
+  width: 1.2rem;
+  height: 1.2rem;
   border: 3px solid var(--fz-milk);
   border-radius: 50%;
   background: var(--pv-primary);
-  transform: translate(-50%, 50%);
+  translate: -50% 50%;
+}
+/* csillámok: négyágú csillagok a legyező körül */
+.fz-spark {
+  position: absolute;
+  z-index: 2;
+  width: var(--s, 1rem);
+  height: var(--s, 1rem);
+  color: var(--c, var(--pv-primary));
+  opacity: 0;
+}
+.fz-spark svg { width: 100%; height: 100%; fill: currentColor; }
+
+/* ==========================================================================
+   3. FUTÓSZALAG – sötét sáv, nagy dőlt betű, ✦ elválasztó
+   ========================================================================== */
+.pv:is([data-sig], [data-hero]) .pv-ribbon {
+  background: var(--pv-text);
+  color: var(--pv-bg);
+  border: 0;
+}
+.pv-ribbon__track span {
+  font-family: var(--pv-font-head);
+  font-style: italic;
+  font-size: clamp(1.15rem, 5cqi, 1.6rem);
+  letter-spacing: 0;
+  text-transform: none;
+}
+.pv-ribbon__track span::after {
+  content: "✦";
+  margin-inline: 1.1rem;
+  font-style: normal;
+  font-size: 0.7em;
+  color: var(--pv-secondary);
 }
 
+/* ==========================================================================
+   4. SZEKCIÓK
+   ========================================================================== */
+/* Galéria: telefonon két oszlop, hogy ne legyen végtelen görgetés */
+#sec-gallery .pv-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+#sec-gallery .pv-item__cap { font-size: 0.78rem; }
+
+/* Értékelés: a két szám egymás mellett, egy pillantásra */
+#sec-rating .pv-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+#sec-rating .pv-item + .pv-item { border-left: 1px solid color-mix(in srgb, var(--pv-primary) 25%, transparent); }
+#sec-rating h3 { font-variant-numeric: tabular-nums; }
+
+/* Szolgáltatások: telefonon laposabb kép, hogy a négy kártya ne nyúljon */
+#sec-services .pv-item__media { aspect-ratio: 4 / 3; }
+img[src$="gellakk.jpg"] { object-position: 50% 22%; }
+
+/* Vélemények: tejfehér lapok nagy idézőjellel, enyhén megdöntve */
+#sec-reviews .pv-item {
+  position: relative;
+  padding: 1.6rem 1.3rem 1.3rem;
+  background: var(--fz-milk);
+  box-shadow: 0 18px 40px -28px color-mix(in srgb, var(--pv-primary) 70%, transparent);
+}
+#sec-reviews .pv-item:nth-child(odd)  { rotate: -1deg; }
+#sec-reviews .pv-item:nth-child(even) { rotate: 1deg; }
+
+/* Árlista: a sor alá fukszia sáv fut be, ha fölé mész */
+#sec-pricing .pv-prices li { position: relative; isolation: isolate; }
+#sec-pricing .pv-prices li::before {
+  content: "";
+  position: absolute;
+  inset: 0 -0.6rem;
+  z-index: -1;
+  background: color-mix(in srgb, var(--pv-primary) 9%, transparent);
+  scale: 0 1;
+  transform-origin: left;
+  transition: scale 0.45s var(--fz-ease);
+}
+
+/* képkeret: a kép kicsit nagyobb, mint a kerete – a beúszáskor „leülepszik” */
+.pv-item__media, .pv-about__media { overflow: hidden; }
+
+/* ==========================================================================
+   5. MOZGÁS – csak ha a látogató nem kért csökkentett mozgást
+   ========================================================================== */
 @media (prefers-reduced-motion: no-preference) {
-  .pv-ready .fz-tip {
-    animation: fz-open 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) both;
-    animation-delay: calc(0.2s + var(--d) * 90ms);
+  /* --- hero betöltés: legyező nyílik, betűk felszállnak, a többi utánuk --- */
+  .fz-fan:not(.is-open) .fz-tip { rotate: 0deg; translate: 0 1.5rem; opacity: 0; }
+  .fz-tip {
+    transition: rotate 1.3s var(--fz-ease), translate 1.3s var(--fz-ease), opacity 0.6s ease;
+    transition-delay: calc(var(--d) * 110ms);
   }
-  .pv-ready .fz-tip::after {
-    animation: fz-gloss 1.3s ease-in-out both;
-    animation-delay: calc(1.2s + var(--d) * 110ms);
-  }
-}
-@keyframes fz-open {
-  from { transform: rotate(0deg) translateY(1.5rem); opacity: 0; }
-  35%  { opacity: 1; }
-  to   { transform: rotate(calc(var(--i) * 18deg)); opacity: 1; }
-}
-@keyframes fz-gloss {
-  from { transform: translateX(-70%); }
-  to   { transform: translateX(70%); }
-}
+  .fz-fan.is-live .fz-tip { transition: rotate 0.25s linear; }
+  .fz-fan.is-open .fz-tip::after { animation: fz-gloss 1.4s ease-in-out both; animation-delay: calc(1.1s + var(--d) * 120ms); }
+  .fz-fan.is-open .fz-fan__sway { animation: fz-sway 7s ease-in-out 1.6s infinite alternate; }
+  .fz-fan.is-open .fz-spark { animation: fz-twinkle var(--t, 3s) ease-in-out var(--dl, 0s) infinite; }
 
-/* Asztalin a split: balra a szöveg, jobbra a legyező */
+  .fz-intro .fz-ch { opacity: 0; translate: 0 0.55em; rotate: 8deg; }
+  .fz-intro.is-in .fz-ch {
+    opacity: 1; translate: 0 0; rotate: 0deg;
+    transition: opacity 0.6s ease, translate 0.9s var(--fz-ease), rotate 0.9s var(--fz-ease);
+    transition-delay: calc(0.25s + var(--k) * 45ms);
+  }
+  .fz-intro :is(.pv-eyebrow, .pv-lead, .pv-actions) { opacity: 0; translate: 0 1.2rem; }
+  .fz-intro.is-in :is(.pv-eyebrow, .pv-lead, .pv-actions) {
+    opacity: 1; translate: 0 0;
+    transition: opacity 0.8s ease, translate 0.9s var(--fz-ease);
+  }
+  .fz-intro.is-in .pv-eyebrow { transition-delay: 0.1s; }
+  .fz-intro.is-in .pv-lead    { transition-delay: 0.75s; }
+  .fz-intro.is-in .pv-actions { transition-delay: 0.9s; }
+
+  .pv .pv-header .pv-nav__cta::before { animation: fz-sheen 5s ease-in-out 2s infinite; }
+
+  /* --- görgetésre beúszás (fruzsi.js: .fz-rv → .is-in) --------------------
+     A termék görgetéshez kötött beúszását ezeken az elemeken lekapcsoljuk – a
+     kettő egyszerre egymásra futna. Az !important azért kell, mert a pv.css
+     szabálya a [data-reveal] miatt erősebb szelektor. */
+  .pv .fz-rv { animation: none !important; }
+  .fz-rv {
+    opacity: 0;
+    translate: 0 3rem;
+    scale: 0.96;
+    transition: opacity 0.8s ease, translate 1s var(--fz-ease), scale 1s var(--fz-ease);
+    transition-delay: calc(var(--k, 0) * 90ms);
+  }
+  .fz-rv.is-in { opacity: 1; translate: 0 0; scale: 1; }
+  #sec-reviews .fz-rv { translate: 0 3rem; }
+  #sec-reviews .fz-rv.is-in { translate: 0 0; }
+  .fz-rv :is(.pv-item__media, .pv-about__media) img { scale: 1.18; transition: scale 1.6s var(--fz-ease); transition-delay: inherit; }
+  .fz-rv.is-in :is(.pv-item__media, .pv-about__media) img,
+  .fz-rv.is-in.pv-about__media img { scale: 1; }
+
+  /* fejléc-sor: a szemöldök vonala kinyúlik */
+  .pv-head.fz-rv .pv-eyebrow::before { scale: 0 1; transform-origin: right; transition: scale 0.9s var(--fz-ease) 0.3s; }
+  .pv-head.fz-rv.is-in .pv-eyebrow::before { scale: 1 1; }
+
+  /* --- érintés nélküli eszközön: hover --------------------------------- */
+  @media (hover: hover) {
+    :is(.pv-item__media, .pv-about__media) img { transition: scale 0.9s var(--fz-ease); }
+    .pv-item:hover :is(.pv-item__media) img { scale: 1.07; }
+    #sec-pricing .pv-prices li:hover::before { scale: 1 1; }
+    #sec-reviews .pv-item { transition: rotate 0.5s var(--fz-ease), translate 0.5s var(--fz-ease); }
+    #sec-reviews .pv-item:hover { rotate: 0deg; translate: 0 -6px; }
+    .pv .pv-header .pv-nav__cta { transition: translate 0.3s var(--fz-ease), box-shadow 0.3s; }
+    .pv .pv-header .pv-nav__cta:hover { translate: 0 -2px; box-shadow: 0 14px 26px -12px var(--pv-primary); }
+  }
+
+  /* --- menüpontok egymás után ------------------------------------------- */
+  .pv-nav.is-open .pv-nav__item { animation: fz-menu-in 0.6s var(--fz-ease) both; animation-delay: calc(var(--k, 0) * 55ms + 0.05s); }
+  .pv-nav.is-open { animation: fz-fade 0.35s ease both; }
+}
+@keyframes fz-gloss   { from { translate: -70% 0; } to { translate: 70% 0; } }
+@keyframes fz-sway    { from { rotate: -2.5deg; } to { rotate: 2.5deg; } }
+@keyframes fz-sheen   { 0%, 70% { translate: -80% 0; } 100% { translate: 80% 0; } }
+@keyframes fz-twinkle {
+  0%, 100% { opacity: 0; scale: 0.3; rotate: 0deg; }
+  50%      { opacity: 1; scale: 1;   rotate: 90deg; }
+}
+@keyframes fz-menu-in { from { opacity: 0; translate: 0 1.4rem; } to { opacity: 1; translate: 0 0; } }
+@keyframes fz-fade    { from { opacity: 0; } to { opacity: 1; } }
+
+/* ==========================================================================
+   6. ASZTALI NÉZET
+   ========================================================================== */
+@container (min-width: 44rem) {
+  #sec-services .pv-item__media { aspect-ratio: var(--pv-ratio); }
+}
 @container (min-width: 56rem) {
   /* data-hero="none" a pv.css-ben egy oszlopot ad – a legyező foglalja el a kép helyét */
   .pv[data-hero] .pv-hero__inner:has(.fz-fan) { grid-template-columns: 1.05fr 0.95fr; align-items: center; }
-  .fz-fan { order: 0; --w: clamp(7rem, 12cqi, 9rem); }
+  .fz-fan { order: 0; --w: clamp(7.5rem, 12cqi, 10rem); }
   .pv-hero__copy h1 { --pv-h1-k: 1.2; }
-}
-
-/* --- Képkivágás: a fotón a körmök a kép felső részén vannak ---------------- */
-img[src$="gellakk.jpg"] { object-position: 50% 22%; }
-
-/* --- Galéria: telefonon két oszlop, hogy ne legyen végtelen görgetés -------- */
-#sec-gallery .pv-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
-#sec-gallery .pv-item__cap { font-size: 0.78rem; }
-@container (min-width: 56rem) {
   #sec-gallery .pv-items { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.1rem; }
   #sec-gallery .pv-item__cap { font-size: 0.85rem; }
 }
-
-/* --- Értékelés: a két szám egymás mellett, egy pillantásra ----------------- */
-#sec-rating .pv-items { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
-#sec-rating .pv-item + .pv-item { border-left: 1px solid color-mix(in srgb, var(--pv-primary) 25%, transparent); }
-
-/* --- Szolgáltatások: telefonon laposabb kép, hogy a négy kártya ne nyúljon -- */
-#sec-services .pv-item__media { aspect-ratio: 4 / 3; }
-@container (min-width: 44rem) { #sec-services .pv-item__media { aspect-ratio: var(--pv-ratio); } }
