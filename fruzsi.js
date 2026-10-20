@@ -257,6 +257,34 @@
       if (e.target.closest(".pv-chip")) setTimeout(() => { list.scrollLeft = 0; sync(); }, 0);
     });
     sync();
+    zoom(list);
+  }
+
+  /* --- Galéria: kattintásra nagyítás, bárhová kattintva vissza -------------
+     Natív <dialog>: felső réteg, Esc zár, a fókusz visszatér a képre. */
+  function zoom(list) {
+    const lb = document.createElement("dialog");
+    lb.className = "fz-lb";
+    lb.setAttribute("aria-label", "Nagyított kép");
+    document.body.append(lb);
+    lb.addEventListener("click", () => lb.close());
+    $$(".pv-item__media", list).forEach((m) => {
+      m.tabIndex = 0;
+      m.setAttribute("role", "button");
+      m.setAttribute("aria-label", "Nagyítás: " + ($(".pv-item__cap", m)?.textContent.trim() || "kép"));
+    });
+    const open = (m) => {
+      const img = $("img", m);
+      if (!img) return;
+      const cap = $(".pv-item__cap", m)?.textContent.trim() || "";
+      lb.innerHTML = `<figure><img src="${esc(img.currentSrc || img.src)}" alt="${esc(cap)}">` +
+        (cap ? `<figcaption>${esc(cap)}</figcaption>` : "") + `</figure>`;
+      lb.showModal();
+    };
+    list.addEventListener("click", (e) => { const m = e.target.closest(".pv-item__media"); if (m) open(m); });
+    list.addEventListener("keydown", (e) => {
+      if ((e.key === "Enter" || e.key === " ") && e.target.matches(".pv-item__media")) { e.preventDefault(); open(e.target); }
+    });
   }
 
   function build() {

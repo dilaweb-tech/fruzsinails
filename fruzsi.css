@@ -120,6 +120,9 @@
 .pv-burger[aria-expanded="true"]::before { translate: 0 0; rotate: 45deg; }
 .pv-burger[aria-expanded="true"]::after  { translate: 0 0; rotate: -45deg; }
 
+/* Mód-váltó és hívás-gomb: kerek, mint a fejléc többi gombja */
+.pv .pv-header .pv-mode { border-radius: 50%; }
+
 /* Telefonon a mód-váltó kimarad: a kapszulában a név és a foglalás-gomb a fontos */
 #pv-mode-toggle { display: none; }
 @container (min-width: 30rem) { #pv-mode-toggle { display: grid; } }
@@ -495,6 +498,199 @@ img[src$="gellakk.jpg"] { object-position: 50% 22%; }
 }
 
 /* --------------------------------------------------------------------------
+   FOGLALÁS – időpont-lap
+   A varázsló (booking.js/.css) a tervezővel közös; itt csak a ruhája cserél.
+   Tejfehér lap, mint az árlista. Ami KI VAN VÁLASZTVA, az friss géllakk:
+   tömör rózsaszín, felül fényes sávval (lépés, nap, időpont, fő gomb).
+   A naptár minden szélességen EGY napot mutat – napválasztó + aznapi órák;
+   a heti hét oszlop egyszerre túl sok döntés.
+   Az #id-s előtag kell: a booking.css később töltődik be, ugyanazzal a súllyal.
+   -------------------------------------------------------------------------- */
+#bk-root {
+  --fz-gel: linear-gradient(180deg, rgb(255 255 255 / 0.4), rgb(255 255 255 / 0) 55%), var(--pv-primary);
+  --fz-soft: color-mix(in srgb, var(--pv-primary) 9%, transparent);
+  --fz-hair: color-mix(in srgb, var(--pv-primary) 24%, transparent);
+  max-width: 46rem;
+  margin-inline: auto;
+  gap: 1.3rem;
+  padding: clamp(1.2rem, 4vw, 2.4rem);
+  border: 1px solid var(--fz-edge);
+  border-radius: 1.75rem;
+  background: var(--fz-milk);
+  box-shadow: 0 30px 60px -40px color-mix(in srgb, var(--pv-primary) 80%, transparent);
+}
+#bk-root .bk-h {
+  font-family: var(--pv-font-head);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.4rem, 1.15rem + 1vw, 1.75rem);
+  color: var(--pv-primary);
+}
+#bk-root .bk-h4 { font-family: var(--pv-font-head); font-size: 1.1rem; font-weight: 600; margin-top: 0.4rem; }
+#bk-root .bk-body { gap: 1.1rem; }
+
+/* lépésjelző: felirat + haladás-sáv, a kész és az aktuális lépés kitöltve */
+#bk-root .bk-steps { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0.5rem; }
+#bk-root .bk-steps__item { display: block; }
+#bk-root .bk-steps__item::after { content: none; }
+#bk-root .bk-steps__btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0 0 0.6rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--pv-muted);
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+#bk-root .bk-steps__btn::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 4px;
+  border-radius: 4px;
+  background: var(--fz-hair);
+}
+#bk-root .bk-steps__item.is-done .bk-steps__btn { color: var(--pv-text); }
+#bk-root .bk-steps__item.is-done .bk-steps__btn::after { background: var(--pv-primary); }
+#bk-root .bk-steps__item.is-now .bk-steps__btn { color: var(--pv-primary); font-weight: 700; }
+#bk-root .bk-steps__item.is-now .bk-steps__btn::after { background: var(--fz-gel); }
+#bk-root .bk-steps__btn:focus-visible { outline: 2px solid var(--pv-primary); outline-offset: 3px; }
+
+#bk-root .bk-demo {
+  padding: 0.6rem 0.95rem;
+  border: 0;
+  border-radius: 1rem;
+  background: var(--fz-soft);
+  color: var(--pv-muted);
+  font-size: 0.78rem;
+}
+
+/* 1. szolgáltatások: menüsorok, mint az árlistán – név, időtartam, ár, nyíl */
+#bk-root .bk-cards { grid-template-columns: 1fr; gap: 0; }
+#bk-root .bk-cards > li + li { border-top: 1px solid var(--fz-hair); }
+#bk-root .bk-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas: "name price go" "meta price go";
+  align-items: center;
+  gap: 0.25rem 0.9rem;
+  min-height: 4rem;
+  padding: 0.85rem 0.5rem;
+  border: 0;
+  border-radius: 1.1rem;
+  background: none;
+}
+#bk-root .bk-card::after {
+  content: "→";
+  grid-area: go;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border-radius: 50%;
+  background: var(--fz-soft);
+  color: var(--pv-primary);
+  font-weight: 700;
+}
+#bk-root .bk-card__name { grid-area: name; font-family: var(--pv-font-head); font-size: 1.12rem; font-weight: 600; }
+#bk-root .bk-card__meta {
+  grid-area: meta;
+  justify-self: start;
+  padding: 0.15rem 0.6rem;
+  border-radius: 999px;
+  background: var(--fz-soft);
+  color: var(--pv-primary);
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+#bk-root .bk-card__price { grid-area: price; font-family: var(--pv-font-head); font-size: 1.1rem; font-weight: 600; color: var(--pv-text); white-space: nowrap; }
+#bk-root .bk-card:hover, #bk-root .bk-card.is-on { background: var(--fz-soft); box-shadow: none; transform: none; }
+#bk-root .bk-card:hover::after, #bk-root .bk-card.is-on::after { background: var(--fz-gel); color: var(--pv-on-primary); }
+#bk-root .bk-card:focus-visible { outline: 3px solid var(--pv-primary); outline-offset: 2px; }
+/* munkatárs-kártya: arckép + név, a nyíl jobbra */
+#bk-root .bk-card--person { display: flex; }
+#bk-root .bk-card--person::after { margin-left: auto; }
+
+/* 2. időpont: hét-léptető, napválasztó, az adott nap órái */
+#bk-root .bk-cal__bar { padding: 0; border: 0; font-family: var(--pv-font-head); font-size: 1.05rem; }
+#bk-root .bk-cal__bar b { font-weight: 600; }
+#bk-root .bk-nav {
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 0;
+  background: var(--fz-soft);
+  color: var(--pv-primary);
+  font-size: 0.75rem;
+}
+#bk-root .bk-nav:hover:not(:disabled) { background: var(--fz-gel); color: var(--pv-on-primary); }
+#bk-root .bk-chips { display: flex; gap: 0.45rem; padding: 0.15rem 0.1rem 0.4rem; scrollbar-width: none; }
+#bk-root .bk-chips::-webkit-scrollbar { display: none; }
+#bk-root .bk-chip {
+  min-height: 2.75rem;
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--fz-hair);
+  background: transparent;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+#bk-root .bk-chip:hover:not(:disabled) { background: var(--fz-soft); }
+#bk-root .bk-chip.is-on { border-color: transparent; background: var(--fz-gel); color: var(--pv-on-primary); box-shadow: 0 8px 18px -10px var(--pv-primary); }
+#bk-root .bk-chip:disabled { opacity: 0.35; }
+#bk-root .bk-cal { grid-template-columns: 1fr; }
+#bk-root .bk-day:not([data-sel]) { display: none; }
+/* a nap neve a kiválasztott csipeszen már ott áll – csak a felolvasónak marad */
+#bk-root .bk-day__head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+#bk-root .bk-day__slots { grid-template-columns: repeat(auto-fill, minmax(5.2rem, 1fr)); gap: 0.5rem; }
+#bk-root .bk-slot {
+  min-height: 2.9rem;
+  border: 1px solid var(--fz-hair);
+  border-radius: 999px;
+  background: transparent;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+#bk-root .bk-slot:hover:not(:disabled) { background: var(--fz-soft); border-color: var(--pv-primary); }
+#bk-root .bk-slot.is-on { border-color: transparent; background: var(--fz-gel); color: var(--pv-on-primary); box-shadow: 0 8px 18px -10px var(--pv-primary); }
+/* ami nem választható, az háttérbe húzódik – a szabad órák ugranak ki */
+#bk-root .bk-slot:disabled { border-color: transparent; background: none; font-weight: 500; opacity: 0.4; }
+#bk-root .bk-slot.is-taken { border-style: solid; }
+#bk-root .bk-slot:focus-visible, #bk-root .bk-chip:focus-visible, #bk-root .bk-nav:focus-visible { outline: 2px solid var(--pv-primary); outline-offset: 2px; }
+
+/* 3. összegzés és adatok */
+#bk-root .bk-facts { padding: 0.35rem 1.1rem; border: 0; border-radius: 1.2rem; background: var(--fz-soft); }
+#bk-root .bk-row { padding: 0.6rem 0; font-size: 0.9rem; }
+#bk-root .bk-row + .bk-row { border-top: 1px dashed var(--fz-hair); }
+#bk-root .bk-field { gap: 0.35rem; color: var(--pv-text); font-size: 0.8rem; font-weight: 600; }
+#bk-root .bk-field input {
+  min-height: 3rem;
+  padding: 0.7rem 1.1rem;
+  border: 1px solid var(--fz-hair);
+  border-radius: 999px;
+  background: var(--pv-bg);
+  font-size: max(16px, 0.95rem);
+}
+#bk-root .bk-field input:focus-visible { border-color: var(--pv-primary); outline: 2px solid var(--pv-primary); outline-offset: 1px; }
+
+/* gombok: kapszula; a fő gomb géllakk */
+#bk-root .bk-btn { min-height: 3rem; padding: 0.75rem 1.4rem; border-radius: 999px; font-weight: 700; }
+#bk-root .bk-btn--primary { background: var(--fz-gel); color: var(--pv-on-primary); box-shadow: 0 10px 22px -12px var(--pv-primary); }
+#bk-root .bk-btn--ghost { border: 1px solid var(--fz-hair); background: transparent; color: var(--pv-text); }
+#bk-root .bk-btn:focus-visible { outline: 2px solid var(--pv-primary); outline-offset: 2px; }
+#bk-root .bk-ident__actions .bk-btn { flex: 1 1 12rem; }
+#bk-root .bk-confirm { align-self: stretch; }
+#bk-root .bk-panel { border-radius: 1.4rem; }
+#bk-root .bk-inline { border-radius: 1rem; }
+@media (min-width: 40rem) { #bk-root .bk-confirm { align-self: flex-start; } }
+
+/* --------------------------------------------------------------------------
    GALÉRIA – telefonon húzható kártyasor, asztalon bento-rács
    -------------------------------------------------------------------------- */
 #sec-gallery .pv-items {
@@ -529,6 +725,30 @@ img[src$="gellakk.jpg"] { object-position: 50% 22%; }
   font-weight: 600;
   text-align: left;
 }
+/* nagyítás (fruzsi.js zoom): egy kattintás nyit, bárhová kattintva zár */
+#sec-gallery .pv-item__media { cursor: zoom-in; }
+#sec-gallery .pv-item__media:focus-visible { outline: 3px solid var(--pv-primary); outline-offset: 3px; }
+.fz-lb {
+  width: 100%; height: 100dvh;
+  max-width: none; max-height: none;
+  margin: 0; padding: 1rem;
+  border: 0;
+  background: transparent;
+  cursor: zoom-out;
+}
+.fz-lb[open] { display: grid; place-items: center; }
+.fz-lb::backdrop { background: rgb(22 17 15 / 0.88); backdrop-filter: blur(6px); }
+.fz-lb figure { display: grid; justify-items: center; gap: 0.8rem; margin: 0; }
+.fz-lb img {
+  max-width: min(100%, 64rem);
+  max-height: calc(100dvh - 5rem);
+  border-radius: 1.4rem;
+  object-fit: contain;
+  box-shadow: 0 30px 80px -30px rgb(0 0 0 / 0.7);
+}
+.fz-lb figcaption { color: #fff; font-size: 0.95rem; font-weight: 600; text-align: center; }
+html:has(.fz-lb[open]) { overflow: hidden; }
+
 /* számláló és haladás-csík a húzható sor alatt (fruzsi.js) */
 .fz-strip { display: flex; align-items: center; gap: 0.9rem; margin-top: 0.6rem; font-size: 0.8rem; font-weight: 700; color: var(--pv-muted); }
 .fz-strip b { color: var(--pv-text); font-variant-numeric: tabular-nums; }
@@ -637,6 +857,8 @@ img[src$="gellakk.jpg"] { object-position: 50% 22%; }
 
   /* --- menüpontok egymás után ------------------------------------------- */
   .pv-nav.is-open .pv-nav__item { animation: fz-menu-in 0.6s var(--fz-ease) both; animation-delay: calc(var(--k, 0) * 55ms + 0.05s); }
+  .fz-lb[open] img { animation: fz-zoom-in 0.4s var(--fz-ease) both; }
+  .fz-lb[open]::backdrop { animation: fz-fade 0.3s ease both; }
   .pv-nav.is-open { animation: fz-fade 0.35s ease both; }
 }
 @keyframes fz-gloss   { from { translate: -70% 0; } to { translate: 70% 0; } }
@@ -648,6 +870,7 @@ img[src$="gellakk.jpg"] { object-position: 50% 22%; }
 }
 @keyframes fz-menu-in { from { opacity: 0; translate: 0 1.4rem; } to { opacity: 1; translate: 0 0; } }
 @keyframes fz-fade    { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fz-zoom-in { from { opacity: 0; scale: 0.92; } to { opacity: 1; scale: 1; } }
 
 /* ==========================================================================
    6. ASZTALI NÉZET

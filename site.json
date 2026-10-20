@@ -112,49 +112,41 @@
         {
           "name": "Mályva géllakk, csillámos gyűrűsujj",
           "text": "",
-          "tag": "Manikűr",
           "image": "galeria-malyva-csillam.jpg"
         },
         {
           "name": "Nude géllakk, minimál díszítés",
           "text": "",
-          "tag": "Manikűr",
           "image": "galeria-nude-minimal.jpg"
         },
         {
           "name": "Babyboomer építés, mandula forma",
           "text": "",
-          "tag": "Műköröm",
           "image": "galeria-babyboomer.jpg"
         },
         {
           "name": "Rózsaszín csillám építés",
           "text": "",
-          "tag": "Műköröm",
           "image": "galeria-rozsa-csillam.jpg"
         },
         {
           "name": "Pedikűr, pink géllakk",
           "text": "",
-          "tag": "Pedikűr",
           "image": "galeria-pedikur.jpg"
         },
         {
           "name": "Kézzel festett díszítés",
           "text": "",
-          "tag": "Díszítés",
           "image": "galeria-festett-diszites.jpg"
         },
         {
           "name": "Csillámpor, rózsaszín alapon",
           "text": "",
-          "tag": "Díszítés",
           "image": "galeria-csillampor.jpg"
         },
         {
           "name": "Natúr rózsa, rövid forma",
           "text": "",
-          "tag": "Manikűr",
           "image": "galeria-natur-rozsa.jpg"
         }
       ],
@@ -487,7 +479,7 @@
     },
     {
       "id": "rating",
-      "on": true,
+      "on": false,
       "nav": true,
       "plate": false,
       "sub": []
@@ -515,7 +507,7 @@
     },
     {
       "id": "reviews",
-      "on": true,
+      "on": false,
       "nav": true,
       "plate": false,
       "sub": []
