@@ -15,14 +15,14 @@
        háttérszíneiből (tools/meta.mjs → bootBlock) – kézzel ne írd át. -->
   <!-- >>> BOOT -->
   <style>
-    html { background: #e5eaef; }
+    html { background: #f9dde8; }
     html:not(.pv-ready) body { visibility: hidden; animation: pv-boot 0s 3s forwards; }
     @keyframes pv-boot { to { visibility: visible; } }
     @media (prefers-reduced-motion: no-preference) { html.pv-ready body { animation: pv-in 0.3s ease-out; } }
     @keyframes pv-in { from { opacity: 0; } }
   </style>
   <!-- a mentett mód már az első képkockán: a kulcs a site.js MODE_KEY-e -->
-  <script>try { var m = localStorage.getItem("dilaweb:mode"); if (m === "dark" || m === "light") document.documentElement.style.background = m === "dark" ? "#10151A" : "#e5eaef"; } catch (e) {}</script>
+  <script>try { var m = localStorage.getItem("dilaweb:mode"); if (m === "dark" || m === "light") document.documentElement.style.background = m === "dark" ? "#220611" : "#f9dde8"; } catch (e) {}</script>
   <noscript><style>html:not(.pv-ready) body { visibility: visible; animation: none; }</style></noscript>
   <!-- <<< BOOT -->
   <link rel="stylesheet" href="pv.css">

@@ -3,291 +3,368 @@
     "app": "DilaWEB Sablontervező",
     "version": 3,
     "lang": "hu",
-    "trade": "auto",
-    "exportedAt": "2026-08-26T08:30:23.244Z",
-    "note": "A feltöltött képek helyett csak a fájlnevük szerepel – a képfájlokat az ügyféltől külön kell bekérni."
+    "trade": "nails",
+    "exportedAt": "2026-10-15T11:33:18.446Z",
+    "note": "A feltöltött képek helyett csak a fájlnevük szerepel – a képfájlokat az ügyféltől külön kell bekérni.",
+    "estimate": {
+      "currency": "HUF",
+      "items": [
+        {
+          "label": "Alapcsomag – arculat, hero, szolgáltatások, bemutatkozó, kapcsolat, élesítés",
+          "price": 100000
+        },
+        {
+          "label": "Térkép",
+          "price": 9000
+        },
+        {
+          "label": "Árjegyzék szekció",
+          "price": 15000
+        },
+        {
+          "label": "Galéria",
+          "price": 15000
+        },
+        {
+          "label": "Gyakori kérdések",
+          "price": 12000
+        },
+        {
+          "label": "Értékelés",
+          "price": 9000
+        },
+        {
+          "label": "Vélemények",
+          "price": 12000
+        },
+        {
+          "label": "Időpontfoglalás",
+          "price": 89000
+        },
+        {
+          "label": "További munkatárs a foglalásban × 1",
+          "price": 8000
+        }
+      ],
+      "total": 269000,
+      "monthly": 15000
+    }
   },
   "content": {
-    "company": "MotorPont Autószerviz",
-    "tagline": "Márkafüggetlen szerviz és műszaki vizsga a XIII. kerületben. Fix áras olajcsere, ingyenes hibakód-olvasás, autómosás után adjuk vissza a kocsit.",
-    "about": "2011 óta javítunk autót ugyanabban a műhelyben, hat emelővel és két szerelővel, akik húsz éve csinálják. Márkafüggetlenek vagyunk: japán, német és francia autókhoz is van diagnosztikánk.\n\nMielőtt bármihez hozzákezdünk, telefonon elmondjuk, mennyi lesz. Ha munka közben derül ki, hogy más is kell, előbb megkérdezünk – engedély nélkül nem szerelünk semmit. A cserélt alkatrészt megmutatjuk.",
-    "address": "1135 Budapest, Reitter Ferenc utca 58.",
-    "phone": "+36 70 331 4409",
-    "email": "szerviz@motorpont.hu",
+    "company": "*Bianka* Nail Atelier",
+    "tagline": "Kézzel épített körmök, amiken négy hét múlva sincs mit szégyellni. Steril eszközök, HEMA-mentes anyagok, és egy időpont, ami tényleg akkor kezdődik, amikor a naptárban áll.",
+    "about": "Tizenhat éve dolgozom körmökkel, hét éve a saját műtermemben, két székkel. Nem futószalag: egy vendégre másfél és két és fél óra között jut idő, mert egy jól felépített köröm nem lesz gyorsabb attól, hogy sietünk.\n\nMinden fém eszköz autoklávban sterilizálva, vendégenként bontott csomagban – ez nálunk nem extra, hanem az alap. HEMA-mentes, hipoallergén rendszerrel dolgozunk, mert a vendégeink harmada érzékeny bőrű, és az anyag az egyetlen, amin nem lehet spórolni. Ha bizonytalan vagy, hozz képeket: az első tíz perc mindig arról szól, mit bír el a saját körmöd.",
+    "address": "1051 Budapest, Sas utca 11.",
+    "phone": "+36 30 585 2140",
+    "email": "foglalas@biankanails.hu",
     "logo": "",
     "images": [
       {
-        "spot": "Hero – 1. slide · Szolgáltatások – 1. kártya képe · Rólunk szekció képe",
-        "src": "skica911-oil-3979023.jpg",
+        "spot": "Szolgáltatások – 1. kártya képe · Szolgáltatások – 4. kártya képe",
+        "src": "",
         "focus": "center",
-        "media": ""
+        "media": "",
+        "hero": true
       },
       {
-        "spot": "Hero – 2. slide · Szolgáltatások – 2. kártya képe",
-        "src": "joenomias-car-mechanic-2267350_1920.jpg",
+        "spot": "Szolgáltatások – 2. kártya képe · Rólunk szekció képe",
+        "src": "",
         "focus": "center",
-        "media": ""
+        "media": "",
+        "hero": true
       },
       {
-        "spot": "Hero – 3. slide · Szolgáltatások – 3. kártya képe",
-        "src": "avtoritetkhv-young-woman-346231.jpg",
+        "spot": "Szolgáltatások – 3. kártya képe",
+        "src": "",
         "focus": "center",
-        "media": ""
-      },
-      {
-        "spot": "Hero – 4. slide · Szolgáltatások – 4. kártya képe",
-        "src": "pexels-tools-1845426_1920.jpg",
-        "focus": "center",
-        "media": ""
+        "media": "",
+        "hero": true
       }
     ],
-    "uploadedFiles": [
-      "skica911-oil-3979023.jpg",
-      "joenomias-car-mechanic-2267350_1920.jpg",
-      "avtoritetkhv-young-woman-346231.jpg",
-      "pexels-tools-1845426_1920.jpg",
-      "toby_parsons-ford-focus-rs-3079452_1920.jpg",
-      "ermakovasve-model-2875192_1920.jpg",
-      "joenomias-car-mechanic-2267350_1920.jpg",
-      "sava86-cafe-4816651_1920.jpg",
-      "storme22k-bread-8503298_1920.jpg",
-      "jarmoluk-the-cake-268259_1920.jpg"
-    ],
+    "imgPick": {},
+    "uploadedFiles": [],
     "services": [
       {
-        "name": "Olajcsere",
+        "name": "Géllakk",
         "text": "Vestibulum id ligula porta felis euismod semper. Donec sed odio dui, nulla vitae elit libero."
       },
       {
-        "name": "Fék- és futómű-ellenőrzés",
+        "name": "Műköröm építés",
         "text": "Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo."
       },
       {
-        "name": "Műszaki vizsga előkészítés",
+        "name": "Töltés",
         "text": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Integer posuere erat a ante."
       },
       {
-        "name": "Klímatisztítás",
+        "name": "Japán manikűr",
         "text": "Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed."
       }
     ],
     "lists": {
       "gallery": [
         {
-          "name": "Asztalaink",
+          "name": "Japán manikűr, natúr fény",
           "text": "",
-          "tag": "",
-          "image": "sava86-cafe-4816651_1920.jpg"
+          "tag": "Manikűr",
+          "image": ""
         },
         {
-          "name": "Pék mester munka közben",
+          "name": "Géllakk, tejfehér mandula",
           "text": "",
-          "tag": "",
-          "image": "storme22k-bread-8503298_1920.jpg"
+          "tag": "Manikűr",
+          "image": ""
         },
         {
-          "name": "Legszebb sütemény",
+          "name": "Babyboomer építés, hosszabbítással",
           "text": "",
-          "tag": "",
-          "image": "jarmoluk-the-cake-268259_1920.jpg"
+          "tag": "Műköröm",
+          "image": ""
+        },
+        {
+          "name": "Ombre töltés, mandula forma",
+          "text": "",
+          "tag": "Műköröm",
+          "image": ""
+        },
+        {
+          "name": "Spa-pedikűr, bordó géllakk",
+          "text": "",
+          "tag": "Pedikűr",
+          "image": ""
+        },
+        {
+          "name": "Kézzel festett virágdíszítés",
+          "text": "",
+          "tag": "Díszítés",
+          "image": ""
+        },
+        {
+          "name": "Francia csillám, esküvőre",
+          "text": "",
+          "tag": "Díszítés",
+          "image": ""
+        },
+        {
+          "name": "Kőberakás, minimál vonal",
+          "text": "",
+          "tag": "Díszítés",
+          "image": ""
         }
       ],
+      "videos": [],
       "team": [],
       "faq": [
         {
-          "name": "Kell időpontot foglalni?",
-          "text": "Olajcseréhez és vizsgához igen, hibakód-olvasáshoz nem – azzal bármikor beállhatsz.",
+          "name": "Mennyire steril a műterem?",
+          "text": "Minden fém eszköz autoklávban sterilizálva, vendégenként bontott csomagban. A reszelő és a polírozó egyszer használatos – nem fejet cserélünk két vendég között, hanem eszközt.",
           "tag": "",
           "image": ""
         },
         {
-          "name": "Márkaszervizes garanciám megmarad?",
-          "text": "Meg. Gyári minőségű alkatrészt építünk be, és a szervizkönyvet is vezetjük.",
+          "name": "Milyen anyagokkal dolgoztok?",
+          "text": "HEMA-mentes, hipoallergén építőgéllel és géllakkal. Ha eddig bárhol viszketett vagy idő előtt leemelt a köröm, szólj az elején: jó eséllyel az anyag volt a baj, nem a te körmöd.",
           "tag": "",
           "image": ""
         },
         {
-          "name": "Mennyi a garancia?",
-          "text": "Két év a munkára és a beépített alkatrészre is, kilométer-korlát nélkül.",
+          "name": "Meddig tart ki egy építés?",
+          "text": "Három-négy hét a töltésig, díszítéssel is. Ha két héten belül letörik egy köröm, díjmentesen pótolom – ez garancia, nem szívesség.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Mennyi időt kérjek rá?",
+          "text": "Töltés két óra, új építés két és fél. A foglalás pontosan ennyit zárol, így nem kell sietni, és nem csúszunk rá a következő vendégre.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Le tudom mondani az időpontot?",
+          "text": "Igen, 24 órával előtte díjmentesen, a visszaigazoló levélben lévő linkkel. Ezen belül a szolgáltatás felét számoljuk fel: egy két és fél órás helyet aznap már nem tudunk újratölteni.",
           "tag": "",
           "image": ""
         }
       ],
       "rating": [
         {
+          "name": "4,9",
+          "text": "187 Google-értékelés",
+          "tag": "",
+          "image": ""
+        },
+        {
           "name": "4,8",
-          "text": "417 Google-értékelés",
-          "tag": "",
-          "image": ""
-        },
-        {
-          "name": "4,7",
-          "text": "96 vélemény a Facebookon",
+          "text": "64 vélemény a Facebookon",
           "tag": "",
           "image": ""
         }
       ],
-      "stats": [
-        {
-          "name": "18 év",
-          "text": "ugyanazon a telephelyen",
-          "tag": "",
-          "image": ""
-        },
-        {
-          "name": "11 400",
-          "text": "javítás",
-          "tag": "",
-          "image": ""
-        },
-        {
-          "name": "2 év",
-          "text": "garancia minden munkára",
-          "tag": "",
-          "image": ""
-        }
-      ],
+      "stats": [],
       "reviews": [
         {
-          "name": "Nagy Zoltán",
-          "text": "Felhívtak az árral, mielőtt hozzákezdtek. Ez a szerviznél nem szokás – nálunk mégis ez volt.",
+          "name": "Szabó Villő",
+          "text": "Négy hét után is úgy néz ki, mint az első napon. Eddig egyetlen helyen sem sikerült ez.",
           "tag": "",
           "image": ""
         },
         {
-          "name": "Szabó Ildikó",
-          "text": "Kiderült, hogy a másik szerviz feleslegesen cserélt volna kuplungot. Megmutatták, miért nem kell.",
+          "name": "Molnár Emese",
+          "text": "Az első tíz percben elmondta, hogy a körmöm most vékonyabb a kelleténél, és ahhoz mérte a hosszt. Nem próbált többet eladni.",
           "tag": "",
           "image": ""
         },
         {
-          "name": "Rácz Péter",
-          "text": "Vizsga előtt átnézték, két apróságot javítottak, elsőre átment.",
+          "name": "Deák Zsófia",
+          "text": "Pontosan a foglalt időben kezdtünk, és a műterem tényleg olyan tiszta, amilyennek a képeken látszik.",
           "tag": "",
           "image": ""
         }
       ],
-      "process": [
-        {
-          "name": "Hibafelvétel",
-          "text": "Behozod, meghallgatunk, kiolvassuk a hibakódot. Ez ingyen van, akkor is, ha nem nálunk javíttatsz.",
-          "tag": "",
-          "image": ""
-        },
-        {
-          "name": "Árajánlat telefonon",
-          "text": "Mielőtt egy csavart is kicsavarnánk, felhívunk a tételes összeggel. Nincs utólagos meglepetés a számlán.",
-          "tag": "",
-          "image": ""
-        },
-        {
-          "name": "Javítás és átadás",
-          "text": "Bontott alkatrészt megmutatjuk, a kocsit mosva adjuk vissza. Számla, garancialevél, kész.",
-          "tag": "",
-          "image": ""
-        }
-      ],
-      "logos": []
+      "process": [],
+      "logos": [],
+      "quote": []
     },
+    "videoSource": "own",
     "pricing": {
       "enabled": true,
       "cards": false,
       "items": [
         {
-          "name": "Olajcsere (szűrőkkel, olaj nélkül)",
-          "price": "12 000 Ft",
-          "tag": "",
-          "time": "",
+          "name": "Japán manikűr",
+          "price": "11 000 Ft",
+          "tag": "Manikűr",
+          "time": "60 perc",
           "image": "",
           "file": ""
         },
         {
-          "name": "Fékbetét-csere tengelyenként",
-          "price": "9 000 Ft-tól",
-          "tag": "",
-          "time": "",
+          "name": "Géllakk, egyszínű",
+          "price": "12 500 Ft",
+          "tag": "Manikűr",
+          "time": "75 perc",
           "image": "",
           "file": ""
         },
         {
-          "name": "Műszaki vizsga, ügyintézéssel",
-          "price": "34 000 Ft",
-          "tag": "",
-          "time": "",
+          "name": "Géllakk-eltávolítás és körömerősítés",
+          "price": "6 000 Ft",
+          "tag": "Manikűr",
+          "time": "45 perc",
           "image": "",
           "file": ""
         },
         {
-          "name": "Klímatisztítás és -töltés",
-          "price": "19 000 Ft",
-          "tag": "",
-          "time": "",
+          "name": "Műköröm építés, natúr",
+          "price": "19 500 Ft",
+          "tag": "Műköröm",
+          "time": "150 perc",
           "image": "",
           "file": ""
         },
         {
-          "name": "Hibakód-olvasás, diagnosztika",
-          "price": "díjmentes",
-          "tag": "",
-          "time": "",
+          "name": "Töltés",
+          "price": "15 000 Ft",
+          "tag": "Műköröm",
+          "time": "120 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Babyboomer vagy ombre építés",
+          "price": "23 000 Ft",
+          "tag": "Műköröm",
+          "time": "165 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Spa-pedikűr géllakkal",
+          "price": "17 000 Ft",
+          "tag": "Pedikűr",
+          "time": "90 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Kézzel festett díszítés, körmönként",
+          "price": "1 200 Ft-tól",
+          "tag": "Díszítés",
+          "time": "10 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Kőberakás vagy francia csillám",
+          "price": "3 500 Ft-tól",
+          "tag": "Díszítés",
+          "time": "20 perc",
           "image": "",
           "file": ""
         }
       ]
     },
     "hoursShow": true,
-    "cta2": "route",
+    "cta2": "services",
     "booking": {
       "enabled": true,
       "services": [
         {
-          "id": "s3av56m",
-          "name": "Olajcsere",
+          "id": "sw2benw",
+          "name": "Géllakk",
+          "durationMin": 75,
+          "price": "12500"
+        },
+        {
+          "id": "su668vx",
+          "name": "Műköröm építés",
+          "durationMin": 150,
+          "price": "19500"
+        },
+        {
+          "id": "s1pip69",
+          "name": "Töltés",
+          "durationMin": 120,
+          "price": "15000"
+        },
+        {
+          "id": "sgumn28",
+          "name": "Japán manikűr",
           "durationMin": 60,
-          "price": "12000"
+          "price": "11000"
         },
         {
-          "id": "s4s1tub",
-          "name": "Fék- és futómű-ellenőrzés",
-          "durationMin": 45,
-          "price": ""
-        },
-        {
-          "id": "spgstoh",
-          "name": "Műszaki vizsga előkészítés",
+          "id": "sd1i4im",
+          "name": "Spa-pedikűr",
           "durationMin": 90,
-          "price": "34000"
-        },
-        {
-          "id": "sbjtheb",
-          "name": "Klímatisztítás",
-          "durationMin": 60,
-          "price": "19000"
+          "price": "17000"
         }
       ],
       "staff": [
         {
-          "id": "wvrsu3z",
-          "name": "Nagy Zoltán",
+          "id": "wls8agx",
+          "name": "Kovács Bianka",
           "photo": "",
           "file": "",
           "serviceIds": [
-            "s3av56m",
-            "s4s1tub",
-            "spgstoh",
-            "sbjtheb"
+            "sw2benw",
+            "su668vx",
+            "s1pip69",
+            "sgumn28",
+            "sd1i4im"
           ]
         },
         {
-          "id": "wdn29jv",
-          "name": "Tóth Gábor",
+          "id": "wcyjtag",
+          "name": "Nagy Dóra",
           "photo": "",
           "file": "",
           "serviceIds": [
-            "s3av56m",
-            "s4s1tub",
-            "spgstoh",
-            "sbjtheb"
+            "sw2benw",
+            "su668vx",
+            "s1pip69",
+            "sgumn28",
+            "sd1i4im"
           ]
         }
       ],
@@ -318,8 +395,8 @@
           "closed": false
         },
         "sat": {
-          "open": "08:00",
-          "close": "12:00",
+          "open": "09:00",
+          "close": "15:00",
           "closed": false
         },
         "sun": {
@@ -333,70 +410,82 @@
     },
     "references": [
       {
-        "caption": "Vezérműszíj-csere, Ford Focus 1.6 TDCi",
-        "image": "toby_parsons-ford-focus-rs-3079452_1920.jpg"
+        "caption": "Babyboomer építés esküvőre, mandula forma",
+        "image": ""
       },
       {
-        "caption": "Klímarendszer felújítás szivárgáskereséssel",
-        "image": "ermakovasve-model-2875192_1920.jpg"
+        "caption": "Kézzel festett virágdíszítés",
+        "image": ""
       },
       {
-        "caption": "Vizsgára felkészítés fékpad-méréssel",
-        "image": "joenomias-car-mechanic-2267350_1920.jpg"
+        "caption": "Elvékonyodott köröm újraépítése négy hét alatt",
+        "image": ""
       }
     ]
   },
   "design": {
-    "font": "dmsans",
-    "fontHead": "oswald",
-    "align": "left",
-    "radius": 4,
-    "layout": "grid",
-    "hero": "banner",
-    "secHead": "wide",
-    "edge": "tape",
-    "flow": "stack",
-    "cols": 3,
-    "width": 76,
-    "spacing": 95,
-    "imgRatio": 133,
-    "typeset": "condensed",
-    "surface": "outline",
-    "texture": "diagonal",
+    "font": "hanken",
+    "fontHead": "lora",
+    "align": "center",
+    "radius": 0,
+    "layout": "split",
+    "hero": "none",
+    "secHead": "stack",
+    "edge": "none",
+    "flow": "stagger",
+    "cols": 2,
+    "width": 58,
+    "spacing": 118,
+    "imgRatio": 150,
+    "typeset": "airy",
+    "surface": "flat",
+    "texture": "none",
     "bgDepth": "scroll",
-    "bgArt": "wrench",
+    "bgArt": "bloom",
     "bgMotion": "still",
     "bgSpot": "corner",
-    "reveal": "rise",
+    "reveal": "fade",
     "band": "soft",
-    "divider": "slant",
-    "accent": "number",
-    "sig": "none",
-    "media": "cut",
-    "btn": "sharp",
-    "navBg": "tint",
-    "navShape": "bar",
-    "navAlign": "end",
-    "navLink": "caps",
+    "divider": "wave",
+    "accent": "none",
+    "sig": "ken",
+    "media": "arch",
+    "btn": "link",
+    "hover": "none",
+    "grade": "film",
+    "tempo": "swing",
+    "scale": "even",
+    "navBg": "clear",
+    "navShape": "float",
+    "navAlign": "center",
+    "navLink": "plain",
     "navPos": "sticky",
+    "navProgress": "none",
+    "navCall": "none",
+    "navTop": "info",
     "seed": 42,
     "fontScale": "md",
     "fontScaleBy": {
-      "hero": "lg"
+      "nav": "lg",
+      "hero": "md",
+      "rating": "md",
+      "services": "lg",
+      "pricing": "md",
+      "gallery": "md"
     },
     "mode": "light",
     "colors": {
       "dark": {
-        "primary": "#FF6A13",
-        "secondary": "#5B7285",
-        "bg": "#10151A",
-        "text": "#E8EEF4"
+        "bg": "#220611",
+        "text": "#f0ebe9",
+        "primary": "#aa3b76",
+        "secondary": "#833a64"
       },
       "light": {
-        "bg": "#e5eaef",
-        "text": "#0b1117",
-        "primary": "#d54e00",
-        "secondary": "#5B7285"
+        "bg": "#f9dde8",
+        "text": "#16110f",
+        "primary": "#ed0c84",
+        "secondary": "#e869b3"
       }
     }
   },
@@ -404,89 +493,119 @@
     {
       "id": "hero",
       "on": true,
+      "nav": true,
       "plate": false,
       "sub": []
     },
     {
       "id": "rating",
       "on": true,
+      "nav": true,
       "plate": false,
       "sub": []
     },
     {
       "id": "services",
       "on": true,
+      "nav": true,
       "plate": false,
       "sub": []
     },
     {
-      "id": "stats",
+      "id": "gallery",
       "on": true,
-      "plate": false,
-      "sub": []
-    },
-    {
-      "id": "process",
-      "on": true,
-      "plate": false,
-      "sub": []
-    },
-    {
-      "id": "references",
-      "on": true,
-      "plate": false,
-      "sub": []
-    },
-    {
-      "id": "reviews",
-      "on": true,
+      "nav": true,
       "plate": false,
       "sub": []
     },
     {
       "id": "about",
       "on": true,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "reviews",
+      "on": true,
+      "nav": true,
       "plate": false,
       "sub": []
     },
     {
       "id": "faq",
       "on": true,
-      "plate": false,
-      "sub": []
-    },
-    {
-      "id": "map",
-      "on": true,
+      "nav": true,
       "plate": false,
       "sub": []
     },
     {
       "id": "contact",
       "on": true,
+      "nav": true,
       "plate": false,
       "sub": []
     },
     {
-      "id": "gallery",
+      "id": "map",
+      "on": true,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "stats",
       "on": false,
-      "sub": [],
-      "nav": false
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "references",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "quote",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "process",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "videos",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
     },
     {
       "id": "team",
       "on": false,
+      "nav": true,
+      "plate": false,
       "sub": []
     },
     {
       "id": "logos",
       "on": false,
+      "nav": true,
+      "plate": false,
       "sub": []
     }
   ],
   "moduleAfter": {
     "pricing": "services",
-    "booking": "services"
+    "booking": "reviews"
   },
   "legal": {
     "_name": "A szolgáltató teljes, hivatalos neve – egyéni vállalkozónál a személynév, cégnél a cégforma is.",
