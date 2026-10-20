@@ -1167,13 +1167,14 @@ function applyContent() {
   const hero = heroImgs(imgs);
   const track = $("#pv-hero-slides");
   track.innerHTML = (hero.length ? hero : [0]).map(() => `<img alt="" width="800" height="600">`).join("");
-  if (hero.length) [...track.children].forEach((el, k) => paintSlot(el, hero[k], "", imgs[hero[k]].alt || c.company || ""));
-  else paintImg(track.firstElementChild, "", 0, c.company || "");
+  if (hero.length) [...track.children].forEach((el, k) => paintSlot(el, hero[k], "", imgs[hero[k]].alt || plain(c.company)));
+  else paintImg(track.firstElementChild, "", 0, plain(c.company));
   /* Fix képhelyek: a kártya saját képe győz, utána a kézi választás, végül a forgatás */
   $$("[data-img-slot]").forEach((el) => {
     const n = Number(el.dataset.imgSlot);
     const key = el.id === "pv-about-img" ? "about" : String(n);
-    paintSlot(el, slotImg(c.imgPick, key, n, imgs.length), c.services?.[n]?.image || "");
+    paintSlot(el, slotImg(c.imgPick, key, n, imgs.length), c.services?.[n]?.image || "",
+      c.services?.[n]?.image ? c.services[n].alt ?? c.services[n].name : undefined);
   });
   $$("#pv-refs img").forEach((img, i) =>
     paintImg(img, refs[i].image, i + imgs.length, refs[i].caption || ""));
@@ -1222,7 +1223,7 @@ function applyChrome() {
     const fallback = monogram();
     logo.onerror = () => { if (logo.src !== fallback) logo.src = fallback; };
     logo.src = imgSrc(c.logo) || fallback;
-    logo.alt = c.company || "";
+    logo.alt = plain(c.company);
   }
   $$("[data-i18n]").forEach((el) => (el.textContent = t(el.dataset.i18n)));
   /* Feliratok, amik nem szövegek, hanem gomb- és vezérlő-nevek: aria-label */

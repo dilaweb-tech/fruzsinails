@@ -61,96 +61,101 @@
     "logo": "",
     "images": [
       {
-        "spot": "Szolgáltatások – 1. kártya képe · Szolgáltatások – 4. kártya képe",
-        "src": "",
+        "spot": "Megosztási kép (OG)",
+        "src": "og-rozsaszin-kez.jpg",
         "focus": "center",
         "media": "",
-        "hero": true
+        "hero": true,
+        "alt": "Rózsaszín manikűrös kéz élénk rózsaszín háttér előtt"
       },
       {
-        "spot": "Szolgáltatások – 2. kártya képe · Rólunk szekció képe",
-        "src": "",
+        "spot": "Rólam",
+        "src": "studio-munka.jpg",
         "focus": "center",
         "media": "",
-        "hero": true
-      },
-      {
-        "spot": "Szolgáltatások – 3. kártya képe",
-        "src": "",
-        "focus": "center",
-        "media": "",
-        "hero": true
+        "hero": false,
+        "alt": "Manikűr készül a stúdióban, a vendég keze a munkaasztalon"
       }
     ],
-    "imgPick": {},
+    "imgPick": {
+      "about": 1
+    },
     "uploadedFiles": [],
     "services": [
       {
         "name": "Géllakk",
-        "text": "Saját körömre, egy színnel vagy finom díszítéssel. Három hétig fényes marad, és nem pattogzik le a szélén."
+        "text": "Saját körömre, egy színnel vagy finom díszítéssel. Három hétig fényes marad, és nem pattogzik le a szélén.",
+        "image": "gellakk.jpg",
+        "alt": "Rózsaszín és tejfehér géllakk, elegáns kézen"
       },
       {
         "name": "Műköröm építés",
-        "text": "Zselés építés natúr, babyboomer vagy ombre stílusban. A formát és a hosszt a saját körmödhöz és a mindennapjaidhoz igazítjuk."
+        "text": "Zselés építés natúr, babyboomer vagy ombre stílusban. A formát és a hosszt a saját körmödhöz és a mindennapjaidhoz igazítjuk.",
+        "image": "mukorom-epites.jpg",
+        "alt": "Metálos, kövekkel díszített hosszú műköröm"
       },
       {
         "name": "Töltés",
-        "text": "Három-négy hetente frissítjük a lenőtt részt. A forma megmarad, a köröm erős és egyenletes lesz újra."
+        "text": "Három-négy hetente frissítjük a lenőtt részt. A forma megmarad, a köröm erős és egyenletes lesz újra.",
+        "image": "toltes.jpg",
+        "alt": "Rózsaszín ombre műköröm fehér textilen"
       },
       {
         "name": "Japán manikűr",
-        "text": "Lakk nélküli ápolás: a saját körmöd kap fényt és erőt. Jó választás két építés között, vagy ha natúr kezet szeretnél."
+        "text": "Lakk nélküli ápolás: a saját körmöd kap fényt és erőt. Jó választás két építés között, vagy ha natúr kezet szeretnél.",
+        "image": "japan-manikur.jpg",
+        "alt": "Natúr, fényes rózsaszín körmök puha szőrmén"
       }
     ],
     "lists": {
       "gallery": [
         {
-          "name": "Japán manikűr, natúr fény",
+          "name": "Mályva géllakk, csillámos gyűrűsujj",
           "text": "",
           "tag": "Manikűr",
-          "image": ""
+          "image": "galeria-malyva-csillam.jpg"
         },
         {
-          "name": "Géllakk, tejfehér mandula",
+          "name": "Nude géllakk, minimál díszítés",
           "text": "",
           "tag": "Manikűr",
-          "image": ""
+          "image": "galeria-nude-minimal.jpg"
         },
         {
-          "name": "Babyboomer építés, hosszabbítással",
+          "name": "Babyboomer építés, mandula forma",
           "text": "",
           "tag": "Műköröm",
-          "image": ""
+          "image": "galeria-babyboomer.jpg"
         },
         {
-          "name": "Ombre töltés, mandula forma",
+          "name": "Rózsaszín csillám építés",
           "text": "",
           "tag": "Műköröm",
-          "image": ""
+          "image": "galeria-rozsa-csillam.jpg"
         },
         {
-          "name": "Spa-pedikűr, bordó géllakk",
+          "name": "Pedikűr, pink géllakk",
           "text": "",
           "tag": "Pedikűr",
-          "image": ""
+          "image": "galeria-pedikur.jpg"
         },
         {
-          "name": "Kézzel festett virágdíszítés",
+          "name": "Kézzel festett díszítés",
           "text": "",
           "tag": "Díszítés",
-          "image": ""
+          "image": "galeria-festett-diszites.jpg"
         },
         {
-          "name": "Francia csillám, esküvőre",
+          "name": "Csillámpor, rózsaszín alapon",
           "text": "",
           "tag": "Díszítés",
-          "image": ""
+          "image": "galeria-csillampor.jpg"
         },
         {
-          "name": "Kőberakás, minimál vonal",
+          "name": "Natúr rózsa, rövid forma",
           "text": "",
-          "tag": "Díszítés",
-          "image": ""
+          "tag": "Manikűr",
+          "image": "galeria-natur-rozsa.jpg"
         }
       ],
       "videos": [],
