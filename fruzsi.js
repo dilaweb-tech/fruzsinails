@@ -92,7 +92,10 @@
     ".pv-contact__list li", ".pv-map__frame", ".pv-chips", "#bk-root"];
   function reveal() {
     /* a kikapcsolt (rejtett) szekciók elemei soha nem érnének be – kimaradnak */
-    const els = $$(RV.map((s) => `main section:not(#sec-hero) ${s}`).join(",")).filter((el) => el.offsetParent);
+    /* a kikapcsolt (rejtett) szekciók elemei soha nem érnének be – kimaradnak;
+       a szolgáltatás-kártyák kitűzve egymásra csúsznak, azoknak saját mozgásuk van */
+    const els = $$(RV.map((s) => `main section:not(#sec-hero) ${s}`).join(","))
+      .filter((el) => el.offsetParent && !el.matches("#pv-items > li, .fz-cat-group"));
     const io = new IntersectionObserver((entries) => entries.forEach((e) => {
       if (!e.isIntersecting) return;
       e.target.classList.add("is-in");
@@ -123,18 +126,43 @@
     requestAnimationFrame(step);
   }
 
-  /* --- Menü: görgetés zárolva, amíg nyitva; pontok sorszáma a beúszáshoz -- */
+  /* --- Menü: oldalsáv (fotó, elérhetőség, foglalás), görgetés zárolva ----- */
+  const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (ch) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[ch]));
+  /* a menüpont képe: a célszekció első fotója – új szekciónál sem kell kézzel párosítani */
+  const sectionImg = (href) => {
+    const sec = href && href.startsWith("#") ? $(href) : null;
+    return (sec && $$("img", sec).map((i) => i.getAttribute("src")).find((s) => s && !s.startsWith("data:"))) || "";
+  };
   function menu() {
-    const burger = $("#pv-burger");
-    $$("#pv-nav .pv-nav__item").forEach((it, k) => it.style.setProperty("--k", k));
-    /* a lap alján a hívás: menüből is egy érintés a foglalásig */
-    const tel = $("#pv-topbar-phone");
-    if (tel && tel.textContent.trim() && !$("#pv-nav .fz-menu-foot")) {
-      const foot = document.createElement("div");
-      foot.className = "pv-nav__item fz-menu-foot";
-      foot.style.setProperty("--k", $$("#pv-nav .pv-nav__item").length);
-      foot.innerHTML = `<a href="${tel.getAttribute("href")}">Hívj: ${tel.textContent.trim()}</a>`;
-      $("#pv-nav").append(foot);
+    const burger = $("#pv-burger"), nav = $("#pv-nav");
+    if (!nav) return;
+    $$(".pv-nav__item", nav).forEach((it, k) => it.style.setProperty("--k", k));
+    if (!$(".fz-menu-aside", nav)) {
+      const tel = $("#pv-topbar-phone"), addr = $("#pv-topbar-addr"), open = $("#pv-topbar-status");
+      const first = sectionImg("#sec-about") || sectionImg("#sec-services");
+      const aside = document.createElement("div");
+      aside.className = "pv-nav__item fz-menu-aside";
+      aside.style.setProperty("--k", $$(".pv-nav__item", nav).length);
+      aside.innerHTML =
+        (first ? `<figure class="fz-menu-img"><img src="${esc(first)}" alt="" decoding="async"></figure>` : "") +
+        `<div class="fz-menu-info">` +
+        (open && !open.hidden && open.textContent.trim() ? `<strong>${esc(open.textContent.trim())}</strong>` : "") +
+        (addr && addr.textContent.trim() ? `<span>${esc(addr.textContent.trim())}</span>` : "") +
+        (tel && tel.textContent.trim() ? `<a href="${esc(tel.getAttribute("href"))}">${esc(tel.textContent.trim())}</a>` : "") +
+        `</div><a class="fz-menu-book" href="#sec-booking">Időpontot foglalok</a>`;
+      nav.append(aside);
+      /* asztalon a fölé vitt pont a saját szekciója képét mutatja */
+      const fig = $(".fz-menu-img", aside), pic = fig && $("img", fig);
+      let want = first, timer;
+      nav.addEventListener("pointerover", (e) => {
+        const a = e.target.closest(".pv-nav__top");
+        const src = a && sectionImg(a.getAttribute("href"));
+        if (!pic || !src || src === want) return;
+        want = src;
+        fig.classList.add("is-swap");
+        clearTimeout(timer);
+        timer = setTimeout(() => { pic.src = want; fig.classList.remove("is-swap"); }, 260);
+      });
     }
     if (!burger) return;
     new MutationObserver(() => {
@@ -143,11 +171,104 @@
     }).observe(burger, { attributes: true, attributeFilter: ["aria-expanded"] });
   }
 
+  /* --- Szolgáltatás-kártyák: időtartam és ár a foglalás adataiból ---------- */
+  const norm = (s) => String(s ?? "").toLowerCase().replace(/\s+/g, " ").trim();
+  const huf = (v) => (Number(v) ? Number(v).toLocaleString("hu-HU") + " Ft" : "");
+  /* a site.js a beállítást zárt hatókörben tartja – a foglalás szolgáltatásait
+     innen olvassuk (a böngésző a már letöltött site.json-t adja vissza) */
+  const bookingServices = () => fetch("site.json").then((r) => r.json())
+    .then((c) => c?.content?.booking?.services || []).catch(() => []);
+  function services(book = []) {
+    const items = $$("#pv-items > li");
+    items.forEach((li, k) => {
+      li.style.setProperty("--k", k);
+      const body = $(".pv-item__body", li);
+      if (!body) return;
+      $$(".fz-meta, .fz-want", body).forEach((el) => el.remove());
+      const s = book.find((b) => norm(b.name) === norm($("h3", body)?.textContent));
+      const tags = s ? [s.durationMin ? `${s.durationMin} perc` : "", s.price ? `${huf(s.price)}-tól` : ""].filter(Boolean) : [];
+      body.insertAdjacentHTML("beforeend",
+        (tags.length ? `<p class="fz-meta">${tags.map((t) => `<span class="fz-tag">${esc(t)}</span>`).join("")}</p>` : "") +
+        `<a class="fz-want" href="#sec-booking">Ezt kérem <span aria-hidden="true">→</span></a>`);
+    });
+    return items;
+  }
+  /* amelyik kártyára a következő ráfut, az kicsit hátrébb lép */
+  function stack(items) {
+    if (items.length < 2) return;
+    let ticking = false;
+    const sync = () => {
+      ticking = false;
+      items.forEach((li, i) => {
+        const nx = items[i + 1];
+        if (!nx) return;
+        /* a saját méretét az offsetHeight adja: a skálázás a bounding boxot torzítaná */
+        const h = li.offsetHeight || 1, top = li.getBoundingClientRect().top;
+        const p = Math.min(1, Math.max(0, (top + h - nx.getBoundingClientRect().top) / h));
+        li.style.setProperty("--fz-back", p.toFixed(3));
+      });
+    };
+    addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(sync); } }, { passive: true });
+    sync();
+  }
+
+  /* --- Árlista: kategóriánként csoport, élén a dőlt cím --------------------
+     A csoport ugyanazt a data-cat-ot kapja, mint a tételei, így a termék
+     szűrője (site.js: [data-cat] → hidden) vele együtt rejti; két hasábban a
+     csoport egyben marad, a cím nem szakad el a tételeitől. */
+  function pricing() {
+    const list = $("#pv-prices");
+    if (!list || $(".fz-cat-group", list)) return;
+    const groups = new Map();
+    $$(":scope > li[data-cat]", list).forEach((li) => {
+      const cat = li.dataset.cat;
+      if (!cat) return;
+      if (!groups.has(cat)) {
+        const g = document.createElement("li");
+        g.className = "fz-cat-group";
+        g.dataset.cat = cat;
+        g.innerHTML = `<h3>${esc(cat)}</h3><ul class="fz-cat-list"></ul>`;
+        li.before(g);
+        groups.set(cat, $(".fz-cat-list", g));
+      }
+      groups.get(cat).append(li);
+    });
+  }
+
+  /* --- Galéria: számláló és haladás-csík a húzható sorhoz ------------------ */
+  function gallery() {
+    const list = $("#sec-gallery .pv-items");
+    if (!list || $("#sec-gallery .fz-strip")) return;
+    const strip = document.createElement("p");
+    strip.className = "fz-strip";
+    strip.setAttribute("aria-hidden", "true");
+    list.after(strip);
+    const two = (n) => String(n).padStart(2, "0");
+    const sync = () => {
+      const vis = [...list.children].filter((li) => !li.hidden);
+      if (!vis.length) return;
+      const step = vis.length > 1 ? vis[1].offsetLeft - vis[0].offsetLeft : 1;
+      const at = Math.min(vis.length - 1, Math.max(0, Math.round(list.scrollLeft / (step || 1))));
+      strip.innerHTML = `<b>${two(at + 1)}</b> / ${two(vis.length)} <i></i>`;
+      strip.style.setProperty("--fz-g", ((at + 1) / vis.length).toFixed(3));
+    };
+    list.addEventListener("scroll", () => requestAnimationFrame(sync), { passive: true });
+    $("#sec-gallery").addEventListener("click", (e) => {
+      if (e.target.closest(".pv-chip")) setTimeout(() => { list.scrollLeft = 0; sync(); }, 0);
+    });
+    sync();
+  }
+
   function build() {
     brand();
     menu();
+    const cards = services();
+    bookingServices().then((b) => b.length && services(b));
+    pricing();
+    gallery();
     const el = fan();
     if (calm) return;
+    stack(cards);
     const copy = $(".pv-hero__copy");
     splitName();
     copy?.classList.add("fz-intro");
