@@ -225,6 +225,21 @@ function mountWizard() {
        fiókoldalra visz. A fiókoldalon marad a helyben váltás. */
     onProfile: () => ($("#view-profile") ? show("profile") : (location.href = "foglalas.html")),
   });
+  if (S.offline) showOffline();
+}
+
+/* A backend nem válaszolt (leállás, hálózat vagy statikus előnézet): a
+   „nincs beállítva szolgáltatás" itt félrevezetne – a látogató inkább azt
+   tudja meg, hogyan foglalhat mégis. A telefonszámot a lap már kiírta. */
+function showOffline() {
+  const link = $$('a[href^="tel:"]').find((a) => a.getAttribute("href").length > 5 && a.textContent.trim());
+  const hu = S.lang === "hu";
+  $("#bk-root").innerHTML =
+    `<p class="bk-empty">${hu ? "Az online foglalás most nem érhető el." : "Online booking is unavailable right now."}` +
+    (link
+      ? ` ${hu ? "Hívj, és egyeztetünk időpontot:" : "Call us to book an appointment:"}</p>` +
+        `<p><a class="bk-btn bk-btn--primary" href="${esc(link.getAttribute("href"))}">${esc(link.textContent.trim())}</a></p>`
+      : "</p>");
 }
 
 /* --------------------------------------------------------------------------
@@ -244,6 +259,7 @@ function setUser(me) {
   authState.user = S.user;
   syncChrome();
   $("#bk-root").refresh?.();
+  if (S.offline) showOffline();      /* a refresh újrarajzolna – az üzenet maradjon */
   if (S.view !== "book") show(S.view);
 }
 
@@ -445,6 +461,7 @@ async function init() {
 
   /* Egyetlen kérés adja az egész indulóadatot – ügyfélenkénti JS-fájl nincs. */
   const cfg = await api("/api/booking/config").catch(() => null);
+  S.offline = !cfg;
   if (cfg) {
     S.cfg = { slot: Number(cfg.slot) || 30, hours: cfg.hours || {}, currency: cfg.currency || "HUF" };
     S.services = cfg.services || [];
