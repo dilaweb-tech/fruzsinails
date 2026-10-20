@@ -3,3 +3,5 @@ Allow: /
 
 # A foglalási varázsló belső nézetei nem keresőtalálatnak valók
 Disallow: /foglalas.html?
+
+Sitemap: https://dilaweb-tech.github.io/fruzsinails/sitemap.xml

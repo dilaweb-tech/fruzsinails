@@ -5,7 +5,7 @@
     "lang": "hu",
     "trade": "nails",
     "exportedAt": "2026-10-15T11:33:18.446Z",
-    "note": "A feltöltött képek helyett csak a fájlnevük szerepel – a képfájlokat az ügyféltől külön kell bekérni.",
+    "note": "Fruzsi (Fruzsinails) – saját körmös stúdió Gyulán. A cím, telefon, email, vélemények, értékelés és a jogi adatok KAMU helykitöltők, amíg Fruzsi el nem küldi a valódiakat.",
     "estimate": {
       "currency": "HUF",
       "items": [
@@ -48,15 +48,16 @@
       ],
       "total": 269000,
       "monthly": 15000
-    }
+    },
+    "url": "https://dilaweb-tech.github.io/fruzsinails/"
   },
   "content": {
-    "company": "*Bianka* Nail Atelier",
-    "tagline": "Kézzel épített körmök, amiken négy hét múlva sincs mit szégyellni. Steril eszközök, HEMA-mentes anyagok, és egy időpont, ami tényleg akkor kezdődik, amikor a naptárban áll.",
-    "about": "Tizenhat éve dolgozom körmökkel, hét éve a saját műtermemben, két székkel. Nem futószalag: egy vendégre másfél és két és fél óra között jut idő, mert egy jól felépített köröm nem lesz gyorsabb attól, hogy sietünk.\n\nMinden fém eszköz autoklávban sterilizálva, vendégenként bontott csomagban – ez nálunk nem extra, hanem az alap. HEMA-mentes, hipoallergén rendszerrel dolgozunk, mert a vendégeink harmada érzékeny bőrű, és az anyag az egyetlen, amin nem lehet spórolni. Ha bizonytalan vagy, hozz képeket: az első tíz perc mindig arról szól, mit bír el a saját körmöd.",
-    "address": "1051 Budapest, Sas utca 11.",
-    "phone": "+36 30 585 2140",
-    "email": "foglalas@biankanails.hu",
+    "company": "Fruzsi*nails*",
+    "tagline": "Körmök, amik négy hét múlva is úgy néznek ki, mint az első napon. Saját stúdió Gyulán, nyugodt tempó, és egy időpont, ami akkor kezdődik, amikor a naptárban áll.",
+    "about": "Fruzsi vagyok, és Gyulán, a saját kis stúdiómban dolgozom. Egyszerre egy vendéggel foglalkozom, ezért nálam nincs futószalag és nincs kapkodás: egy építésre két-két és fél óra jut, mert egy jól felépített köröm nem lesz gyorsabb attól, hogy sietünk.\n\nMinden fém eszközt vendégenként sterilizálok, a reszelő egyszer használatos. Ha bizonytalan vagy, hozz képeket: az első percek mindig arról szólnak, mit bír el a saját körmöd, és mi áll jól a kezednek.",
+    "address": "5700 Gyula, Városház utca 1.",
+    "phone": "+36 30 123 4567",
+    "email": "hello@fruzsinails.hu",
     "logo": "",
     "images": [
       {
@@ -86,19 +87,19 @@
     "services": [
       {
         "name": "Géllakk",
-        "text": "Vestibulum id ligula porta felis euismod semper. Donec sed odio dui, nulla vitae elit libero."
+        "text": "Saját körömre, egy színnel vagy finom díszítéssel. Három hétig fényes marad, és nem pattogzik le a szélén."
       },
       {
         "name": "Műköröm építés",
-        "text": "Maecenas faucibus mollis interdum. Nullam quis risus eget urna mollis ornare vel eu leo."
+        "text": "Zselés építés natúr, babyboomer vagy ombre stílusban. A formát és a hosszt a saját körmödhöz és a mindennapjaidhoz igazítjuk."
       },
       {
         "name": "Töltés",
-        "text": "Cras justo odio, dapibus ac facilisis in, egestas eget quam. Integer posuere erat a ante."
+        "text": "Három-négy hetente frissítjük a lenőtt részt. A forma megmarad, a köröm erős és egyenletes lesz újra."
       },
       {
         "name": "Japán manikűr",
-        "text": "Donec ullamcorper nulla non metus auctor fringilla. Aenean lacinia bibendum nulla sed."
+        "text": "Lakk nélküli ápolás: a saját körmöd kap fényt és erőt. Jó választás két építés között, vagy ha natúr kezet szeretnél."
       }
     ],
     "lists": {
@@ -154,48 +155,17 @@
       ],
       "videos": [],
       "team": [],
-      "faq": [
-        {
-          "name": "Mennyire steril a műterem?",
-          "text": "Minden fém eszköz autoklávban sterilizálva, vendégenként bontott csomagban. A reszelő és a polírozó egyszer használatos – nem fejet cserélünk két vendég között, hanem eszközt.",
-          "tag": "",
-          "image": ""
-        },
-        {
-          "name": "Milyen anyagokkal dolgoztok?",
-          "text": "HEMA-mentes, hipoallergén építőgéllel és géllakkal. Ha eddig bárhol viszketett vagy idő előtt leemelt a köröm, szólj az elején: jó eséllyel az anyag volt a baj, nem a te körmöd.",
-          "tag": "",
-          "image": ""
-        },
-        {
-          "name": "Meddig tart ki egy építés?",
-          "text": "Három-négy hét a töltésig, díszítéssel is. Ha két héten belül letörik egy köröm, díjmentesen pótolom – ez garancia, nem szívesség.",
-          "tag": "",
-          "image": ""
-        },
-        {
-          "name": "Mennyi időt kérjek rá?",
-          "text": "Töltés két óra, új építés két és fél. A foglalás pontosan ennyit zárol, így nem kell sietni, és nem csúszunk rá a következő vendégre.",
-          "tag": "",
-          "image": ""
-        },
-        {
-          "name": "Le tudom mondani az időpontot?",
-          "text": "Igen, 24 órával előtte díjmentesen, a visszaigazoló levélben lévő linkkel. Ezen belül a szolgáltatás felét számoljuk fel: egy két és fél órás helyet aznap már nem tudunk újratölteni.",
-          "tag": "",
-          "image": ""
-        }
-      ],
+      "faq": [],
       "rating": [
         {
-          "name": "4,9",
-          "text": "187 Google-értékelés",
+          "name": "5,0",
+          "text": "63 Google-értékelés",
           "tag": "",
           "image": ""
         },
         {
-          "name": "4,8",
-          "text": "64 vélemény a Facebookon",
+          "name": "4,9",
+          "text": "41 vélemény a Facebookon",
           "tag": "",
           "image": ""
         }
@@ -203,20 +173,20 @@
       "stats": [],
       "reviews": [
         {
-          "name": "Szabó Villő",
-          "text": "Négy hét után is úgy néz ki, mint az első napon. Eddig egyetlen helyen sem sikerült ez.",
+          "name": "Kiss Anna",
+          "text": "Négy hét után is úgy néz ki, mint az első napon. Végre találtam valakit, akinél nem kell a töltésig számolni a napokat.",
           "tag": "",
           "image": ""
         },
         {
-          "name": "Molnár Emese",
-          "text": "Az első tíz percben elmondta, hogy a körmöm most vékonyabb a kelleténél, és ahhoz mérte a hosszt. Nem próbált többet eladni.",
+          "name": "Balogh Réka",
+          "text": "Megmondta, hogy most rövidebb hosszt bír el a körmöm, és igaza lett. Nem akart többet eladni, mint amire szükségem volt.",
           "tag": "",
           "image": ""
         },
         {
-          "name": "Deák Zsófia",
-          "text": "Pontosan a foglalt időben kezdtünk, és a műterem tényleg olyan tiszta, amilyennek a képeken látszik.",
+          "name": "Tóth Dóra",
+          "text": "Pontosan időben kezdtünk, a stúdió nyugodt és tiszta, a kávé is finom volt. Azóta csak Fruzsihoz járok.",
           "tag": "",
           "image": ""
         }
@@ -343,20 +313,7 @@
       "staff": [
         {
           "id": "wls8agx",
-          "name": "Kovács Bianka",
-          "photo": "",
-          "file": "",
-          "serviceIds": [
-            "sw2benw",
-            "su668vx",
-            "s1pip69",
-            "sgumn28",
-            "sd1i4im"
-          ]
-        },
-        {
-          "id": "wcyjtag",
-          "name": "Nagy Dóra",
+          "name": "Fruzsi",
           "photo": "",
           "file": "",
           "serviceIds": [
@@ -421,7 +378,33 @@
         "caption": "Elvékonyodott köröm újraépítése négy hét alatt",
         "image": ""
       }
-    ]
+    ],
+    "seoTitle": "Fruzsinails · Műköröm, géllakk és manikűr Gyulán",
+    "seoDescription": "Műköröm építés, töltés, géllakk és japán manikűr Gyulán, Fruzsi saját stúdiójában. Steril eszközök, nyugodt tempó, online időpontfoglalás.",
+    "texts": {
+      "pv.cta": "Időpontot foglalok",
+      "pv.servicesEyebrow": "Amit nálam kapsz",
+      "pv.servicesTitle": "Szolgáltatások",
+      "pv.servicesLead": "Négy dolog, amit a legtöbben kérnek. A teljes árlista lejjebb van.",
+      "pv.pricingEyebrow": "Árak",
+      "pv.pricingTitle": "Árlista",
+      "pv.bookingEyebrow": "Időpontfoglalás",
+      "pv.bookingTitle": "Foglalj időpontot",
+      "pv.galleryEyebrow": "Friss munkák",
+      "pv.galleryTitle": "Galéria",
+      "pv.aboutEyebrow": "Rólam",
+      "pv.aboutTitle": "Szia, Fruzsi vagyok",
+      "sec.about": "Rólam",
+      "pv.ratingEyebrow": "Amit a vendégek mondanak",
+      "pv.ratingTitle": "Értékelések",
+      "pv.reviewsEyebrow": "Vendégeim írták",
+      "pv.reviewsTitle": "Vélemények",
+      "pv.mapEyebrow": "Hol találsz",
+      "pv.mapTitle": "A stúdió Gyulán",
+      "pv.contactEyebrow": "Kapcsolat",
+      "pv.contactTitle": "Írj vagy hívj nyugodtan",
+      "pv.lblAddress": "A stúdió címe"
+    }
   },
   "design": {
     "font": "hanken",
@@ -534,7 +517,7 @@
     },
     {
       "id": "faq",
-      "on": true,
+      "on": false,
       "nav": true,
       "plate": false,
       "sub": []
@@ -609,13 +592,13 @@
   },
   "legal": {
     "_name": "A szolgáltató teljes, hivatalos neve – egyéni vállalkozónál a személynév, cégnél a cégforma is.",
-    "name": "",
-    "seat": "",
+    "name": "[Fruzsi hivatalos neve] e.v.",
+    "seat": "5700 Gyula, [székhely]",
     "_regNumber": "Cégjegyzékszám, egyéni vállalkozónál a nyilvántartási szám.",
-    "regNumber": "",
-    "taxNumber": "",
+    "regNumber": "[nyilvántartási szám]",
+    "taxNumber": "[adószám]",
     "_representative": "A képviseletre jogosult neve. Egyéni vállalkozónál ugyanaz, mint a név.",
-    "representative": "",
+    "representative": "[Fruzsi hivatalos neve]",
     "_contact": "Ha üresen hagyod, a content.email és content.phone értéke kerül be.",
     "email": "",
     "phone": "",
