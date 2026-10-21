@@ -9,6 +9,10 @@ site.json.bak
 
 # Belso munkajegyzet: a repo masolata lesz az ugyfel docrootja, ez nem valo bele.
 todo.md
+.claude/
 
 # Fruzsi nyers fotói (HEIC, GPS-adattal) – a webes változat az images/-ben
 korom_kepek/
+
+# Belső design-audit (design-is), nem publikus
+DESIGN-IS-*/

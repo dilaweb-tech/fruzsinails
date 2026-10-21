@@ -1,0 +1,672 @@
+{
+  "meta": {
+    "app": "DilaWEB Sablontervező",
+    "version": 3,
+    "lang": "hu",
+    "trade": "nails",
+    "exportedAt": "2026-10-15T11:33:18.446Z",
+    "note": "Fruzsi (Fruzsinails) – saját körmös stúdió Gyulán. A cím, telefon, email, vélemények, értékelés és a jogi adatok KAMU helykitöltők, amíg Fruzsi el nem küldi a valódiakat.",
+    "estimate": {
+      "currency": "HUF",
+      "items": [
+        {
+          "label": "Alapcsomag – arculat, hero, szolgáltatások, bemutatkozó, kapcsolat, élesítés",
+          "price": 100000
+        },
+        {
+          "label": "Térkép",
+          "price": 9000
+        },
+        {
+          "label": "Árjegyzék szekció",
+          "price": 15000
+        },
+        {
+          "label": "Galéria",
+          "price": 15000
+        },
+        {
+          "label": "Gyakori kérdések",
+          "price": 12000
+        },
+        {
+          "label": "Értékelés",
+          "price": 9000
+        },
+        {
+          "label": "Vélemények",
+          "price": 12000
+        },
+        {
+          "label": "Időpontfoglalás",
+          "price": 89000
+        },
+        {
+          "label": "További munkatárs a foglalásban × 1",
+          "price": 8000
+        }
+      ],
+      "total": 269000,
+      "monthly": 15000
+    },
+    "url": "https://dilaweb-tech.github.io/fruzsinails/"
+  },
+  "content": {
+    "company": "Fruzsi*nails*",
+    "tagline": "Körmök, amik négy hét múlva is úgy néznek ki, mint az első napon. Saját stúdió Gyulán, nyugodt tempó, és egy időpont, ami akkor kezdődik, amikor a naptárban áll.",
+    "about": "Gyulán, a saját kis stúdiómban dolgozom, egyszerre mindig csak egy vendéggel. Ezért nálam nincs futószalag és nincs kapkodás: egy építésre két-két és fél óra jut, mert egy jól felépített köröm nem lesz gyorsabb attól, hogy sietünk.\n\nMinden fém eszközt vendégenként sterilizálok, a reszelő egyszer használatos. Ha bizonytalan vagy, hozz képeket: az első percek mindig arról szólnak, mit bír el a saját körmöd, és mi áll jól a kezednek.",
+    "address": "5700 Gyula, Városház utca 1.",
+    "phone": "+36 30 123 4567",
+    "email": "hello@fruzsinails.hu",
+    "logo": "",
+    "images": [
+      {
+        "spot": "Megosztási kép (OG)",
+        "src": "../images/og-rozsaszin-kez.jpg",
+        "focus": "center",
+        "media": "",
+        "hero": false,
+        "alt": "Fukszia géllakkos körmök Fruzsi stúdiójában"
+      },
+      {
+        "spot": "Rólam",
+        "src": "../images/studio-munka.jpg",
+        "focus": "center",
+        "media": "",
+        "hero": false,
+        "alt": "Fruzsi munkaasztala: kézpárna és UV-lámpa a stúdióban"
+      },
+      {
+        "spot": "Hero",
+        "src": "../images/hero-pink-kezek.jpg",
+        "focus": "center",
+        "media": "",
+        "hero": true,
+        "alt": "Fukszia géllakkos, szögletes körmök"
+      }
+    ],
+    "imgPick": {
+      "about": 1
+    },
+    "uploadedFiles": [],
+    "services": [
+      {
+        "name": "Géllakk",
+        "text": "Saját körömre, egy színnel vagy finom díszítéssel. Három hétig fényes marad, és nem pattogzik le a szélén.",
+        "image": "../images/gellakk.jpg",
+        "alt": "Rózsaszín és tejfehér géllakk, elegáns kézen"
+      },
+      {
+        "name": "Műköröm építés",
+        "text": "Zselés építés natúr, babyboomer vagy ombre stílusban. A formát és a hosszt a saját körmödhöz és a mindennapjaidhoz igazítjuk.",
+        "image": "../images/mukorom-epites.jpg",
+        "alt": "Metálos, kövekkel díszített hosszú műköröm"
+      },
+      {
+        "name": "Töltés",
+        "text": "Három-négy hetente frissítjük a lenőtt részt. A forma megmarad, a köröm erős és egyenletes lesz újra.",
+        "image": "../images/toltes.jpg",
+        "alt": "Rózsaszín ombre műköröm fehér textilen"
+      },
+      {
+        "name": "Japán manikűr",
+        "text": "Lakk nélküli ápolás: a saját körmöd kap fényt és erőt. Jó választás két építés között, vagy ha natúr kezet szeretnél.",
+        "image": "../images/japan-manikur.jpg",
+        "alt": "Natúr, fényes rózsaszín körmök puha szőrmén"
+      }
+    ],
+    "lists": {
+      "gallery": [
+        {
+          "name": "Neon fukszia, szögletes",
+          "text": "Géllakk",
+          "image": "../images/hero-pink-kezek.jpg",
+          "color": "#f5428f"
+        },
+        {
+          "name": "Rózsaszín króm, 3D virággal",
+          "text": "Műköröm építés",
+          "image": "../images/galeria-rozsa-krom.jpg"
+        },
+        {
+          "name": "Francia, kövekkel díszítve",
+          "text": "Töltés",
+          "image": "../images/galeria-francia-kovek.jpg"
+        },
+        {
+          "name": "Piros stiletto",
+          "text": "Műköröm építés",
+          "image": "../images/galeria-piros-stiletto.jpg"
+        },
+        {
+          "name": "Babarózsaszín, pöttyös díszítés",
+          "text": "Géllakk",
+          "image": "../images/galeria-pottyos.jpg",
+          "color": "#f2c3d3"
+        },
+        {
+          "name": "Kék króm francia",
+          "text": "Műköröm építés",
+          "image": "../images/galeria-kek-krom.jpg"
+        },
+        {
+          "name": "Stiletto, kézzel festett virág",
+          "text": "Műköröm építés",
+          "image": "../images/galeria-festett-virag.jpg",
+          "color": "#e8c3b6"
+        },
+        {
+          "name": "Bordó krokomintás",
+          "text": "Műköröm építés",
+          "image": "../images/galeria-bordo-kroko.jpg"
+        },
+        {
+          "name": "Arany csillámos ombré",
+          "text": "Töltés",
+          "image": "../images/galeria-arany-ombre.jpg"
+        },
+        {
+          "name": "Óceánkék, díszített mandula",
+          "text": "Műköröm építés",
+          "image": "../images/galeria-oceankek.jpg"
+        },
+        {
+          "name": "Bordó mandula",
+          "text": "Géllakk",
+          "image": "../images/galeria-bordo-mandula.jpg"
+        },
+        {
+          "name": "Rózsa ombré, festett díszítés",
+          "text": "Töltés",
+          "image": "../images/galeria-rozsa-ombre.jpg"
+        },
+        {
+          "name": "Meggypiros, vékony francia csíkkal",
+          "text": "Géllakk",
+          "image": "../images/galeria-meggypiros.jpg"
+        },
+        {
+          "name": "Sötétlila stiletto",
+          "text": "Műköröm építés",
+          "image": "../images/galeria-lila-stiletto.jpg",
+          "color": "#3d1e4f"
+        },
+        {
+          "name": "Neon pink francia",
+          "text": "Töltés",
+          "image": "../images/galeria-neon-francia.jpg"
+        },
+        {
+          "name": "Narancs, festett virággal",
+          "text": "Géllakk",
+          "image": "../images/galeria-narancs-virag.jpg"
+        },
+        {
+          "name": "Narancs stiletto, kövekkel",
+          "text": "Műköröm építés",
+          "image": "../images/galeria-narancs-kovek.jpg"
+        }
+      ],
+      "videos": [],
+      "team": [],
+      "faq": [],
+      "rating": [
+        {
+          "name": "5,0",
+          "text": "63 Google-értékelés",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "4,9",
+          "text": "41 vélemény a Facebookon",
+          "tag": "",
+          "image": ""
+        }
+      ],
+      "stats": [],
+      "reviews": [
+        {
+          "name": "Kiss Anna",
+          "text": "Négy hét után is úgy néz ki, mint az első napon. Végre találtam valakit, akinél nem kell a töltésig számolni a napokat.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Balogh Réka",
+          "text": "Megmondta, hogy most rövidebb hosszt bír el a körmöm, és igaza lett. Nem akart többet eladni, mint amire szükségem volt.",
+          "tag": "",
+          "image": ""
+        },
+        {
+          "name": "Tóth Dóra",
+          "text": "Pontosan időben kezdtünk, a stúdió nyugodt és tiszta, a kávé is finom volt. Azóta csak Fruzsihoz járok.",
+          "tag": "",
+          "image": ""
+        }
+      ],
+      "process": [],
+      "logos": [],
+      "quote": []
+    },
+    "videoSource": "own",
+    "pricing": {
+      "enabled": true,
+      "cards": false,
+      "items": [
+        {
+          "name": "Japán manikűr",
+          "price": "11 000 Ft",
+          "tag": "Manikűr",
+          "time": "60 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Géllakk, egyszínű",
+          "price": "12 500 Ft",
+          "tag": "Manikűr",
+          "time": "75 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Géllakk-eltávolítás és körömerősítés",
+          "price": "6 000 Ft",
+          "tag": "Manikűr",
+          "time": "45 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Műköröm építés, natúr",
+          "price": "19 500 Ft",
+          "tag": "Műköröm",
+          "time": "150 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Töltés",
+          "price": "15 000 Ft",
+          "tag": "Műköröm",
+          "time": "120 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Babyboomer vagy ombre építés",
+          "price": "23 000 Ft",
+          "tag": "Műköröm",
+          "time": "165 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Spa-pedikűr géllakkal",
+          "price": "17 000 Ft",
+          "tag": "Pedikűr",
+          "time": "90 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Kézzel festett díszítés, körmönként",
+          "price": "1 200 Ft-tól",
+          "tag": "Díszítés",
+          "time": "10 perc",
+          "image": "",
+          "file": ""
+        },
+        {
+          "name": "Kőberakás vagy francia csillám",
+          "price": "3 500 Ft-tól",
+          "tag": "Díszítés",
+          "time": "20 perc",
+          "image": "",
+          "file": ""
+        }
+      ]
+    },
+    "hoursShow": true,
+    "cta2": "services",
+    "booking": {
+      "enabled": true,
+      "services": [
+        {
+          "id": "sw2benw",
+          "name": "Géllakk",
+          "durationMin": 75,
+          "price": "12500"
+        },
+        {
+          "id": "su668vx",
+          "name": "Műköröm építés",
+          "durationMin": 150,
+          "price": "19500"
+        },
+        {
+          "id": "s1pip69",
+          "name": "Töltés",
+          "durationMin": 120,
+          "price": "15000"
+        },
+        {
+          "id": "sgumn28",
+          "name": "Japán manikűr",
+          "durationMin": 60,
+          "price": "11000"
+        },
+        {
+          "id": "sd1i4im",
+          "name": "Spa-pedikűr",
+          "durationMin": 90,
+          "price": "17000"
+        }
+      ],
+      "staff": [
+        {
+          "id": "wls8agx",
+          "name": "Fruzsi",
+          "photo": "",
+          "file": "",
+          "serviceIds": [
+            "sw2benw",
+            "su668vx",
+            "s1pip69",
+            "sgumn28",
+            "sd1i4im"
+          ]
+        }
+      ],
+      "hours": {
+        "mon": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "tue": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "wed": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "thu": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "fri": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": false
+        },
+        "sat": {
+          "open": "09:00",
+          "close": "15:00",
+          "closed": false
+        },
+        "sun": {
+          "open": "09:00",
+          "close": "17:00",
+          "closed": true
+        }
+      },
+      "slot": 30,
+      "currency": "HUF"
+    },
+    "references": [
+      {
+        "caption": "Babyboomer építés esküvőre, mandula forma",
+        "image": ""
+      },
+      {
+        "caption": "Kézzel festett virágdíszítés",
+        "image": ""
+      },
+      {
+        "caption": "Elvékonyodott köröm újraépítése négy hét alatt",
+        "image": ""
+      }
+    ],
+    "seoTitle": "Fruzsinails · Műköröm, géllakk és manikűr Gyulán",
+    "seoDescription": "Műköröm építés, töltés, géllakk és japán manikűr Gyulán, Fruzsi saját stúdiójában. Steril eszközök, nyugodt tempó, online időpontfoglalás.",
+    "texts": {
+      "pv.cta": "Időpontot foglalok",
+      "pv.servicesEyebrow": "Amit nálam kapsz",
+      "pv.servicesTitle": "Szolgáltatások",
+      "pv.servicesLead": "Négy dolog, amit a legtöbben kérnek. A teljes árlista lejjebb van.",
+      "pv.pricingEyebrow": "Árak",
+      "pv.pricingTitle": "Árlista",
+      "pv.bookingEyebrow": "Időpontfoglalás",
+      "pv.bookingTitle": "Foglalj időpontot",
+      "pv.galleryEyebrow": "Friss munkák",
+      "pv.galleryTitle": "Galéria",
+      "pv.aboutEyebrow": "Rólam",
+      "pv.aboutTitle": "Szia, Fruzsi vagyok",
+      "sec.about": "Rólam",
+      "pv.ratingEyebrow": "Amit a vendégek mondanak",
+      "pv.ratingTitle": "Értékelések",
+      "pv.reviewsEyebrow": "Vendégeim írták",
+      "pv.reviewsTitle": "Vélemények",
+      "pv.mapEyebrow": "Hol találsz",
+      "pv.mapTitle": "A stúdió Gyulán",
+      "pv.contactEyebrow": "Kapcsolat",
+      "pv.contactTitle": "Írj vagy hívj nyugodtan",
+      "pv.lblAddress": "A stúdió címe"
+    }
+  },
+  "design": {
+    "font": "hanken",
+    "fontHead": "hanken",
+    "align": "left",
+    "radius": 16,
+    "layout": "split",
+    "hero": "right",
+    "secHead": "stack",
+    "edge": "none",
+    "flow": "stack",
+    "cols": 2,
+    "width": 58,
+    "spacing": 118,
+    "imgRatio": 150,
+    "typeset": "airy",
+    "surface": "flat",
+    "texture": "none",
+    "bgDepth": "scroll",
+    "bgArt": "none",
+    "bgMotion": "still",
+    "bgSpot": "corner",
+    "reveal": "fade",
+    "band": "none",
+    "divider": "none",
+    "accent": "none",
+    "sig": "none",
+    "media": "plain",
+    "btn": "pill",
+    "hover": "none",
+    "grade": "none",
+    "tempo": "swing",
+    "scale": "even",
+    "navBg": "clear",
+    "navShape": "float",
+    "navAlign": "center",
+    "navLink": "plain",
+    "navPos": "sticky",
+    "navProgress": "none",
+    "navCall": "none",
+    "navTop": "info",
+    "seed": 42,
+    "fontScale": "md",
+    "fontScaleBy": {
+      "nav": "lg",
+      "hero": "md",
+      "rating": "md",
+      "services": "lg",
+      "pricing": "md",
+      "gallery": "md"
+    },
+    "mode": "light",
+    "colors": {
+      "light": {
+        "bg": "#FFF4F6",
+        "text": "#3A0A1C",
+        "primary": "#D1006B",
+        "secondary": "#F4DCD6"
+      },
+      "dark": {
+        "bg": "#2A0714",
+        "text": "#F6E4E8",
+        "primary": "#FF4FA3",
+        "secondary": "#5A1A33"
+      }
+    }
+  },
+  "sections": [
+    {
+      "id": "hero",
+      "on": true,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "rating",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "services",
+      "on": true,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "gallery",
+      "on": true,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "about",
+      "on": true,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "reviews",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "faq",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "contact",
+      "on": true,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "map",
+      "on": true,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "stats",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "references",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "quote",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "process",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "videos",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "team",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    },
+    {
+      "id": "logos",
+      "on": false,
+      "nav": true,
+      "plate": false,
+      "sub": []
+    }
+  ],
+  "moduleAfter": {
+    "pricing": "services",
+    "booking": "reviews"
+  },
+  "legal": {
+    "_name": "A szolgáltató teljes, hivatalos neve – egyéni vállalkozónál a személynév, cégnél a cégforma is.",
+    "name": "[Fruzsi hivatalos neve] e.v.",
+    "seat": "5700 Gyula, [székhely]",
+    "_regNumber": "Cégjegyzékszám, egyéni vállalkozónál a nyilvántartási szám.",
+    "regNumber": "[nyilvántartási szám]",
+    "taxNumber": "[adószám]",
+    "_representative": "A képviseletre jogosult neve. Egyéni vállalkozónál ugyanaz, mint a név.",
+    "representative": "[Fruzsi hivatalos neve]",
+    "_contact": "Ha üresen hagyod, a content.email és content.phone értéke kerül be.",
+    "email": "",
+    "phone": "",
+    "_supervisor": "Ha a szakma engedélyköteles vagy kamarai: a felügyeleti szerv, illetve a kamara neve. Üresen a blokk nem jelenik meg.",
+    "supervisor": "",
+    "_hosting": "A tárhelyszolgáltató – ez a DilaWEB, ha a karbantartási csomag részeként mi üzemeltetjük.",
+    "hosting": {
+      "name": "Látkóczki Dániel e.v. és Dinya Kristóf e.v. (DilaWEB)",
+      "seat": "",
+      "email": "info@dilaweb.hu"
+    },
+    "_retentionMonths": "A foglalási adatok megőrzési ideje hónapban. Az adatkezelési tájékoztatóban ez jelenik meg.",
+    "retentionMonths": 12,
+    "_updated": "A tájékoztató hatálybalépésének dátuma (ÉÉÉÉ-HH-NN).",
+    "updated": "2026-08-26"
+  }
+}

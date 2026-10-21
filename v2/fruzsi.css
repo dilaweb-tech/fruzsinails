@@ -1,0 +1,747 @@
+/* ==========================================================================
+   Fruzsinails v2 – „Lookbook” réteg a termék (pv.css) fölött
+   A gyökér (v1) érintetlen; ez a mappa csak a saját HTML-t, site.json-t és
+   ezt a két réteget tartja, a pv.css / site.js / booking.* a gyökérből jön.
+
+   Irány: Fruzsi munkái divatlap-lookbookként. Tej alap, meggy tinta, a
+   fukszia CSAK akció. Kijelző: Bodoni Moda, szöveg: Hanken Grotesk.
+   Kézjegy: színkártya a heróban (fruzsi.js → .fz-look) – egyetlen mozgó elem.
+   Minden más csendes: nincs üveg, ragyogás, csillám, árnyék-glória.
+   ========================================================================== */
+.pv {
+  /* a site.js inline teszi ki a címbetűt (fontHead: hanken) – a Bodoni itt nyer */
+  --pv-font-head: "Bodoni Moda", "Didot", Georgia, serif !important;
+  --fz-milk: #fffafb;                  /* kártya, lap */
+  --fz-nude: #f4dcd6;                  /* az egyetlen színes sáv: árlista */
+  --fz-chrome: #c9ccd4;                /* keret, hajszálvonal a mintákon */
+  --fz-muted: #7a4855;                 /* másodlagos szöveg – tejen és nude-on is AA */
+  --fz-line: color-mix(in srgb, var(--pv-text) 13%, transparent);
+  --fz-ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  /* körömforma: mandula-csúcs felül, egyenes köröm-ágy alul */
+  --fz-nail: 50% 50% 1.25rem 1.25rem / 34% 34% 1.25rem 1.25rem;
+  --pv-muted: var(--fz-muted);
+}
+.pv[data-mode="dark"] {
+  --fz-milk: #3a0f22;
+  --fz-nude: #44142b;
+  --fz-chrome: #7d6f78;
+  --fz-muted: #c9a3ae;
+}
+
+/* lapos felületek: a termék háttér-foltjai (pv-fx, pv-bg) itt nem kellenek */
+.pv-fx, .pv-bg { display: none; }
+
+/* --- közös tipográfia ----------------------------------------------------- */
+.pv :is(h1, h2, h3) { font-weight: 400; letter-spacing: -0.01em; }
+.pv .pv-dot { display: none; }
+.pv .pv-eyebrow {
+  gap: 0.6rem;
+  font-family: var(--pv-font);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--fz-muted);
+}
+.pv .pv-eyebrow::before { content: none; }
+:is(.pv-head, .pv-about__copy) h2 {
+  font-size: clamp(2.3rem, 10vw, 4.4rem);
+  line-height: 1;
+}
+.pv-head .pv-muted { max-width: 34rem; color: var(--fz-muted); }
+.pv em, .pv .pv-emph { font-style: italic; color: var(--pv-primary); }
+
+/* gombok: tömör fukszia kapszula, a másodlagos szöveg-link aláhúzással */
+.pv .pv-btn { min-height: 3rem; border-radius: 999px; font-weight: 600; letter-spacing: 0.01em; }
+.pv .pv-btn--primary { background: var(--pv-primary); color: var(--pv-on-primary); border-color: var(--pv-primary); box-shadow: none; }
+.pv .pv-btn--ghost { background: none; border-color: transparent; color: var(--pv-text); text-decoration: underline; text-underline-offset: 0.3em; text-decoration-thickness: 1px; }
+.pv :is(.pv-btn, a, button):focus-visible { outline: 2px solid var(--pv-primary); outline-offset: 3px; }
+
+/* „Ezt kérem” – ugyanaz a szöveg-gomb minden helyen (szolgáltatás, lookbook, nagyítás) */
+.fz-want {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  min-height: 2.75rem;
+  color: var(--pv-primary);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+.fz-want span { transition: translate 0.3s var(--fz-ease); }
+
+/* ==========================================================================
+   1. FEJLÉC – lapos sáv, görgetve tejfehér háttér + hajszálvonal
+   ========================================================================== */
+.pv-header { padding-block: 0.4rem; }
+.pv-header__inner { gap: 0.5rem; padding: 0.35rem 0.4rem 0.35rem 0.9rem; border-radius: 999px; transition: background 0.3s, box-shadow 0.3s; }
+.pv .pv-header.is-scrolled .pv-header__inner {
+  background: color-mix(in srgb, var(--fz-milk) 94%, transparent);
+  box-shadow: 0 0 0 1px var(--fz-line);
+}
+.pv-brand img { display: none; }
+#pv-company-sm {
+  font-family: var(--pv-font-head);
+  font-size: clamp(1.15rem, 6vw, 1.45rem);
+  letter-spacing: -0.01em;
+  padding-right: 0.12em;                        /* a dőlt „s” túlnyúlása is a dobozban */
+}
+.pv .pv-header .pv-nav__cta {
+  padding: 0.6rem 0.9rem;
+  border: 0;
+  border-radius: 999px;
+  background: var(--pv-primary);
+  color: var(--pv-on-primary);
+  font-size: 0.78rem;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: none;
+}
+.pv .pv-header .pv-nav__cta::after { display: none; }
+/* telefonon a fejlécben csak a szóvédjegy és a menü: a foglalás a hero gombján és
+   az alsó ragadós sávon (pv-cta-bar) van, a hüvelykujj mellett */
+.pv .pv-header .pv-nav__cta { display: none; }
+@container (min-width: 30rem) {
+  .pv .pv-header .pv-nav__cta { display: inline-flex; font-size: 0.85rem; padding-inline: 1.15rem; }
+}
+
+/* menügomb: két vonal, nyitva X */
+.pv-burger {
+  position: relative;
+  width: 2.75rem;
+  height: 2.75rem;
+  border: 1px solid var(--fz-line);
+  border-radius: 50%;
+  background: none;
+  color: var(--pv-text);
+}
+.pv-burger svg { display: none; }
+.pv-burger::before,
+.pv-burger::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 1rem;
+  height: 1.5px;
+  margin: -0.75px 0 0 -0.5rem;
+  background: currentColor;
+  translate: 0 -3px;
+  transition: translate 0.3s var(--fz-ease), rotate 0.3s var(--fz-ease);
+}
+.pv-burger::after { translate: 0 3px; }
+.pv-burger[aria-expanded="true"]::before { translate: 0 0; rotate: 45deg; }
+.pv-burger[aria-expanded="true"]::after  { translate: 0 0; rotate: -45deg; }
+
+.pv .pv-header .pv-mode { border-radius: 50%; }
+#pv-mode-toggle { display: none; }
+@container (min-width: 30rem) { #pv-mode-toggle { display: grid; } }
+
+/* felső infósáv: apró, csendes */
+.pv-topbar { font-size: 0.76rem; color: var(--fz-muted); background: none; border: 0; }
+
+/* --------------------------------------------------------------------------
+   MENÜ – teljes képernyős lap, nagy Bodoni pontok
+   -------------------------------------------------------------------------- */
+.pv-nav.is-open {
+  position: fixed;
+  inset: 0;
+  max-height: none;
+  z-index: -2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  align-content: center;
+  gap: 0;
+  padding: 6.5rem clamp(1.4rem, 6cqi, 5rem) 2rem;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: var(--pv-bg);
+  overflow-y: auto;
+}
+.pv-nav.is-open .pv-nav__item { grid-column: 1; border: 0; }
+.pv-nav.is-open .pv-nav__top {
+  display: inline-block;
+  padding: 0.15rem 0;
+  border: 0;
+  box-shadow: none;
+  background: none;
+  font-family: var(--pv-font-head);
+  font-size: clamp(2rem, 9.5cqi, 4.2rem);
+  line-height: 1.1;
+  color: var(--pv-text);
+  text-decoration: none;
+}
+.pv-nav.is-open .pv-nav__top::after { display: none; }
+.pv-nav.is-open .pv-nav__top:is(:hover, :focus-visible, [aria-current]) { font-style: italic; color: var(--pv-primary); }
+
+/* az oldalsáv (fruzsi.js építi): fotó + elérhetőség + foglalás */
+.fz-menu-aside { display: none; }
+.pv-nav.is-open .fz-menu-aside {
+  display: grid;
+  gap: 1rem;
+  grid-column: 1;
+  margin-top: 1.6rem;
+  padding-top: 1.4rem;
+  border-top: 1px solid var(--fz-line);
+}
+.fz-menu-img { display: none; margin: 0; }
+.fz-menu-info { display: grid; gap: 0.35rem; font-size: 0.92rem; color: var(--fz-muted); }
+.fz-menu-info strong { color: var(--pv-text); font-weight: 600; }
+.fz-menu-info a[href^="tel:"] { color: var(--pv-text); font-weight: 700; }
+.fz-menu-book {
+  justify-self: start;
+  padding: 0.85rem 1.4rem;
+  border-radius: 999px;
+  background: var(--pv-primary);
+  color: var(--pv-on-primary);
+  font-weight: 700;
+}
+@container (min-width: 56rem) {
+  .pv-nav.is-open { grid-template-columns: minmax(0, 1.25fr) minmax(0, 0.75fr); column-gap: clamp(2rem, 6cqi, 6rem); }
+  .pv-nav.is-open .fz-menu-aside { grid-column: 2; grid-row: 1 / span 20; align-self: center; margin: 0; padding: 0; border: 0; }
+  .fz-menu-img { display: block; aspect-ratio: 4 / 5; max-height: 52vh; overflow: hidden; border-radius: var(--fz-nail); }
+  .fz-menu-img img { width: 100%; height: 100%; object-fit: cover; transition: opacity 0.35s ease; }
+  .fz-menu-img.is-swap img { opacity: 0; }
+}
+html.fz-menu { overflow: hidden; }
+
+/* ==========================================================================
+   2. HERO – név, színkártya, a kiválasztott minta receptje
+   Telefonon a sorrend: hely → név → minta → bevezető → gombok (a .pv-hero__copy
+   display:contents, így a gyerekei és a kép egy rácsban rendeződnek).
+   ========================================================================== */
+/* az átlátszó fejléc a hero fölé lóg (--pv-nav-h) – ennyi kell fölé, nem több */
+.pv-main > #sec-hero { overflow-x: clip; background: none; padding-top: calc(var(--pv-nav-h) + clamp(0.6rem, 3cqi, 2.5rem)); }
+#sec-hero .pv-hero__inner { grid-template-columns: minmax(0, 1fr); gap: 1.1rem; }
+#sec-hero .pv-hero__copy { display: contents; }
+#sec-hero .pv-eyebrow { order: 1; flex-wrap: wrap; }
+#sec-hero h1 { order: 2; }
+#sec-hero .pv-hero__media { order: 3; }
+#sec-hero .pv-lead { order: 4; }
+#sec-hero .pv-actions { order: 5; justify-content: flex-start; }
+#pv-status { display: none; }
+@container (min-width: 30rem) { #pv-status { display: revert; } }
+
+#sec-hero h1 {
+  margin: 0.2rem 0 0.4rem;
+  font-size: clamp(4rem, 23vw, 9.5rem);
+  line-height: 0.86;
+  letter-spacing: -0.03em;
+  text-wrap: nowrap;
+}
+/* a „nails” a második sorba, dőlten, beljebb – mint egy divatlap címlapján */
+#sec-hero h1 em { display: block; padding-left: 0.42em; }
+#sec-hero .pv-lead { max-width: 30rem; color: var(--pv-text); font-size: 1.02rem; }
+
+/* termék-csúszka helyén a színkártya – JS nélkül a termék képe marad */
+#sec-hero .pv-hero__media.fz-on {
+  aspect-ratio: auto;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background: none;
+}
+#sec-hero .pv-hero__media.fz-on > :not(.fz-look) { display: none; }
+
+.fz-look { display: grid; gap: 0.9rem; }
+/* telefonon négyzet: a színkártya így még az első képernyőn látszik */
+.fz-look__frame {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border-radius: var(--fz-nail);
+  background: var(--fz-nude);
+}
+.fz-look__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.fz-look__frame img.is-on { opacity: 1; }
+.fz-look__cap { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: end; gap: 0.1rem 1rem; }
+.fz-look__name { margin: 0; font-family: var(--pv-font-head); font-style: italic; font-size: 1.4rem; line-height: 1.15; }
+.fz-look__spec { grid-column: 1; margin: 0; font-size: 0.82rem; color: var(--fz-muted); font-variant-numeric: tabular-nums; }
+.fz-look__cap .fz-want { grid-column: 2; grid-row: 1 / span 2; }
+
+/* a színkártya: körömtip-minták sora, minden tip egy munka színe (fotóból mintázva) */
+.fz-rail__hint { margin: 0 0 -0.6rem; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--fz-muted); }
+.fz-rail {
+  display: flex;
+  gap: 0.15rem;
+  margin: 0 -0.3rem;
+  padding: 0.5rem 0.3rem 0.2rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.fz-rail::-webkit-scrollbar { display: none; }
+.fz-tip {
+  flex: none;
+  display: grid;
+  place-items: end center;
+  width: 2.75rem;
+  height: 3.6rem;
+  padding: 0 0 0.25rem;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.fz-tip::before {
+  content: "";
+  width: 1.75rem;
+  height: 2.7rem;
+  border-radius: var(--fz-nail);
+  background: var(--c, var(--fz-nude));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35), 0 0 0 1px var(--fz-chrome);
+  transition: translate 0.35s var(--fz-ease), box-shadow 0.25s;
+}
+.fz-tip[aria-pressed="true"]::before { translate: 0 -0.35rem; box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.35), 0 0 0 2px var(--pv-bg), 0 0 0 3.5px var(--pv-text); }
+.fz-tip:focus-visible { outline: 0; }
+.fz-tip:focus-visible::before { box-shadow: 0 0 0 2px var(--pv-bg), 0 0 0 4px var(--pv-primary); }
+.fz-rail__more {
+  flex: none;
+  align-self: center;
+  min-height: 2.75rem;
+  display: inline-flex;
+  align-items: center;
+  padding-inline: 0.7rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--fz-muted);
+  white-space: nowrap;
+  text-decoration: underline;
+  text-underline-offset: 0.3em;
+}
+
+/* ==========================================================================
+   3. SZOLGÁLTATÁSOK – lookbook-oldalak: kép, nagy név, recept, „Ezt kérem”
+   ========================================================================== */
+.pv-ribbon { display: none; }
+#sec-services .pv-items { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.6rem; }
+#sec-services .pv-item {
+  display: grid;
+  gap: 1rem;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  text-align: left;
+}
+#sec-services .pv-item__media { aspect-ratio: 4 / 3; overflow: hidden; border-radius: 1.25rem; }
+#sec-services .pv-item__media img { width: 100%; height: 100%; object-fit: cover; }
+img[src$="gellakk.jpg"] { object-position: 50% 22%; }
+#sec-services .pv-item__body { display: grid; gap: 0.6rem; padding: 0; }
+#sec-services .pv-item__body h3 { font-size: clamp(2rem, 9vw, 3rem); line-height: 1; }
+#sec-services .pv-item__body p { margin: 0; color: var(--fz-muted); }
+/* időtartam és ár: egy sor, középpont-elválasztóval – nem kapszula-halom */
+.fz-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.2rem 0; padding-top: 0.7rem; border-top: 1px solid var(--fz-line); }
+.fz-tag { font-size: 0.86rem; font-weight: 600; color: var(--pv-text); font-variant-numeric: tabular-nums; }
+.fz-tag + .fz-tag::before { content: "·"; margin-inline: 0.55rem; color: var(--fz-muted); }
+#sec-services .fz-want { justify-self: start; }
+
+/* ==========================================================================
+   4. ÁRLISTA – az oldal egyetlen színes sávja: nude menükártya
+   ========================================================================== */
+#sec-pricing { background: var(--fz-nude); }
+#sec-pricing .pv-chips { display: none; }          /* tíz tételnél a szűrő csak zaj */
+#sec-pricing .pv-prices {
+  max-width: 50rem;
+  margin: 1.6rem 0 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  text-align: left;
+}
+#sec-pricing .pv-prices li {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+  padding: 0.7rem 0;
+  border: 0;
+  background: none;
+  break-inside: avoid;
+}
+#sec-pricing .pv-prices li::after {                  /* pontozott vezetővonal */
+  content: "";
+  order: 1;
+  flex: 1 1 1.5rem;
+  min-width: 1.5rem;
+  border-bottom: 1px dotted color-mix(in srgb, var(--pv-text) 40%, transparent);
+  translate: 0 -0.3em;
+}
+#sec-pricing .pv-price__name { order: 0; display: flex; flex-direction: column; gap: 0.1rem; font-weight: 600; }
+#sec-pricing .pv-price__name small { font-size: 0.78rem; font-weight: 500; color: var(--fz-muted); }
+#sec-pricing .pv-prices li > b { order: 2; font-weight: 700; white-space: nowrap; font-variant-numeric: tabular-nums; }
+#sec-pricing .pv-prices > li.fz-cat-group { display: block; padding: 1.4rem 0 0; }
+#sec-pricing .pv-prices > li.fz-cat-group::after { display: none; }
+#sec-pricing .pv-prices > li.fz-cat-group:first-child { padding-top: 0; }
+#sec-pricing .fz-cat-group h3 {
+  margin: 0 0 0.2rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px solid var(--fz-line);
+  font-style: italic;
+  font-size: 1.7rem;
+  color: var(--pv-primary);
+}
+#sec-pricing .pv-prices__cta { text-align: left; }
+
+/* ==========================================================================
+   5. FOGLALÁS – a közös varázsló (booking.js/.css), itt csak a ruhája
+   A kiválasztott elem tömör fukszia. Az #id-s előtag kell: a booking.css
+   később töltődik be, ugyanazzal a súllyal.
+   ========================================================================== */
+#bk-root {
+  max-width: none;                     /* a balra zárt cím alatt teljes hasáb, nem középre úszó kártya */
+  gap: 1.3rem;
+  padding: clamp(1.2rem, 4vw, 2.4rem);
+  border: 1px solid var(--fz-line);
+  border-radius: 1.5rem;
+  background: var(--fz-milk);
+  box-shadow: none;
+}
+#bk-root .bk-h { font-family: var(--pv-font-head); font-style: italic; font-weight: 400; font-size: clamp(1.5rem, 1.2rem + 1vw, 1.9rem); color: var(--pv-text); }
+#bk-root .bk-h4 { font-family: var(--pv-font-head); font-size: 1.15rem; font-weight: 500; margin-top: 0.4rem; }
+#bk-root .bk-body { gap: 1.1rem; }
+
+#bk-root .bk-steps { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 0.5rem; }
+#bk-root .bk-steps__item { display: block; }
+#bk-root .bk-steps__item::after { content: none; }
+#bk-root .bk-steps__btn {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0 0 0.6rem;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--fz-muted);
+  font-size: clamp(0.66rem, 3.2vw, 0.76rem);
+  font-weight: 600;
+  line-height: 1.25;
+  text-align: left;
+}
+#bk-root .bk-steps__btn::after { content: ""; position: absolute; inset: auto 0 0; height: 2px; background: var(--fz-line); }
+#bk-root .bk-steps__item.is-done .bk-steps__btn { color: var(--pv-text); }
+#bk-root .bk-steps__item:is(.is-done, .is-now) .bk-steps__btn::after { background: var(--pv-primary); }
+#bk-root .bk-steps__item.is-now .bk-steps__btn { color: var(--pv-text); font-weight: 700; }
+
+#bk-root .bk-demo { padding: 0.6rem 0.95rem; border: 0; border-radius: 0.9rem; background: var(--fz-nude); color: var(--pv-text); font-size: 0.8rem; }
+
+/* 1. szolgáltatások: menüsorok – név, időtartam, ár, nyíl */
+#bk-root .bk-cards { grid-template-columns: 1fr; gap: 0; }
+#bk-root .bk-cards > li + li { border-top: 1px solid var(--fz-line); }
+#bk-root .bk-card {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-areas: "name price go" "meta price go";
+  align-items: center;
+  gap: 0.2rem 0.9rem;
+  min-height: 4rem;
+  padding: 0.85rem 0.4rem;
+  border: 0;
+  border-radius: 0.9rem;
+  background: none;
+}
+#bk-root .bk-card::after {
+  content: "→";
+  grid-area: go;
+  display: grid;
+  place-items: center;
+  width: 2.4rem;
+  height: 2.4rem;
+  border: 1px solid var(--fz-line);
+  border-radius: 50%;
+  color: var(--pv-text);
+}
+#bk-root .bk-card__name { grid-area: name; font-family: var(--pv-font-head); font-size: 1.2rem; font-weight: 500; }
+#bk-root .bk-card__meta { grid-area: meta; justify-self: start; padding: 0; background: none; color: var(--fz-muted); font-size: 0.8rem; font-weight: 500; }
+#bk-root .bk-card__price { grid-area: price; font-weight: 700; color: var(--pv-text); white-space: nowrap; font-variant-numeric: tabular-nums; }
+#bk-root .bk-card:hover, #bk-root .bk-card.is-on { background: var(--fz-nude); box-shadow: none; transform: none; }
+#bk-root .bk-card:hover::after, #bk-root .bk-card.is-on::after { border-color: var(--pv-primary); background: var(--pv-primary); color: var(--pv-on-primary); }
+#bk-root .bk-card:focus-visible { outline: 2px solid var(--pv-primary); outline-offset: 2px; }
+#bk-root .bk-card--person { display: flex; }
+#bk-root .bk-card--person::after { margin-left: auto; }
+
+/* 2. időpont: hét-léptető, napválasztó, az adott nap órái */
+#bk-root .bk-cal__bar { padding: 0; border: 0; font-family: var(--pv-font-head); font-size: 1.1rem; }
+#bk-root .bk-cal__bar b { font-weight: 500; }
+#bk-root .bk-nav { width: 2.75rem; height: 2.75rem; border: 1px solid var(--fz-line); background: none; color: var(--pv-text); font-size: 0.75rem; }
+#bk-root .bk-nav:hover:not(:disabled) { border-color: var(--pv-text); }
+#bk-root .bk-chips { display: flex; gap: 0.45rem; padding: 0.15rem 0.1rem 0.4rem; scrollbar-width: none; }
+#bk-root .bk-chips::-webkit-scrollbar { display: none; }
+#bk-root .bk-chip { min-height: 2.75rem; padding: 0.5rem 1rem; border: 1px solid var(--fz-line); background: none; font-size: 0.85rem; font-weight: 600; text-transform: capitalize; }
+#bk-root .bk-chip:hover:not(:disabled) { border-color: var(--pv-text); }
+#bk-root .bk-chip.is-on { border-color: var(--pv-primary); background: var(--pv-primary); color: var(--pv-on-primary); box-shadow: none; }
+#bk-root .bk-chip:disabled { opacity: 0.35; }
+#bk-root .bk-cal { grid-template-columns: 1fr; }
+#bk-root .bk-day:not([data-sel]) { display: none; }
+/* a nap neve a kiválasztott csipeszen már ott áll – csak a felolvasónak marad */
+#bk-root .bk-day__head { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+#bk-root .bk-day__slots { grid-template-columns: repeat(auto-fill, minmax(5.2rem, 1fr)); gap: 0.5rem; }
+#bk-root .bk-slot { min-height: 2.9rem; border: 1px solid var(--fz-line); border-radius: 999px; background: none; font-size: 0.9rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+#bk-root .bk-slot:hover:not(:disabled) { border-color: var(--pv-text); }
+#bk-root .bk-slot.is-on { border-color: var(--pv-primary); background: var(--pv-primary); color: var(--pv-on-primary); box-shadow: none; }
+#bk-root .bk-slot:disabled { border-color: transparent; background: none; font-weight: 500; opacity: 0.4; }
+#bk-root :is(.bk-slot, .bk-chip, .bk-nav, .bk-steps__btn):focus-visible { outline: 2px solid var(--pv-primary); outline-offset: 2px; }
+
+/* 3. összegzés és adatok */
+#bk-root .bk-facts { padding: 0.35rem 1.1rem; border: 0; border-radius: 1rem; background: var(--fz-nude); }
+#bk-root .bk-row { padding: 0.6rem 0; font-size: 0.9rem; }
+#bk-root .bk-row + .bk-row { border-top: 1px solid var(--fz-line); }
+#bk-root .bk-field { gap: 0.35rem; color: var(--pv-text); font-size: 0.8rem; font-weight: 600; }
+#bk-root .bk-field input { min-height: 3rem; padding: 0.7rem 1.1rem; border: 1px solid var(--fz-line); border-radius: 999px; background: var(--pv-bg); font-size: max(16px, 0.95rem); }
+#bk-root .bk-field input:focus-visible { border-color: var(--pv-primary); outline: 2px solid var(--pv-primary); outline-offset: 1px; }
+#bk-root .bk-btn { min-height: 3rem; padding: 0.75rem 1.4rem; border-radius: 999px; font-weight: 700; }
+#bk-root .bk-btn--primary { background: var(--pv-primary); color: var(--pv-on-primary); box-shadow: none; }
+#bk-root .bk-btn--ghost { border: 1px solid var(--fz-line); background: none; color: var(--pv-text); }
+#bk-root .bk-btn:focus-visible { outline: 2px solid var(--pv-primary); outline-offset: 2px; }
+#bk-root .bk-ident__actions .bk-btn { flex: 1 1 12rem; }
+#bk-root .bk-confirm { align-self: stretch; }
+#bk-root .bk-panel { border-radius: 1.25rem; }
+#bk-root .bk-inline { border-radius: 0.9rem; }
+@media (min-width: 40rem) { #bk-root .bk-confirm { align-self: flex-start; } }
+
+/* ==========================================================================
+   6. LOOKBOOK (galéria) – két hasáb, kép alatt a név és a recept
+   ========================================================================== */
+#sec-gallery .pv-chips { display: none; }
+#sec-gallery .pv-items { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.6rem 0.8rem; }
+#sec-gallery .pv-item { display: grid; align-content: start; gap: 0.15rem; }
+#sec-gallery .pv-item__media { display: grid; gap: 0.55rem; margin: 0; overflow: visible; border: 0; border-radius: 0; background: none; box-shadow: none; cursor: zoom-in; }
+#sec-gallery .pv-item__media img { width: 100%; aspect-ratio: 4 / 5; height: auto; object-fit: cover; border-radius: 1rem; }
+#sec-gallery .pv-item__cap {
+  position: static;
+  padding: 0;
+  background: none;
+  color: var(--pv-text);
+  font-family: var(--pv-font-head);
+  font-style: italic;
+  font-size: 1.05rem;
+  line-height: 1.2;
+  text-align: left;
+}
+#sec-gallery .pv-item__media:focus-visible { outline: 2px solid var(--pv-primary); outline-offset: 3px; border-radius: 1rem; }
+.fz-recipe { margin: 0; font-size: 0.76rem; color: var(--fz-muted); font-variant-numeric: tabular-nums; }
+
+/* nagyítás (fruzsi.js): kép, név, recept, „Ezt kérem” */
+.fz-lb {
+  width: 100%; height: 100dvh;
+  max-width: none; max-height: none;
+  margin: 0; padding: 1rem;
+  border: 0;
+  background: transparent;
+  color: #fff6f8;
+}
+.fz-lb[open] { display: grid; place-items: center; }
+.fz-lb::backdrop { background: rgb(42 7 20 / 0.92); }
+.fz-lb figure { display: grid; justify-items: center; gap: 0.6rem; margin: 0; }
+.fz-lb img { max-width: min(100%, 60rem); max-height: calc(100dvh - 9rem); border-radius: 1rem; object-fit: contain; cursor: zoom-out; }
+.fz-lb figcaption { display: grid; justify-items: center; gap: 0.1rem; text-align: center; }
+.fz-lb figcaption b { font-family: var(--pv-font-head); font-style: italic; font-weight: 400; font-size: 1.35rem; }
+.fz-lb figcaption small { font-size: 0.82rem; color: #e6c3cd; }
+.fz-lb .fz-want { min-height: 3rem; margin-top: 0.4rem; padding: 0 1.4rem; border-radius: 999px; background: #ff4fa3; color: #1d0510; }
+html:has(.fz-lb[open]) { overflow: hidden; }
+
+/* ==========================================================================
+   7. RÓLAM – nagy dőlt bevezető mondat, alatta a többi
+   ========================================================================== */
+#sec-about .pv-about__media { overflow: hidden; border: 0; border-radius: var(--fz-nail); box-shadow: none; aspect-ratio: 4 / 5; }
+#sec-about .pv-about__media img { width: 100%; height: 100%; object-fit: cover; }
+#sec-about .pv-about__copy { text-align: left; }
+#sec-about .pv-about__copy::after { content: none; }      /* termék-aláírás: a név a címben már ott áll */
+.fz-lede {
+  display: block;
+  margin-bottom: 0.9rem;
+  font-family: var(--pv-font-head);
+  font-style: italic;
+  font-size: clamp(1.45rem, 6vw, 2.1rem);
+  line-height: 1.2;
+  color: var(--pv-text);
+}
+
+/* ==========================================================================
+   8. KAPCSOLAT, TÉRKÉP, LÁBLÉC
+   ========================================================================== */
+#sec-contact .pv-contact__list { grid-template-columns: 1fr; gap: 0; border-top: 1px solid var(--fz-line); }
+#sec-contact .pv-contact__list li {
+  position: relative;
+  display: grid;
+  gap: 0.15rem;
+  justify-items: start;
+  padding: 1rem 2.4rem 1rem 0;
+  border: 0;
+  border-bottom: 1px solid var(--fz-line);
+  border-radius: 0;
+  background: none;
+  box-shadow: none;
+  text-align: left;
+}
+#sec-contact .pv-contact__list span { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--fz-muted); }
+#sec-contact .pv-contact__list :is(strong, a) { font-family: var(--pv-font-head); font-size: clamp(1.2rem, 5.4vw, 1.5rem); font-weight: 400; color: var(--pv-text); }
+/* a telefon és az e-mail sora teljes egészében kattintható */
+#sec-contact .pv-contact__list a::after { content: ""; position: absolute; inset: 0; }
+#sec-contact .pv-contact__list li:has(a)::after { content: "→"; position: absolute; right: 0.3rem; top: 50%; translate: 0 -50%; color: var(--pv-primary); font-weight: 700; }
+#sec-contact .pv-contact__list a:hover { text-decoration: none; color: var(--pv-primary); }
+#sec-contact .pv-contact__list li:has(a:focus-visible) { outline: 2px solid var(--pv-primary); outline-offset: 2px; }
+#sec-contact .pv-contact__list a:focus-visible { outline: 0; }
+
+#sec-contact .pv-hours { align-items: stretch; margin-block-start: 2rem; padding: 0; border: 0; background: none; box-shadow: none; }
+#sec-contact .pv-hours h3 { margin: 0 0 0.4rem; font-style: italic; font-size: 1.7rem; text-align: left; }
+#sec-contact .pv-hours ul { width: 100%; gap: 0; }
+#sec-contact .pv-hours li { align-items: baseline; gap: 0.6rem; padding: 0.55rem 0.7rem; border-radius: 999px; color: var(--pv-text); font-size: 0.92rem; font-variant-numeric: tabular-nums; }
+#sec-contact .pv-hours li::after { content: ""; order: 1; flex: 1; min-width: 1rem; border-bottom: 1px dotted color-mix(in srgb, var(--pv-text) 40%, transparent); translate: 0 -0.25em; }
+#sec-contact .pv-hours li span { order: 0; text-transform: capitalize; }
+#sec-contact .pv-hours li b { order: 2; font-weight: 600; }
+#sec-contact .pv-hours li.is-today { background: var(--pv-primary); color: var(--pv-on-primary); font-weight: 700; }
+#sec-contact .pv-hours li.is-today::after { border-color: color-mix(in srgb, currentColor 50%, transparent); }
+
+#sec-map .pv-map__frame { padding: 0; border: 0; border-radius: 1.25rem; overflow: hidden; box-shadow: none; }
+#sec-map .pv-map__frame iframe { border-radius: 0; }
+
+.pv .pv-cta-bar .pv-btn { box-shadow: none; }
+/* vissza a tetejére: csendes körvonal, nem második fukszia folt a CTA-sáv mellett */
+.pv .pv-top { display: none; border: 1px solid var(--fz-line); background: var(--fz-milk); color: var(--pv-text); box-shadow: none; }
+@container (min-width: 30rem) { .pv .pv-top { display: grid; } }     /* telefonon a CTA-sáv mellett fölösleges */
+
+/* ==========================================================================
+   8b. PRÓBAPAD (fruzsi.js tryOn) – öt tip a mintapálcán
+   ========================================================================== */
+.fz-stick {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(0.5rem, 3vw, 1.1rem);
+  margin-top: 1.4rem;
+  padding: 2rem 0.5rem 1.4rem;
+  border-radius: 1.5rem;
+  background: var(--fz-nude);
+  touch-action: pan-y;
+}
+.fz-stick i {
+  --h: 1;
+  position: relative;
+  width: clamp(2.8rem, 13vw, 4.6rem);
+  height: calc(clamp(4.4rem, 20vw, 7.2rem) * var(--h));
+  overflow: hidden;
+  background: var(--c, #f5428f);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.3);
+}
+.fz-stick i:nth-child(2n) { --h: 1.12; }
+.fz-stick i:nth-child(3) { --h: 1.22; }
+.fz-stick i::after { content: ""; position: absolute; inset: 0; pointer-events: none; }
+.fz-stick[data-shape="mandula"] i  { border-radius: 50% 50% 0.6rem 0.6rem / 60% 60% 0.6rem 0.6rem; }
+.fz-stick[data-shape="szogletes"] i { border-radius: 0.35rem 0.35rem 0.6rem 0.6rem; }
+.fz-stick[data-shape="kocka"] i    { border-radius: 0.5rem; clip-path: polygon(14% 0, 86% 0, 100% 100%, 0 100%); }
+.fz-stick[data-shape="stiletto"] i { border-radius: 0.5rem; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+/* felületek: fényes = lakk-csillanás; króm és cat-eye fénye az ujjat követi */
+.fz-stick[data-finish="fenyes"] i::after { background: linear-gradient(100deg, transparent 18%, rgb(255 255 255 / 0.55) 24%, transparent 32%); }
+.fz-stick[data-finish="matt"] i { filter: saturate(0.85) brightness(0.95); }
+.fz-stick[data-finish="krom"] i::after { background: linear-gradient(calc(100deg + var(--x, 0.5) * 40deg), rgb(255 255 255 / 0.1), rgb(255 255 255 / 0.8) calc(var(--x, 0.5) * 100%), rgb(0 0 0 / 0.25)); mix-blend-mode: overlay; }
+.fz-stick[data-finish="cateye"] i { background: radial-gradient(ellipse 22% 120% at calc(var(--x, 0.5) * 100%) 50%, rgb(255 255 255 / 0.85), transparent 70%), var(--c, #f5428f); }
+.fz-try__ctl { display: grid; gap: 0.7rem; margin-top: 1rem; }
+.fz-chips, .fz-swatches { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.fz-chip { min-height: 2.75rem; padding: 0.4rem 1rem; border: 1px solid var(--fz-line); border-radius: 999px; background: none; color: var(--pv-text); font: inherit; font-size: 0.88rem; font-weight: 600; cursor: pointer; }
+.fz-chip[aria-pressed="true"] { border-color: var(--pv-text); background: var(--pv-text); color: var(--pv-bg); }
+.fz-sw { display: grid; place-items: end center; width: 2.75rem; height: 3.3rem; padding: 0 0 0.2rem; border: 0; background: none; cursor: pointer; }
+.fz-sw::before { content: ""; width: 1.6rem; height: 2.5rem; border-radius: var(--fz-nail); background: var(--c); box-shadow: 0 0 0 1px var(--fz-chrome); }
+.fz-sw[aria-pressed="true"]::before { box-shadow: 0 0 0 2px var(--pv-bg), 0 0 0 3.5px var(--pv-text); }
+.fz-try__out { margin: 0.9rem 0 0; font-size: 0.9rem; }
+.fz-try__out b { font-family: var(--pv-font-head); font-style: italic; font-weight: 400; font-size: 1.2rem; }
+
+/* ==========================================================================
+   8c. SÖTÉT LOOKBOOK (fruzsi.js scrolly) – az oldal egyetlen „esti” szekciója
+   A doboz n × 70vh magas, a színpad kitűzve; a görgetés cseréli a képet.
+   ========================================================================== */
+#sec-gallery {
+  --pv-text: #f6e4e8;
+  --pv-bg: #2a0714;
+  --fz-muted: #c9a3ae;
+  --fz-line: rgb(246 228 232 / 0.14);
+  background: #2a0714;
+  color: #f6e4e8;
+}
+#sec-gallery :is(h2, .pv-item__cap) { color: #f6e4e8; }
+.fz-scrolly { height: calc(var(--n) * 70svh); margin: 1.6rem 0 3rem; }
+.fz-scrolly__stage {
+  position: sticky;
+  top: calc(var(--pv-nav-h, 4rem) + 0.5rem);
+  height: calc(100svh - var(--pv-nav-h, 4rem) - 1.5rem);
+  display: grid;
+  grid-template-rows: minmax(0, 1fr) auto;
+  gap: 0.8rem;
+}
+.fz-scrolly__frame { position: relative; overflow: hidden; border-radius: var(--fz-nail); background: #3a0f22; }
+.fz-scrolly__frame img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; }
+.fz-scrolly__frame img.is-on { opacity: 1; }
+.fz-scrolly__cap { margin: 0; font-family: var(--pv-font-head); font-style: italic; font-size: clamp(1.6rem, 7vw, 3rem); line-height: 1.05; }
+.fz-scrolly__cap small { display: block; margin-top: 0.3rem; font-family: var(--pv-font); font-style: normal; font-size: 0.82rem; color: #c9a3ae; }
+.fz-scrolly__count { position: absolute; top: 1rem; right: 1rem; margin: 0; padding: 0.2rem 0.7rem; border-radius: 999px; background: rgb(42 7 20 / 0.6); color: #f6e4e8; font-size: 0.78rem; font-weight: 600; font-variant-numeric: tabular-nums; }
+
+/* kinetikus idézet: a még el nem ért szavak halványak */
+.fz-lede span { opacity: 0.2; transition: opacity 0.3s; }
+.fz-lede span.is-on { opacity: 1; }
+
+/* óriás szóvédjegy a láblécben – krómos fény, ami a mutatót követi */
+.pv-footer { overflow: hidden; }
+.fz-giant {
+  flex-basis: 100%;
+  width: 100%;
+  margin: 0 0 1rem;
+  font-family: var(--pv-font-head);
+  font-size: clamp(4.4rem, 23vw, 15rem);
+  line-height: 0.85;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
+  text-align: left;
+  background: linear-gradient(100deg, #8e93a0, #fbfbfd calc(var(--x, 0.55) * 100%), #6d7280);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.fz-giant em { color: transparent; }
+.pv[data-mode="light"] .fz-giant { background-image: linear-gradient(100deg, #3a0a1c, #d1006b calc(var(--x, 0.55) * 100%), #3a0a1c); }
+
+/* ==========================================================================
+   9. MOZGÁS – csak a színkártya; csökkentett mozgásnál semmi
+   ========================================================================== */
+@media (prefers-reduced-motion: no-preference) {
+  .fz-look__frame img { transition: opacity 0.55s ease, scale 0.9s var(--fz-ease); scale: 1.03; }
+  .fz-look__frame img.is-on { scale: 1; }
+  .fz-scrolly__frame img { transition: opacity 0.6s ease, scale 1s var(--fz-ease); scale: 1.05; }
+  .fz-scrolly__frame img.is-on { scale: 1; }
+  .fz-stick i { transition: border-radius 0.5s var(--fz-ease), clip-path 0.5s var(--fz-ease), background-color 0.4s; }
+  .pv-nav.is-open { animation: fz-fade 0.3s ease both; }
+  .fz-lb[open]::backdrop { animation: fz-fade 0.25s ease both; }
+  @media (hover: hover) {
+    .fz-want:hover span { translate: 0.25rem 0; }
+    .fz-tip:hover::before { translate: 0 -0.2rem; }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .fz-tip::before { transition: none; }
+}
+@keyframes fz-fade { from { opacity: 0; } to { opacity: 1; } }
+
+/* ==========================================================================
+   10. SZÉLESEBB NÉZET – felfelé bővítve
+   ========================================================================== */
+@container (min-width: 30rem) {
+  .fz-look__frame { aspect-ratio: 4 / 5; }
+}
+@container (min-width: 44rem) {
+  #sec-gallery .pv-items { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 2.2rem 1.2rem; }
+  /* szolgáltatás: kép és szöveg egymás mellett, páronként tükrözve */
+  #sec-services .pv-item { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; gap: 2.4rem; }
+  #sec-services .pv-item:nth-child(even) .pv-item__media { order: 2; }
+}
+@container (min-width: 56rem) {
+  /* hero: bal a név és a szöveg, jobb a színkártya */
+  #sec-hero .pv-hero__inner { grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); align-items: center; column-gap: clamp(2rem, 5cqi, 5rem); }
+  #sec-hero .pv-hero__copy { display: flex; flex-direction: column; align-items: flex-start; gap: 1.2rem; }
+  #sec-hero .pv-hero__media { grid-column: 2; grid-row: 1; }
+  #sec-hero h1 { font-size: clamp(5rem, 11cqi, 10rem); }
+  /* alacsony képernyőn (fekvő telefon) a magasság dönt, a szélesség marad teljes */
+  .fz-look__frame { aspect-ratio: auto; height: min(72vh, 36rem); }
+  #sec-pricing .pv-prices { display: block; columns: 2; column-gap: 3.5rem; max-width: none; }
+  #sec-gallery .pv-items { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  #sec-contact .pv-wrap:has(.pv-hours:not([hidden])) { display: grid; grid-template-columns: 1fr 1fr; gap: 0 3rem; align-items: start; }
+  #sec-contact .pv-head { grid-column: 1 / -1; }
+  #sec-contact .pv-wrap:has(.pv-hours:not([hidden])) .pv-hours { margin: 0; }
+}
