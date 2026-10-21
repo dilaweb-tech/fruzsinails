@@ -499,7 +499,7 @@
     "navPos": "sticky",
     "navProgress": "none",
     "navCall": "none",
-    "navTop": "info",
+    "navTop": "none",
     "seed": 42,
     "fontScale": "md",
     "fontScaleBy": {
@@ -578,14 +578,14 @@
     },
     {
       "id": "contact",
-      "on": true,
+      "on": false,
       "nav": true,
       "plate": false,
       "sub": []
     },
     {
       "id": "map",
-      "on": true,
+      "on": false,
       "nav": true,
       "plate": false,
       "sub": []

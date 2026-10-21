@@ -15,8 +15,18 @@
   /* a site.js a beállítást zárt hatókörben tartja – innen olvassuk (a böngésző
      a már letöltött site.json-t adja vissza) */
   const config = fetch("site.json").then((r) => r.json()).catch(() => ({}));
-  const RAIL = 8;                                     /* ennyi minta a színkártyán */
   const calm = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  /* Egy közös görgetés-ütem: képkockánként EGY rAF, előbb minden mérés, utána
+     minden írás – így a feladatok nem kényszerítenek egymásra újratördelést.
+     A feladat mér, és ha változás kell, egy író függvényt ad vissza. */
+  const jobs = [];
+  let ticking = false;
+  const tick = () => { ticking = false; jobs.map((j) => j()).forEach((w) => w && w()); };
+  const onScroll = (job) => {
+    if (!jobs.length) addEventListener("scroll", () => { if (!ticking) { ticking = true; requestAnimationFrame(tick); } }, { passive: true });
+    jobs.push(job);
+    job()?.();
+  };
 
   /* --- Szóvédjegy a fejlécben: ugyanaz a dőlt „nails”, mint a heróban ----- */
   function brand() {
@@ -72,7 +82,6 @@
     return {
       id: s?.id || "",
       line: [text, s?.durationMin ? `${s.durationMin} perc` : "", from].filter(Boolean).join(" · "),
-      short: [text, from].filter(Boolean).join(" · "),     /* a keskeny lookbook-hasábba */
     };
   };
   const wantLink = (id) => `<a class="fz-want" href="#sec-booking"${id ? ` data-service="${esc(id)}"` : ""}>Ezt kérem <span aria-hidden="true">→</span></a>`;
@@ -110,134 +119,150 @@
     });
   }
 
-  /* --- Fotóból tip-szín: a legtelítettebb árnyalat-csoport átlaga ----------
-     A bőr, a szürke és a halvány háttér alig számít, így a köröm színe nyer.
-     Ha semmi nem marad (natúr francia), nude. Ahol a fotó félrevezet (kék
-     póló a háttérben), a galéria-tétel `color` mezője dönt. */
-  function tint(img) {
-    try {
-      const w = 48, h = 60, cv = document.createElement("canvas");
-      cv.width = w; cv.height = h;
-      const cx = cv.getContext("2d", { willReadFrequently: true });
-      cx.drawImage(img, 0, 0, w, h);
-      const px = cx.getImageData(0, 0, w, h).data, bins = new Map();
-      for (let i = 0; i < px.length; i += 4) {
-        const r = px[i] / 255, g = px[i + 1] / 255, b = px[i + 2] / 255;
-        const mx = Math.max(r, g, b), mn = Math.min(r, g, b), l = (mx + mn) / 2, d = mx - mn;
-        if (!d || l < 0.1 || l > 0.93) continue;
-        const s = d / (1 - Math.abs(2 * l - 1));
-        if (s < 0.3) continue;
-        let hue = mx === r ? ((g - b) / d) % 6 : mx === g ? (b - r) / d + 2 : (r - g) / d + 4;
-        hue = (hue * 60 + 360) % 360;
-        const skin = hue >= 5 && hue < 45 && (s < 0.8 || l > 0.68);
-        const pale = l > 0.72 && d < 0.3;
-        const wt = s * s * (0.4 + l) * (skin ? 0.02 : 1) * (pale ? 0.15 : 1);
-        const k = Math.floor(hue / 15), bin = bins.get(k) || { w: 0, r: 0, g: 0, b: 0 };
-        bin.w += wt; bin.r += px[i] * wt; bin.g += px[i + 1] * wt; bin.b += px[i + 2] * wt;
-        bins.set(k, bin);
-      }
-      const top = [...bins.values()].sort((a, b) => b.w - a.w)[0];
-      return top && top.w > 2 ?`rgb(${[top.r, top.g, top.b].map((v) => Math.round(v / top.w)).join(" ")})` : "";
-    } catch { return ""; }
-  }
-
-  /* --- Kézjegy: színkártya a heróban --------------------------------------- */
-  function look(looks) {
+  /* --- Hero-kép: egy fotó (site.json „Hero” képhely), erre épül a nyitás ---- */
+  function look(hero) {
     const media = $("#sec-hero .pv-hero__media");
-    if (!media || looks.length < 2 || $(".fz-look", media)) return;
+    if (!media || !hero?.src || $(".fz-look", media)) return;
     const box = document.createElement("div");
     box.className = "fz-look";
-    box.innerHTML =
-      `<div class="fz-look__frame"><img class="is-on" alt="" fetchpriority="high" decoding="async"><img alt="" decoding="async"></div>` +
-      `<p class="fz-rail__hint" aria-hidden="true">Koppints egy mintára</p>` +
-      `<div class="fz-rail" role="group" aria-label="Válassz mintát Fruzsi munkái közül">` +
-      looks.map((l, k) => `<button type="button" class="fz-tip" aria-pressed="${k ? "false" : "true"}" aria-label="${esc(l.name)}"></button>`).join("") +
-      `<a class="fz-rail__more" href="#sec-gallery">Mind a ${$$("#sec-gallery .pv-item").length || looks.length}</a></div>` +
-      `<div class="fz-look__cap" aria-live="polite"><p class="fz-look__name"></p><p class="fz-look__spec"></p><span class="fz-look__go"></span></div>`;
+    box.innerHTML = `<div class="fz-look__frame"><img class="is-on" src="${esc(hero.src)}" alt="${esc(hero.alt || "")}" fetchpriority="high" decoding="async"></div>`;
     media.append(box);
     media.classList.add("fz-on");
-    const imgs = $$(".fz-look__frame img", box), tips = $$(".fz-tip", box);
-    let at = -1, front = 0;
-    const show = (k) => {
-      if (k === at) return;
-      at = k;
-      const l = looks[k];
-      tips.forEach((t, i) => t.setAttribute("aria-pressed", String(i === k)));
-      $(".fz-look__name", box).textContent = l.name;
-      $(".fz-look__spec", box).textContent = l.recipe.line;
-      $(".fz-look__go", box).outerHTML = `<span class="fz-look__go">${wantLink(l.recipe.id)}</span>`;
-      const back = imgs[1 - front];
-      back.alt = l.name;
-      back.onload = () => { back.classList.add("is-on"); imgs[front].classList.remove("is-on"); front = 1 - front; };
-      back.src = l.src;
-      if (back.complete && back.naturalWidth) back.onload();
-    };
-    /* az első kép azonnal a látható rétegre – nincs átúszás a betöltéskor */
-    imgs[0].src = looks[0].src;
-    imgs[0].alt = looks[0].name;
-    at = 0;
-    $(".fz-look__name", box).textContent = looks[0].name;
-    $(".fz-look__spec", box).textContent = looks[0].recipe.line;
-    $(".fz-look__go", box).outerHTML = `<span class="fz-look__go">${wantLink(looks[0].recipe.id)}</span>`;
-    tips.forEach((t, k) => t.addEventListener("click", () => show(k)));
-    /* nyilakkal is lapozható a sor */
-    $(".fz-rail", box).addEventListener("keydown", (e) => {
-      const i = tips.indexOf(e.target), d = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
-      if (i < 0 || !d) return;
-      e.preventDefault();
-      const n = (i + d + tips.length) % tips.length;
-      tips[n].focus();
-      show(n);
-    });
-    /* a tipek színe a lap betöltése után – a képek a lookbookban úgyis kellenek */
-    const paint = () => looks.forEach((l, k) => {
-      if (l.color) return tips[k].style.setProperty("--c", l.color);
-      const im = new Image();
-      im.decoding = "async";
-      im.onload = () => { const c = tint(im); if (c) tips[k].style.setProperty("--c", c); };
-      im.src = l.src;
-    });
-    if (document.readyState === "complete") (window.requestIdleCallback || setTimeout)(paint);
-    else addEventListener("load", () => (window.requestIdleCallback || setTimeout)(paint), { once: true });
+    intro(box);
   }
 
-  /* --- Lookbook: recept a kép alá, nagyításban „Ezt kérem” ------------------ */
-  function gallery(recipes) {
-    const list = $("#sec-gallery .pv-items");
-    if (!list) return;
-    $$(".pv-item", list).forEach((li) => {
-      const name = $(".pv-item__cap", li)?.textContent.trim();
-      const r = recipes.get(norm(name)), img = $("img", li);
-      if (img && !img.alt && name) img.alt = name;          /* a termék üresen hagyja */
-      if (r?.short && !$(".fz-recipe", li)) li.insertAdjacentHTML("beforeend", `<p class="fz-recipe">${esc(r.short)}</p>`);
-    });
-    zoom(list, recipes);
+  /* --- Nyitás: makró → köröm ------------------------------------------------
+     Kitűzött színpad (.fz-pin): belépéskor a köröm-ablak a teljes képernyőre
+     nagyítva (közeli a lakkra), rajta fehér, óriás név. Görgetésre (--p 0→1)
+     az ablak a helyére húzódik, a szavak a helyükre úsznak és meggyre váltanak.
+     Csak scale/translate/opacity mozog. */
+  function intro(box) {
+    const sec = $("#sec-hero"), h1 = $("#pv-company"), inner = $(".pv-hero__inner", sec || document);
+    if (!sec || !h1 || !inner || $(".fz-pin", sec)) return;
+    const em = h1.querySelector("em"), b = em?.textContent.trim() || "", a = h1.textContent.replace(b, "").trim();
+    const word = (t, cls, it) => `<span class="fz-w ${cls}"><span class="fz-w__ink">${it ? `<em>${esc(t)}</em>` : esc(t)}</span>` +
+      `<span class="fz-w__light" aria-hidden="true">${esc(t)}</span></span>`;
+    h1.setAttribute("aria-label", a + b);
+    h1.innerHTML = word(a, "fz-w--a", false) + (b ? word(b, "fz-w--b", true) : "");
+    const pin = document.createElement("div");
+    pin.className = "fz-pin";
+    pin.innerHTML = `<div class="fz-pin__stage"><span class="fz-pin__hint" aria-hidden="true">Görgess</span></div>`;
+    const stage = $(".fz-pin__stage", pin), frame = $(".fz-look__frame", box);
+    /* fedőlap: ugyanaz a kép szögletes keretben, az ablakkal együtt nagyítva.
+       Nyitáskor ez tölti ki a képernyőt, és elhalványulva felfedi a mandula-
+       ablakot – így a sarkot nem kell képkockánként újrafesteni. */
+    const cover = document.createElement("div");
+    cover.className = "fz-cover";
+    cover.setAttribute("aria-hidden", "true");
+    cover.innerHTML = `<img alt="" decoding="async" src="${esc($("img.is-on", frame)?.getAttribute("src") || "")}">`;
+    frame.after(cover);
+    stage.prepend(h1, box);
+    inner.prepend(pin);
+    $(".pv-hero__media", sec)?.classList.add("fz-moved");
+    if (calm) return pin.classList.add("is-calm");
+    /* a szavak és az ablak középpontja transzform nélkül mérve */
+    const measure = () => {
+      stage.classList.add("is-measure");
+      const s = stage.getBoundingClientRect(), f = frame.getBoundingClientRect();
+      const cx = f.left + f.width / 2, cy = f.top + f.height / 2;
+      /* annyi nagyítás, hogy az ablak a színpad mind a négy szélét takarja */
+      const sx = Math.max(cx - s.left, s.right - cx) / (f.width / 2), sy = Math.max(cy - s.top, s.bottom - cy) / (f.height / 2);
+      stage.style.setProperty("--s", (Math.max(sx, sy) * 1.02).toFixed(3));
+      $$(".fz-w", stage).forEach((w, k) => {
+        const r = w.getBoundingClientRect();
+        w.style.setProperty("--dx", `${(cx - (r.left + r.width / 2)).toFixed(1)}px`);
+        w.style.setProperty("--dy", `${(cy - (r.top + r.height / 2) + (k ? 0.42 : -0.42) * r.height).toFixed(1)}px`);
+      });
+      stage.classList.remove("is-measure");
+    };
+    let last = "";
+    const update = () => {
+      const r = pin.getBoundingClientRect(), run = Math.max(1, pin.offsetHeight - innerHeight);
+      const p = Math.min(1, Math.max(0, -r.top / run)).toFixed(3);
+      if (p !== last) return () => { last = p; stage.style.setProperty("--p", p); };
+    };
+    measure();
+    onScroll(update);
+    addEventListener("resize", () => requestAnimationFrame(() => { measure(); last = ""; update()?.(); }));
+    document.fonts?.ready.then(measure);
+    requestAnimationFrame(() => pin.classList.add("is-in"));
   }
 
-  /* Natív <dialog>: felső réteg, Esc zár, a fókusz visszatér a képre. A képre
-     vagy a háttérre kattintva zár; az „Ezt kérem” a foglaláshoz visz. */
-  function zoom(list, recipes) {
-    const lb = document.createElement("dialog");
-    lb.className = "fz-lb";
-    lb.setAttribute("aria-label", "Nagyított kép");
-    document.body.append(lb);
-    lb.addEventListener("click", (e) => { if (!e.target.closest("figcaption") || e.target.closest(".fz-want")) lb.close(); });
-    $$(".pv-item__media", list).forEach((m) => {
-      m.tabIndex = 0;
-      m.setAttribute("role", "button");
-      m.setAttribute("aria-label", "Nagyítás: " + ($(".pv-item__cap", m)?.textContent.trim() || "kép"));
-    });
-    const open = (m) => {
-      const img = $("img", m);
-      if (!img) return;
-      const cap = $(".pv-item__cap", m)?.textContent.trim() || "", r = recipes.get(norm(cap));
-      lb.innerHTML = `<figure><img src="${esc(img.currentSrc || img.src)}" alt="${esc(cap)}">` +
-        `<figcaption>${cap ? `<b>${esc(cap)}</b>` : ""}${r?.line ? `<small>${esc(r.line)}</small>` : ""}${wantLink(r?.id)}</figcaption></figure>`;
-      lb.showModal();
+  /* --- Lookbook: fotópakli → nézegető --------------------------------------
+     A képrács helyett egy pakli: három egymásra dobott fotó (a görgetős
+     galéria már letöltött képei), ami görgetésre (--p) legyezőként szétnyílik.
+     Koppintásra a felső fotó átrepül teljes képernyőre (View Transitions, ahol
+     van), és megnyílik a lapozható lookbook. A 17 kép csak ekkor töltődik, és
+     akkor is lustán, ahogy lapozol – aki egyből foglal, annak semmi nem jön le. */
+  function lookbook(looks) {
+    const sec = $("#sec-gallery"), list = $("#sec-gallery .pv-items");
+    if (!sec || !list || looks.length < 3 || $(".fz-pile", sec)) return;
+    const start = Math.min(8, looks.length - 3);            /* a pakli teteje = a görgetős galéria első képe */
+    const top3 = [2, 1, 0].map((k) => looks[start + k]);    /* alulról felfelé */
+    sec.classList.add("fz-has-pile");
+    const pile = document.createElement("button");
+    pile.type = "button";
+    pile.className = "fz-pile";
+    pile.setAttribute("aria-haspopup", "dialog");
+    pile.innerHTML = `<span class="fz-pile__stack" aria-hidden="true">${top3.map((l) =>
+      `<img src="${esc(l.src)}" alt="" loading="lazy" decoding="async">`).join("")}</span>
+      <span class="fz-pile__txt"><b>Lapozd végig mind a ${looks.length} munkát</b><small>Lookbook megnyitása →</small></span>`;
+    list.after(pile);
+
+    const dlg = document.createElement("dialog");
+    dlg.className = "fz-viewer";
+    dlg.setAttribute("aria-label", "Lookbook – Fruzsi munkái");
+    dlg.innerHTML = `<div class="fz-viewer__bar"><span class="fz-viewer__count" aria-live="polite"></span>
+      <button type="button" class="fz-viewer__x" aria-label="Bezárás">×</button></div>
+      <ul class="fz-viewer__track">${looks.map((l) => `<li><figure><img src="${esc(l.src)}" alt="${esc(l.name)}" loading="lazy" decoding="async"></figure>
+        <div class="fz-viewer__cap"><b>${esc(l.name)}</b>${l.recipe?.line ? `<small>${esc(l.recipe.line)}</small>` : ""}${wantLink(l.recipe?.id)}</div></li>`).join("")}</ul>
+      <button type="button" class="fz-viewer__nav" data-d="-1" aria-label="Előző munka">←</button>
+      <button type="button" class="fz-viewer__nav" data-d="1" aria-label="Következő munka">→</button>`;
+    document.body.append(dlg);
+    const track = $(".fz-viewer__track", dlg), count = $(".fz-viewer__count", dlg), two = (n) => String(n).padStart(2, "0");
+    const at = () => Math.round(track.scrollLeft / Math.max(1, track.clientWidth));
+    const sync = () => { count.textContent = `${two(at() + 1)} / ${two(looks.length)}`; };
+    track.addEventListener("scroll", () => requestAnimationFrame(sync), { passive: true });
+    const go = (d) => track.scrollBy({ left: d * track.clientWidth, behavior: calm ? "auto" : "smooth" });
+    /* zárás: az éppen nézett kép visszarepül a pakli tetejére (a nyitás tükre) */
+    const close = () => {
+      if (!dlg.open) return;
+      const cur = $("img", track.children[at()]), to = $(".fz-pile__stack img:last-child", pile);
+      if (!document.startViewTransition || calm || !cur) return dlg.close();
+      cur.style.viewTransitionName = "fz-look";
+      const vt = document.startViewTransition(() => { cur.style.viewTransitionName = ""; dlg.close(); to.style.viewTransitionName = "fz-look"; });
+      vt.finished.finally(() => { to.style.viewTransitionName = ""; });
     };
-    list.addEventListener("click", (e) => { const m = e.target.closest(".pv-item__media"); if (m) open(m); });
-    list.addEventListener("keydown", (e) => {
-      if ((e.key === "Enter" || e.key === " ") && e.target.matches(".pv-item__media")) { e.preventDefault(); open(e.target); }
+    dlg.addEventListener("cancel", (e) => { e.preventDefault(); close(); });     /* Esc */
+    dlg.addEventListener("click", (e) => {
+      const nav = e.target.closest(".fz-viewer__nav");
+      if (nav) return go(+nav.dataset.d);
+      if (e.target.closest(".fz-want")) return dlg.close();                      /* a foglaláshoz ugrik, nincs idő animálni */
+      if (e.target === dlg || e.target.closest(".fz-viewer__x")) close();
+    });
+    dlg.addEventListener("keydown", (e) => {
+      const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+      if (d) { e.preventDefault(); go(d); }
+    });
+
+    /* nyitás: a pakli felső fotója átrepül a nézegető képére */
+    pile.addEventListener("click", () => {
+      const from = $(".fz-pile__stack img:last-child", pile), to = $("img", track.children[start]);
+      to.loading = "eager";
+      const show = () => { dlg.showModal(); track.scrollLeft = start * track.clientWidth; sync(); };
+      if (!document.startViewTransition || calm) return show();
+      from.style.viewTransitionName = "fz-look";
+      const vt = document.startViewTransition(() => { from.style.viewTransitionName = ""; show(); to.style.viewTransitionName = "fz-look"; });
+      vt.finished.finally(() => { to.style.viewTransitionName = ""; });
+    });
+
+    /* a pakli görgetésre szétnyílik */
+    if (calm) return pile.style.setProperty("--p", 1);
+    let last = "";
+    onScroll(() => {
+      const r = pile.getBoundingClientRect(), vh = innerHeight;
+      const p = Math.min(1, Math.max(0, (vh - r.top) / (vh * 0.65))).toFixed(3);
+      if (p !== last) return () => { last = p; pile.style.setProperty("--p", p); };
     });
   }
 
@@ -252,58 +277,6 @@
     lede.textContent = m[0].trim();
     p.firstChild.textContent = t.slice(m[0].length);
     p.prepend(lede);
-  }
-
-  /* --- Próbapad: öt tip a mintapálcán – forma, szín, felület ---------------
-     A króm / cat-eye fénycsíkja az ujjat követi (--x). Az „Ezt kérem” a
-     formához illő szolgáltatást választja ki a varázslóban. */
-  const SHAPES = { mandula: "Mandula", szogletes: "Szögletes", kocka: "Kocka", stiletto: "Stiletto" };
-  const FINISH = { fenyes: "Fényes", matt: "Matt", krom: "Króm", cateye: "Cat-eye" };
-  const COLORS = [["Neon fukszia", "#f5428f"], ["Bordó", "#6e1a2c"], ["Óceánkék", "#2e5d8a"], ["Natúr rózsa", "#e9c3b8"], ["Piros", "#b3141c"], ["Sötétlila", "#4a2460"], ["Tejfehér", "#f3ece6"]];
-  function tryOn(book) {
-    if ($("#sec-probapad")) return;
-    const id = (name) => book.find((b) => norm(b.name) === norm(name))?.id || "";
-    const chips = (key, map, on) => Object.entries(map).map(([k, v]) =>
-      `<button type="button" class="fz-chip" data-${key}="${k}" aria-pressed="${k === on}">${v}</button>`).join("");
-    const sec = document.createElement("section");
-    sec.className = "pv-section fz-try";
-    sec.id = "sec-probapad";
-    sec.style.order = "3";                              /* a hero után, a szolgáltatások előtt */
-    sec.innerHTML = `<div class="pv-wrap">
-      <header class="pv-head"><p class="pv-eyebrow"><span>Próbapad</span></p><h2>Próbáld fel, <em>mielőtt kéred</em></h2>
-      <p class="pv-muted">Válassz formát, színt és felületet – a mintapálcán rögtön látod. Króm és cat-eye felületnél húzd az ujjad a tipeken.</p></header>
-      <div class="fz-stick" data-shape="mandula" data-finish="krom" aria-hidden="true">${"<i></i>".repeat(5)}</div>
-      <div class="fz-try__ctl">
-        <div class="fz-chips" role="group" aria-label="Forma">${chips("shape", SHAPES, "mandula")}</div>
-        <div class="fz-swatches" role="group" aria-label="Szín">${COLORS.map((c, k) =>
-          `<button type="button" class="fz-sw" style="--c:${c[1]}" aria-label="${c[0]}" aria-pressed="${!k}"></button>`).join("")}</div>
-        <div class="fz-chips" role="group" aria-label="Felület">${chips("finish", FINISH, "krom")}</div>
-      </div>
-      <p class="fz-try__out" aria-live="polite"></p>
-      <span class="fz-try__go"></span>
-    </div>`;
-    $("#sec-hero").after(sec);
-    const stick = $(".fz-stick", sec);
-    let color = COLORS[0];
-    const sync = () => {
-      stick.style.setProperty("--c", color[1]);
-      const shape = stick.dataset.shape, svc = shape === "kocka" || shape === "stiletto" ? "Műköröm építés" : "Géllakk";
-      $(".fz-try__out", sec).innerHTML = `<b>${esc(color[0])}, ${SHAPES[shape].toLowerCase()}</b> · ${FINISH[stick.dataset.finish].toLowerCase()} felület · ${svc}`;
-      $(".fz-try__go", sec).innerHTML = wantLink(id(svc));
-    };
-    sec.addEventListener("click", (e) => {
-      const b = e.target.closest("button");
-      if (!b) return;
-      $$("button", b.parentElement).forEach((x) => x.setAttribute("aria-pressed", String(x === b)));
-      if (b.dataset.shape) stick.dataset.shape = b.dataset.shape;
-      if (b.dataset.finish) stick.dataset.finish = b.dataset.finish;
-      if (b.matches(".fz-sw")) color = COLORS[$$(".fz-sw", sec).indexOf(b)];
-      sync();
-    });
-    const follow = (e) => { const r = stick.getBoundingClientRect(); stick.style.setProperty("--x", Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)).toFixed(3)); };
-    stick.addEventListener("pointermove", follow);
-    stick.addEventListener("pointerdown", follow);
-    sync();
   }
 
   /* --- Sötét lookbook: a kép helyben marad, görgetésre cserélődik alatta ---- */
@@ -326,67 +299,310 @@
       cap.innerHTML = `${esc(looks[k].name)}<small>${esc(looks[k].recipe?.line || "")}</small>`;
       cnt.textContent = `${String(k + 1).padStart(2, "0")} / ${String(looks.length).padStart(2, "0")}`;
     };
-    const sync = () => {
+    onScroll(() => {
       const r = box.getBoundingClientRect(), run = Math.max(1, r.height - innerHeight);
-      show(Math.min(looks.length - 1, Math.max(0, Math.floor((-r.top / run) * looks.length))));
-    };
-    addEventListener("scroll", () => requestAnimationFrame(sync), { passive: true });
-    sync();
+      const k = Math.min(looks.length - 1, Math.max(0, Math.floor((-r.top / run) * looks.length)));
+      if (k !== at) return () => show(k);
+    });
   }
 
-  /* --- Rólam: a bevezető mondat szóról szóra telik meg görgetésre ---------- */
-  function kinetic() {
-    const lede = $(".fz-lede");
-    if (!lede || calm || lede.dataset.kin) return;
-    lede.dataset.kin = "1";
-    lede.setAttribute("aria-label", lede.textContent);
-    lede.innerHTML = lede.textContent.split(" ").map((w) => `<span aria-hidden="true">${esc(w)}</span>`).join(" ");
-    const words = $$("span", lede);
-    const fill = () => {
-      const r = lede.getBoundingClientRect(), vh = innerHeight;
-      const n = Math.round(Math.min(1, Math.max(0, (vh * 0.85 - r.top) / (vh * 0.5))) * words.length);
-      words.forEach((w, i) => w.classList.toggle("is-on", i < n));
+  /* --- Rólam: „olvasd el velem” -------------------------------------------
+     A szekció kitűzve áll (.fz-story); görgetésre (--p 0→1) Fruzsi szövege
+     szóról szóra megtelik tintával, a fotó polaroidként ferdén becsúszik és
+     kiegyenesedik, a végén az aláírás kirajzolódik. Ha a színpad nem fér ki a
+     képernyőre (kis telefon), kitűzés nélkül, a szöveg helyzetéből számol.
+     A szavak valódi szövegként maradnak (span-ekben), a felolvasó egyben olvassa. */
+  function story() {
+    const sec = $("#sec-about"), inner = sec && $(".pv-about__inner", sec), text = $("#pv-about");
+    if (!inner || !text || $(".fz-story", sec)) return;
+    const words = [];
+    const walk = (node) => [...node.childNodes].forEach((n) => {
+      if (n.nodeType === 1) return walk(n);
+      if (n.nodeType !== 3 || !n.textContent.trim()) return;
+      const frag = document.createDocumentFragment();
+      n.textContent.split(/(\s+)/).forEach((t) => {
+        if (!t) return;
+        if (/^\s+$/.test(t)) return frag.append(t);
+        const s = document.createElement("span");
+        s.className = "fz-wd";
+        s.textContent = t;
+        words.push(s);
+        frag.append(s);
+      });
+      n.replaceWith(frag);
+    });
+    walk(text);
+    text.insertAdjacentHTML("afterend", `<svg class="fz-sign" viewBox="0 0 260 90" aria-hidden="true"><text x="6" y="68">Fruzsi</text></svg>`);
+    const box = document.createElement("div");
+    box.className = "fz-story";
+    box.innerHTML = '<div class="fz-story__stage"></div>';
+    const stage = box.firstChild;
+    stage.append(...inner.children);
+    inner.append(box);
+    if (calm) { words.forEach((w) => w.classList.add("is-on")); return box.classList.add("is-calm"); }
+    let pinTop = 0, travel = 1, pinned = false;
+    const size = () => {
+      box.style.height = "";
+      pinned = stage.offsetHeight < innerHeight - (parseFloat(getComputedStyle(stage).top) || 0) - 16;
+      box.classList.toggle("is-pinned", pinned);
+      travel = Math.max(innerHeight, words.length * 14);
+      pinTop = parseFloat(getComputedStyle(stage).top) || 0;
+      if (pinned) box.style.height = `${stage.offsetHeight + travel}px`;
     };
-    addEventListener("scroll", () => requestAnimationFrame(fill), { passive: true });
-    fill();
+    size();
+    addEventListener("resize", () => requestAnimationFrame(size));
+    document.fonts?.ready.then(size);
+    let lastP = "", shown = -1;
+    onScroll(() => {
+      const r = (pinned ? box : text).getBoundingClientRect(), vh = innerHeight;
+      const p = pinned ? (pinTop - r.top) / travel : (vh * 0.85 - r.top) / (r.height + vh * 0.35);
+      const s = Math.min(1, Math.max(0, p)).toFixed(3);
+      if (s === lastP) return;
+      return () => {
+        lastP = s;
+        stage.style.setProperty("--p", s);
+        /* a szavak a lapozás első 85%-ában telnek meg, utána jön az aláírás */
+        const n = Math.round(Math.min(1, s / 0.85) * words.length);
+        if (n !== shown) {
+          const from = Math.min(n, Math.max(shown, 0)), to = Math.max(n, shown);
+          for (let i = from; i < to; i++) words[i]?.classList.toggle("is-on", i < n);
+          shown = n;
+        }
+      };
+    });
   }
 
-  /* --- Lábléc: óriás szóvédjegy, a króm fénye a mutatót követi ------------- */
-  function giant() {
-    const ft = $(".pv-footer"), h1 = $("#pv-company");
-    if (!ft || !h1 || $(".fz-giant", ft)) return;
-    const g = document.createElement("p");
-    g.className = "fz-giant";
-    g.setAttribute("aria-hidden", "true");
-    g.innerHTML = h1.innerHTML;
-    ft.prepend(g);
-    ft.addEventListener("pointermove", (e) => { const r = g.getBoundingClientRect(); g.style.setProperty("--x", ((e.clientX - r.left) / r.width).toFixed(3)); });
+
+  /* --- Lábléc: függöny + beúszó sorok ---------------------------------------
+     Az oldal tartalma függönyként felcsúszik, alóla előtűnik a helyben álló
+     sötét lábléc (sticky). Amikor előjön (.is-in), előbb egy fukszia vonal
+     rajzolódik végig, aztán a sorai a képernyő széléről, felváltva balról és
+     jobbról, egymás után becsúsznak (--i: sorrend, --dir: irány). Kifelé
+     görgetve visszaáll, így újra lejátszódik. Függöny csak akkor, ha a
+     lábléc elfér a képernyőn. */
+  function footer() {
+    const ft = $(".pv-footer");
+    if (!ft || ft.classList.contains("fz-foot")) return;
+    ft.classList.add("fz-foot");
+    ft.insertAdjacentHTML("afterbegin", '<i class="fz-foot__line" aria-hidden="true"></i>');
+    [...ft.children].forEach((el, i) => { el.style.setProperty("--i", i); el.style.setProperty("--dir", i % 2 ? 1 : -1); });
+    const fit = () => ft.classList.toggle("is-curtain", ft.offsetHeight < innerHeight * 0.92);
+    fit();
+    addEventListener("resize", () => requestAnimationFrame(fit));
+    if (calm) return ft.classList.add("is-in");
+    /* nem IntersectionObserver: függönynél a lábléc végig a képernyő alján áll
+       (csak takarva), ezért azt mérjük, mennyi bukkant elő a tartalom alól */
+    const main = $(".pv-main");
+    let on = false;
+    onScroll(() => {
+      const shown = innerHeight - (ft.classList.contains("is-curtain") ? main.getBoundingClientRect().bottom : ft.getBoundingClientRect().top);
+      const want = shown > ft.offsetHeight * 0.35;
+      if (want !== on) return () => { on = want; ft.classList.toggle("is-in", want); };
+    });
+  }
+
+  /* --- Árlista: lapozó étlap ------------------------------------------------
+     A szalon menükönyve: kategóriánként egy lap, egymásra rakva. Kitűzött
+     színpadon görgetésre a felső lap a felső élén felhajlik (rotateX) és eltűnik,
+     alatta a következő lap feljebb lép; a fülek mutatják, hol jársz, és oda
+     is ugranak. Ami előkerül, annak az ára felpörög. Egy sorra koppintva a
+     foglalás azzal a szolgáltatással nyílik. Adat: a termék árlistája (DOM). */
+  function menuBook(book) {
+    const sec = $("#sec-pricing"), list = $("#pv-prices");
+    const groups = list ? $$(".fz-cat-group", list) : [];
+    if (!sec || groups.length < 2 || $(".fz-book", sec)) return;
+    const svc = (name) => book.find((b) => norm(name).includes(norm(b.name)))?.id || "";
+    const pages = groups.map((g) => ({
+      cat: $("h3", g).textContent.trim(),
+      rows: $$(".fz-cat-list > li", g).map((li) => {
+        const nm = $(".pv-price__name", li);
+        return { name: nm?.firstChild?.textContent.trim() || "", time: $("small", nm || li)?.textContent.trim() || "", price: $("b", li)?.textContent.trim() || "" };
+      }),
+    }));
+    const n = pages.length;
+    const box = document.createElement("div");
+    box.className = "fz-book";
+    box.style.setProperty("--n", n);
+    box.innerHTML = `<div class="fz-book__stage">
+      <div class="fz-book__tabs" role="group" aria-label="Árlista kategóriák">${pages.map((p, i) =>
+        `<button type="button" class="fz-book__tab" aria-pressed="${!i}">${esc(p.cat)}</button>`).join("")}</div>
+      <div class="fz-book__deck">${pages.map((p, i) => `<article class="fz-page" style="z-index:${n - i}" aria-label="${esc(p.cat)}">
+        <h3>${esc(p.cat)}</h3>
+        <ul>${p.rows.map((r) => `<li><a class="fz-mrow" href="#sec-booking"${svc(r.name) ? ` data-service="${esc(svc(r.name))}"` : ""}>
+          <span class="fz-mrow__name">${esc(r.name)}${r.time ? `<small>${esc(r.time)}</small>` : ""}</span>
+          <b class="fz-mrow__price" data-price="${esc(r.price)}">${esc(r.price)}</b></a></li>`).join("")}</ul>
+        <p class="fz-page__foot"><span>${i + 1} / ${n}</span><span>${i < n - 1 ? "Görgess, lapozz" : "Koppints egy sorra a foglaláshoz"}</span></p>
+      </article>`).join("")}</div></div>`;
+    list.before(box);
+    sec.classList.add("fz-has-book");
+    const els = $$(".fz-page", box), tabs = $$(".fz-book__tab", box);
+    if (calm) return box.classList.add("is-calm");
+    /* Méret a tartalomhoz: minden lap a leghosszabb magasságát kapja, a pakli
+       ennyi + a hátsó lapok kilógása, az út pedig a színpad + a lapozás. Így a
+       kitűzés végén nem marad üres képernyőnyi hely a következő szekcióig. */
+    const stage = $(".fz-book__stage", box), deck = $(".fz-book__deck", box);
+    let pinTop = 0, travel = 1;                     /* a színpad ragadási pontja és a lapozás útja (px) */
+    const size = () => {
+      box.style.setProperty("--ph", "auto");
+      const ph = Math.max(...els.map((el) => el.offsetHeight));
+      box.style.setProperty("--ph", ph + "px");
+      travel = (n - 0.4) * 0.6 * innerHeight;
+      pinTop = parseFloat(getComputedStyle(stage).top) || 0;
+      box.style.height = `${stage.offsetHeight + travel}px`;
+    };
+    size();
+    addEventListener("resize", () => requestAnimationFrame(size));
+    document.fonts?.ready.then(size);
+
+    /* ár felpörgetése: számjegyek 0-tól a valódi értékig, egyszer lapenként */
+    const roll = (page) => {
+      if (page.dataset.rolled) return;
+      page.dataset.rolled = "1";
+      $$(".fz-mrow__price", page).forEach((b) => {
+        const txt = b.dataset.price, to = Number(txt.replace(/\D/g, ""));
+        if (!to) return;
+        const t0 = performance.now(), dur = 700;
+        const step = (t) => {
+          const q = Math.min(1, (t - t0) / dur), v = Math.round(to * (1 - Math.pow(1 - q, 3)) / 100) * 100;
+          b.textContent = q < 1 ? txt.replace(/[\d\s ]+\d/, v.toLocaleString("hu-HU")) : txt;
+          if (q < 1) requestAnimationFrame(step);
+        };
+        requestAnimationFrame(step);
+      });
+    };
+    /* t: hol tart a lapozás (0 … n-1); minden lapnak 40% pihenő, 60% fordulás */
+    let lastT = -1, cur = -1;
+    onScroll(() => {
+      const r = box.getBoundingClientRect();
+      const t = +(Math.min(1, Math.max(0, (pinTop - r.top) / travel)) * (n - 0.6)).toFixed(3);
+      if (t === lastT) return;
+      return () => {
+        lastT = t;
+        els.forEach((el, i) => {
+          el.style.setProperty("--f", i < n - 1 ? Math.min(1, Math.max(0, (t - i - 0.4) / 0.6)).toFixed(3) : 0);
+          el.style.setProperty("--k", Math.max(0, i - t).toFixed(3));
+        });
+        const k = Math.min(n - 1, Math.floor(t + 0.15));
+        if (k !== cur) {
+          cur = k;
+          tabs.forEach((b, i) => b.setAttribute("aria-pressed", String(i === k)));
+          roll(els[k]);
+        }
+      };
+    });
+    /* fül: a görgetés oda ugrik, ahol az a lap pihen */
+    tabs.forEach((b, i) => b.addEventListener("click", () => {
+      const top = box.getBoundingClientRect().top + scrollY - pinTop;
+      scrollTo({ top: top + travel * Math.min(1, (i + 0.1) / (n - 0.6)), behavior: "smooth" });
+    }));
+  }
+
+  /* --- Foglalás: reflektorfény-mód -----------------------------------------
+     Amikor a foglaló kártya a képernyő középső sávjába ér, egy fátyol
+     (backdrop-filter) elmossa az oldal többi részét; a foglalás címe és
+     kártyája fölötte, élesen marad. A fátyolra koppintva vagy Esc-re kilép;
+     ha a kártya kimegy a sávból, a kilépés feledésbe merül. */
+  function spotlight() {
+    const sec = $("#sec-booking"), root = $("#bk-root");
+    if (!sec || sec.hidden || !root || $(".fz-veil")) return;
+    const html = document.documentElement;
+    const veil = document.createElement("div");
+    veil.className = "fz-veil";
+    veil.innerHTML = `<span aria-hidden="true">Koppints a kártya mellé a kilépéshez</span>`;
+    sec.before(veil);
+    sec.classList.add("fz-spot");
+    /* --fz-focus 0→1 a görgetésből: a kártya teteje a képernyő aljától a
+       felső tizedéig tartó úton (~0.9 képernyő) erősödik, a kártya alja a
+       felső harmadhoz érve ugyanígy oldódik. Kilépés után nulla marad, amíg
+       a kártya teljesen ki nem ment. */
+    let away = false, last = "";
+    const write = (p) => () => {
+      last = p.toFixed(3);
+      html.style.setProperty("--fz-focus", last);
+      html.classList.toggle("fz-near", p > 0);
+      html.classList.toggle("fz-focus", p > 0.6);
+    };
+    /* a kártya kitűzve áll egy darabig (CSS: .pv-wrap sticky + 80svh tartalék
+       a szekció alján), így a homály és a nagyítás hosszabb úton épül fel */
+    const wrap = $(".pv-wrap", sec);
+    onScroll(() => {
+      const vh = innerHeight, s = sec.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+      const enter = (vh - s.top) / (vh * 1.45), exit = (w.bottom - vh * 0.15) / (vh * 0.6);
+      let p = Math.min(1, Math.max(0, Math.min(enter, exit)));
+      if (p === 0) away = false;
+      if (away) p = 0;
+      if (p.toFixed(3) !== last) return write(p);
+    });
+    const leave = () => { away = true; write(0)(); };
+    veil.addEventListener("click", leave);
+    addEventListener("keydown", (e) => { if (e.key === "Escape" && html.classList.contains("fz-focus")) leave(); });
+  }
+
+  /* --- Navbar: csúszó kiemelés ------------------------------------------------
+     Egy kapszula ül az aktív menüpont alatt (a termék aria-current-et tesz rá
+     görgetéskor), és oda csúszik, ahol a mutató jár. Csak a vízszintes sávban;
+     a nyitott mobilmenüben rejtve. Csak translate/width mozog. */
+  function navPill() {
+    const nav = $("#pv-nav");
+    if (!nav || $(".fz-nav-pill", nav)) return;
+    const pill = document.createElement("span");
+    pill.className = "fz-nav-pill";
+    pill.setAttribute("aria-hidden", "true");
+    nav.prepend(pill);
+    let hover = null;
+    const move = () => {
+      const a = hover || $(".pv-nav__top[aria-current]", nav);
+      if (!a || nav.classList.contains("is-open") || !a.offsetWidth) return pill.classList.remove("is-on");
+      const n = nav.getBoundingClientRect(), r = a.getBoundingClientRect();
+      pill.style.setProperty("--x", `${(r.left - n.left).toFixed(1)}px`);
+      pill.style.setProperty("--y", `${(r.top - n.top).toFixed(1)}px`);
+      pill.style.setProperty("--w", `${r.width.toFixed(1)}px`);
+      pill.style.setProperty("--h", `${r.height.toFixed(1)}px`);
+      pill.classList.add("is-on");
+    };
+    /* NEM MutationObserver: a saját írásaink újra kiváltották, és a lap
+       lefagyott. Az aktív pont görgetésre vált (site.js), ezért a közös
+       görgetés-ütemben nézzük, változott-e. */
+    let last = null;
+    onScroll(() => {
+      const a = $(".pv-nav__top[aria-current]", nav);
+      if (a !== last) return () => { last = a; move(); };
+    });
+    $("#pv-burger")?.addEventListener("click", () => requestAnimationFrame(move));
+    nav.addEventListener("pointerover", (e) => { const a = e.target.closest(".pv-nav__top"); if (a && a !== hover) { hover = a; move(); } });
+    nav.addEventListener("pointerleave", () => { hover = null; move(); });
+    addEventListener("resize", () => requestAnimationFrame(move));
+    document.fonts?.ready.then(move);
+    move();
   }
 
   function build() {
     brand();
     menu();
+    navPill();
     pricing();
     about();
     /* „Ezt kérem": a varázslóban ki is választja a szolgáltatást, így a látogató
        egyből az időpontoknál nyit (ha a varázsló az 1. lépésen áll) */
     document.addEventListener("click", (e) => {
-      const id = e.target.closest(".fz-want[data-service]")?.dataset.service;
+      const id = e.target.closest("a[data-service]")?.dataset.service;
       if (id) $$("#bk-root [data-service]").find((b) => b.dataset.service === id)?.click();
     });
     config.then((cfg) => {
       const c = cfg?.content || {}, book = c.booking?.services || [];
       services(book);
+      menuBook(book);
       const items = (c.lists?.gallery || []).filter((g) => g.image);
       const recipes = new Map(items.map((g) => [norm(g.name), recipeOf(g.text, book)]));
       const src = (s) => (/^(https?:|data:|\/|\.)/.test(s) ? s : "images/" + s);
       const looks = items.map((g) => ({ name: g.name, src: src(g.image), color: g.color, recipe: recipes.get(norm(g.name)) }));
-      look(looks.slice(0, RAIL));
-      tryOn(book);
-      scrolly(looks.slice(RAIL, RAIL + 5));               /* a színkártyán nem szereplő munkák */
-      gallery(recipes);
-      kinetic();
-      giant();
+      const hero = (c.images || []).find((i) => i.hero && i.src);
+      look(hero && { src: src(hero.src), alt: hero.alt });
+      scrolly(looks.slice(8, 13));                        /* a rács első sorait nem ismétli */
+      lookbook(looks);
+      story();
+      footer();
+      spotlight();
     });
   }
 
