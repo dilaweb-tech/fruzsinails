@@ -309,7 +309,7 @@
   /* --- Rólam: „olvasd el velem” -------------------------------------------
      A szekció kitűzve áll (.fz-story); görgetésre (--p 0→1) Fruzsi szövege
      szóról szóra megtelik tintával, a fotó polaroidként ferdén becsúszik és
-     kiegyenesedik, a végén az aláírás kirajzolódik. Ha a színpad nem fér ki a
+     kiegyenesedik. Ha a színpad nem fér ki a
      képernyőre (kis telefon), kitűzés nélkül, a szöveg helyzetéből számol.
      A szavak valódi szövegként maradnak (span-ekben), a felolvasó egyben olvassa. */
   function story() {
@@ -332,7 +332,6 @@
       n.replaceWith(frag);
     });
     walk(text);
-    text.insertAdjacentHTML("afterend", `<svg class="fz-sign" viewBox="0 0 260 90" aria-hidden="true"><text x="6" y="68">Fruzsi</text></svg>`);
     const box = document.createElement("div");
     box.className = "fz-story";
     box.innerHTML = '<div class="fz-story__stage"></div>';
@@ -361,8 +360,8 @@
       return () => {
         lastP = s;
         stage.style.setProperty("--p", s);
-        /* a szavak a lapozás első 85%-ában telnek meg, utána jön az aláírás */
-        const n = Math.round(Math.min(1, s / 0.85) * words.length);
+        /* a szavak az út 95%-ában telnek meg – a vége pihenő */
+        const n = Math.round(Math.min(1, s / 0.95) * words.length);
         if (n !== shown) {
           const from = Math.min(n, Math.max(shown, 0)), to = Math.max(n, shown);
           for (let i = from; i < to; i++) words[i]?.classList.toggle("is-on", i < n);
@@ -576,6 +575,64 @@
     move();
   }
 
+  /* --- Szolgáltatások: vízszintes polc --------------------------------------
+     A szekció kitűzve áll; lefelé görgetve a kártyák oldalra gördülnek, mint a
+     lakkok a polcon. A középen álló kártya a fókuszban (--f 0→1: nagyobb,
+     teljes fényű), a kép a kártyán belül enyhén ellenmozog (--d). Ha a színpad
+     nem fér ki a képernyőre, a függőleges lista marad. Csak translate/scale/
+     opacity mozog. */
+  function shelf() {
+    const sec = $("#sec-services"), wrap = sec && $(".pv-wrap", sec), list = $("#pv-items");
+    const head = sec && $(".pv-head", sec), cards = list ? $$(":scope > li", list) : [];
+    if (!wrap || !head || cards.length < 2 || $(".fz-shelf", sec) || calm) return;
+    const box = document.createElement("div");
+    box.className = "fz-shelf";
+    box.innerHTML = `<div class="fz-shelf__stage"></div>`;
+    const stage = box.firstChild;
+    stage.append(head, list);
+    stage.insertAdjacentHTML("beforeend", `<div class="fz-shelf__bar" aria-hidden="true"><span></span><i></i></div>`);
+    wrap.append(box);
+    const count = $(".fz-shelf__bar span", stage), two = (n) => String(n).padStart(2, "0");
+    let pinTop = 0, run = 1, travel = 0, offs = [], on = false;
+    const size = () => {
+      box.classList.add("is-pinned");
+      box.style.height = "";
+      list.style.setProperty("--x", "0px");
+      pinTop = parseFloat(getComputedStyle(stage).top) || 0;
+      on = stage.offsetHeight < innerHeight - pinTop - 8;
+      if (!on) return box.classList.remove("is-pinned");
+      const pad = parseFloat(getComputedStyle(stage).paddingRight) || 0;
+      travel = Math.max(0, list.scrollWidth - (stage.clientWidth - list.offsetLeft - pad));
+      run = Math.max(1, travel * 1.1);
+      offs = cards.map((c) => [c.offsetLeft, c.offsetWidth]);
+      box.style.height = `${stage.offsetHeight + run}px`;
+    };
+    size();
+    addEventListener("resize", () => requestAnimationFrame(size));
+    document.fonts?.ready.then(size);
+    let last = "";
+    onScroll(() => {
+      if (!on) return;
+      const p = Math.min(1, Math.max(0, (pinTop - box.getBoundingClientRect().top) / run));
+      const key = p.toFixed(4);
+      if (key === last) return;
+      const x = -p * travel, mid = stage.clientWidth / 2 - list.offsetLeft;
+      const vals = offs.map(([l, w]) => (l + w / 2 + x - mid) / Math.max(1, stage.clientWidth));
+      return () => {
+        last = key;
+        list.style.setProperty("--x", `${x.toFixed(1)}px`);
+        let best = 0;
+        vals.forEach((d, i) => {
+          cards[i].style.setProperty("--d", d.toFixed(3));
+          cards[i].style.setProperty("--f", Math.max(0, 1 - Math.abs(d) * 1.8).toFixed(3));
+          if (Math.abs(d) < Math.abs(vals[best])) best = i;
+        });
+        count.textContent = `${two(best + 1)} / ${two(cards.length)}`;
+        stage.style.setProperty("--p", key);
+      };
+    });
+  }
+
   function build() {
     brand();
     menu();
@@ -591,6 +648,7 @@
     config.then((cfg) => {
       const c = cfg?.content || {}, book = c.booking?.services || [];
       services(book);
+      shelf();
       menuBook(book);
       const items = (c.lists?.gallery || []).filter((g) => g.image);
       const recipes = new Map(items.map((g) => [norm(g.name), recipeOf(g.text, book)]));

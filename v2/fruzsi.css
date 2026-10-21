@@ -1016,8 +1016,7 @@ html.fz-focus :is(.pv-cta-bar, .pv-top) { visibility: hidden; }
 /* ==========================================================================
    15. RÓLAM – „olvasd el velem” (fruzsi.js story)
    .fz-story magassága = színpad + olvasási út (JS); .is-pinned: kitűzve.
-   --p 0→1: a szavak tintája (.fz-wd.is-on), a polaroid kiegyenesedése és a
-   végén az aláírás kirajzolása.
+   --p 0→1: a szavak tintája (.fz-wd.is-on) és a polaroid kiegyenesedése.
    ========================================================================== */
 .fz-story__stage {
   --p: 1;
@@ -1030,7 +1029,7 @@ html.fz-focus :is(.pv-cta-bar, .pv-top) { visibility: hidden; }
 #sec-about .pv-about__inner:has(.fz-story) { display: block; }
 .fz-story.is-pinned .fz-story__stage { position: sticky; top: calc(var(--pv-nav-h, 4.4rem) + 0.8rem); }
 .fz-story__stage .pv-about__copy { grid-area: copy; grid-column: 1 / -1; grid-row: 1; }
-/* polaroid: fehér keret, alul felirat; ferdén érkezik, a végére egyenes */
+/* polaroid: fehér keret, alul szélesebb; ferdén érkezik, a végére egyenes */
 #sec-about .fz-story__stage .pv-about__media {
   position: relative;
   grid-area: photo;
@@ -1049,18 +1048,6 @@ html.fz-focus :is(.pv-cta-bar, .pv-top) { visibility: hidden; }
   will-change: rotate, translate;
 }
 #sec-about .fz-story__stage .pv-about__media img { aspect-ratio: 4 / 5; height: auto; border-radius: 0.15rem; }
-#sec-about .fz-story__stage .pv-about__media::after {
-  content: "a stúdió · Gyula";
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0.45rem;
-  font-family: var(--pv-font-head);
-  font-style: italic;
-  font-size: 0.82rem;
-  text-align: center;
-  color: #3a0a1c;
-}
 /* a cím ne fusson a polaroid alá */
 .fz-story__stage .pv-about__copy :is(.pv-eyebrow, h2, .fz-lede) { padding-right: clamp(7rem, 33vw, 10.5rem); }
 
@@ -1070,20 +1057,6 @@ html.fz-focus :is(.pv-cta-bar, .pv-top) { visibility: hidden; }
 .fz-wd.is-on { opacity: 1; }
 #sec-about .fz-story .fz-lede { margin-bottom: 0.7rem; }
 
-/* aláírás: a betűk körvonala kirajzolódik, aztán kitelik */
-.fz-sign { display: block; width: clamp(8rem, 30vw, 11rem); margin-top: 0.4rem; overflow: visible; }
-.fz-sign text {
-  font-family: var(--pv-font-head);
-  font-style: italic;
-  font-size: 64px;
-  fill: var(--pv-primary);
-  fill-opacity: clamp(0, (var(--p) - 0.95) * 20, 1);
-  stroke: var(--pv-primary);
-  stroke-width: 1.2px;
-  stroke-dasharray: 1400;
-  stroke-dashoffset: calc((1 - clamp(0, (var(--p) - 0.85) / 0.12, 1)) * 1400);
-}
-.fz-story.is-calm .fz-sign text { fill-opacity: 1; stroke-dashoffset: 0; }
 .fz-story.is-calm .fz-story__stage { --p: 1; }
 
 @container (min-width: 56rem) {
@@ -1091,7 +1064,6 @@ html.fz-focus :is(.pv-cta-bar, .pv-top) { visibility: hidden; }
   .fz-story__stage { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); grid-template-areas: "photo copy"; gap: 0 clamp(2.5rem, 6cqi, 5rem); align-items: center; }
   .fz-story__stage .pv-about__copy { grid-column: 2; }
   #sec-about .fz-story__stage .pv-about__media { grid-column: 1; width: min(100%, 24rem); justify-self: center; margin: 0; padding: 0.8rem 0.8rem 3rem; }
-  #sec-about .fz-story__stage .pv-about__media::after { font-size: 1.15rem; bottom: 0.8rem; }
   .fz-story__stage .pv-about__copy :is(.pv-eyebrow, h2, .fz-lede) { padding-right: 0; }
   #sec-about .fz-story #pv-about { font-size: 1.2rem; }
 }
@@ -1143,4 +1115,67 @@ html:not(.fz-menu) .pv:has(.fz-pin:not(.is-calm)) .pv-header:not(.is-scrolled) .
 @media (prefers-reduced-motion: no-preference) {
   .fz-nav-pill { transition: translate 0.45s var(--fz-ease), width 0.45s var(--fz-ease), height 0.45s var(--fz-ease), opacity 0.3s; }
   .pv-header__inner::after { transition: opacity 0.3s; }
+}
+
+/* ==========================================================================
+   17. SZOLGÁLTATÁSOK – vízszintes polc (fruzsi.js shelf)
+   .fz-shelf magassága = színpad + út (JS); .is-pinned: kitűzve, a kártyák egy
+   sorban, --x a sor eltolása. Kártyán --f a fókusz (középen 1), --d az előjeles
+   távolság a középtől (a kép ellenmozgásához).
+   ========================================================================== */
+.fz-shelf.is-pinned .fz-shelf__stage {
+  position: sticky;
+  top: calc(var(--pv-nav-h, 4.4rem) + 0.4rem);
+  overflow: hidden;
+  margin-inline: calc(50% - 50vw);
+  padding-inline: max(1.1rem, calc(50vw - 50%));
+  padding-block: 0.4rem 0.8rem;
+}
+.fz-shelf.is-pinned .pv-head { margin-bottom: 1.2rem; }
+.fz-shelf.is-pinned .pv-head .pv-muted { display: none; }       /* telefonon a polcnak kell a hely */
+.fz-shelf.is-pinned .pv-head h2 { font-size: clamp(2.2rem, 9vw, 4.4rem); }
+.fz-shelf.is-pinned #pv-items {
+  display: flex;
+  gap: clamp(1rem, 3vw, 2.2rem);
+  width: max-content;
+  translate: var(--x, 0) 0;
+  will-change: translate;
+}
+.fz-shelf.is-pinned #pv-items > li {
+  --f: 1;
+  --d: 0;
+  flex: 0 0 min(76vw, 25rem);
+  display: grid;
+  grid-template-columns: 1fr;
+  align-content: start;
+  gap: 0.8rem;
+  scale: calc(0.9 + var(--f) * 0.1);
+  opacity: calc(0.45 + var(--f) * 0.55);
+  transform-origin: 50% 100%;
+  will-change: scale, opacity;
+}
+/* köröm-ablak a képnek; a kép belül ellenmozog */
+.fz-shelf.is-pinned #pv-items .pv-item__media { order: 0; aspect-ratio: 1; border-radius: var(--fz-nail); }
+.fz-shelf.is-pinned #pv-items .pv-item__media img { scale: 1.18; translate: calc(clamp(-0.6, var(--d), 0.6) * -14%) 0; will-change: translate; }
+.fz-shelf.is-pinned #pv-items .pv-item__body h3 { font-size: clamp(1.9rem, 8vw, 2.8rem); }
+.fz-shelf.is-pinned #pv-items .pv-item__body > p:not(.fz-meta) {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+/* számláló + haladás-vonal */
+.fz-shelf__bar { display: none; }
+.fz-shelf.is-pinned .fz-shelf__bar { display: flex; align-items: center; gap: 0.9rem; max-width: 40rem; margin-top: 1.2rem; font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; color: var(--fz-muted); font-variant-numeric: tabular-nums; }
+.fz-shelf__bar i { position: relative; flex: 1; height: 2px; overflow: hidden; border-radius: 2px; background: var(--fz-line); }
+.fz-shelf__bar i::after { content: ""; position: absolute; inset: 0; background: var(--pv-primary); transform-origin: 0 50%; scale: var(--p, 0) 1; }
+@container (min-width: 44rem) {
+  .fz-shelf.is-pinned .pv-head .pv-muted { display: block; }
+  .fz-shelf.is-pinned #pv-items .pv-item__media { aspect-ratio: 4 / 3; }
+  .fz-shelf.is-pinned #pv-items > li:nth-child(even) .pv-item__media { order: 0; }
+}
+@container (min-width: 64rem) {
+  .fz-shelf.is-pinned #pv-items > li { flex-basis: 24rem; }
+  .fz-shelf.is-pinned #pv-items .pv-item__media { aspect-ratio: 4 / 3; }
+  .fz-shelf.is-pinned .pv-head h2 { font-size: 3.6rem; }
 }

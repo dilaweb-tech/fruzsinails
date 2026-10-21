@@ -70,11 +70,11 @@
       },
       {
         "spot": "Rólam",
-        "src": "../images/studio-munka.jpg",
+        "src": "../images/fruzsi-rolam.jpg",
         "focus": "center",
         "media": "",
         "hero": false,
-        "alt": "Fruzsi munkaasztala: kézpárna és UV-lámpa a stúdióban"
+        "alt": "Fruzsi nyáron, fehér ruhában egy virágos tengerparti teraszon"
       },
       {
         "spot": "Hero",
@@ -447,7 +447,7 @@
       "pv.galleryEyebrow": "Friss munkák",
       "pv.galleryTitle": "Galéria",
       "pv.aboutEyebrow": "Rólam",
-      "pv.aboutTitle": "Szia, Fruzsi vagyok",
+      "pv.aboutTitle": "Rólam pár információ",
       "sec.about": "Rólam",
       "pv.ratingEyebrow": "Amit a vendégek mondanak",
       "pv.ratingTitle": "Értékelések",
