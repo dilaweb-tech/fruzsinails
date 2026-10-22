@@ -32,16 +32,14 @@
   <!-- Bodoni Moda kijelző-betű (a site.js csak a Hankent tölti) -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..600;1,6..96,400..600&display=swap">
   <link rel="stylesheet" href="pv.css">
-  <link rel="stylesheet" href="fruzsi.css?v=7">
+  <link rel="stylesheet" href="fruzsi.css?v=8">
   <link rel="stylesheet" href="booking.css">
 
   <style>
-    /* A fejlécben itt eggyel több gomb van (nyelv, belépés), ezért a cégnév
-       csak szélesebb sávban fér ki – a logó viszont mindig visz a főoldalra. */
-    .pv-brand span { display: none; }
+    /* A cégnév telefonon is látszik: itt a logót a fruzsi.css rejti (a
+       szóvédjegy a logó), nélküle a főoldal-link 0 px széles lenne. */
     /* `font: inherit` nélkül a böngésző saját gomb-betűje ütne ki a menüből */
     .pv-nav__top { background: none; border: 0; padding: 0; font: inherit; text-align: inherit; cursor: pointer; }
-    @container (min-width: 44rem) { .pv-brand span { display: block; } }
 
     /* Csak ezen az oldalon kell: a profil-nézet a varázsló osztályaival */
     .lv-h { font-size: 1.05rem; margin-top: 0.6rem; }

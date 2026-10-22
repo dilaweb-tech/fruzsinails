@@ -79,6 +79,7 @@
   box-shadow: 0 0 0 1px var(--fz-line);
 }
 .pv-brand img { display: none; }
+@media (pointer: coarse) { .pv-brand { min-height: 2.75rem; } }   /* ujjnyi cél: a szóvédjegy egyedül 38px magas */
 #pv-company-sm {
   font-family: var(--pv-font-head);
   font-size: clamp(1.15rem, 6vw, 1.45rem);
@@ -618,6 +619,7 @@ html:has(.fz-viewer[open]) { overflow: hidden; }
   --fz-line: rgb(246 228 232 / 0.14);
   background: #2a0714;
   color: #f6e4e8;
+  overflow-x: clip;                  /* a szétnyílt pakli széle ne szélesítse a lapot telefonon */
 }
 #sec-gallery :is(h2, .pv-item__cap) { color: #f6e4e8; }
 .fz-scrolly { height: calc(var(--n) * 70svh); margin: 1.6rem 0 3rem; }
@@ -634,6 +636,9 @@ html:has(.fz-viewer[open]) { overflow: hidden; }
 .fz-scrolly__frame img.is-lit { opacity: 1; }
 .fz-scrolly__cap { margin: 0; font-family: var(--pv-font-head); font-style: italic; font-size: clamp(1.6rem, 7vw, 3rem); line-height: 1.05; }
 .fz-scrolly__cap small { display: block; margin-top: 0.3rem; font-family: var(--pv-font); font-style: normal; font-size: 0.82rem; color: #c9a3ae; }
+/* telefonon a lebegő CTA-sáv ne takarja a képaláírást (44rem-től nincs sáv) */
+.fz-scrolly__stage { height: calc(100svh - var(--pv-nav-h, 4rem) - 6.25rem - env(safe-area-inset-bottom, 0px)); }
+@container (min-width: 44rem) { .fz-scrolly__stage { height: calc(100svh - var(--pv-nav-h, 4rem) - 1.5rem); } }
 .fz-scrolly__count { position: absolute; top: 1rem; right: 1rem; margin: 0; padding: 0.2rem 0.7rem; border-radius: 999px; background: rgb(42 7 20 / 0.6); color: #f6e4e8; font-size: 0.78rem; font-weight: 600; font-variant-numeric: tabular-nums; }
 
 
@@ -1046,6 +1051,7 @@ html.fz-focus :is(.pv-cta-bar, .pv-top) { visibility: hidden; }
   gap: 0 1rem;
 }
 #sec-about .pv-about__inner:has(.fz-story) { display: block; }
+#sec-about { overflow-x: clip; }     /* a becsúszó polaroid ne szélesítse a lapot telefonon */
 .fz-story.is-pinned .fz-story__stage { position: sticky; top: calc(var(--pv-nav-h, 4.4rem) + 0.8rem); }
 .fz-story__stage .pv-about__copy { grid-area: copy; grid-column: 1 / -1; grid-row: 1; }
 /* polaroid: fehér keret, alul szélesebb; ferdén érkezik, a végére egyenes */
