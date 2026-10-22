@@ -601,7 +601,7 @@ html:has(.fz-viewer[open]) { overflow: hidden; }
 
 /* ==========================================================================
    8c. SÖTÉT LOOKBOOK (fruzsi.js scrolly) – az oldal egyetlen „esti” szekciója
-   A doboz n × 70vh magas, a színpad kitűzve; a görgetés cseréli a képet.
+   A doboz n × 110svh magas (képenként ~1 képernyőnyi görgetés), a színpad kitűzve; a görgetés cseréli a képet.
    ========================================================================== */
 #sec-gallery {
   --pv-text: #f6e4e8;
@@ -613,7 +613,7 @@ html:has(.fz-viewer[open]) { overflow: hidden; }
   overflow-x: clip;                  /* a szétnyílt pakli széle ne szélesítse a lapot telefonon */
 }
 #sec-gallery :is(h2, .pv-item__cap) { color: #f6e4e8; }
-.fz-scrolly { height: calc(var(--n) * 70svh); margin: 1.6rem 0 3rem; }
+.fz-scrolly { height: calc(var(--n) * 110svh); margin: 1.6rem 0 3rem; }
 .fz-scrolly__stage {
   position: sticky;
   top: calc(var(--pv-nav-h, 4rem) + 0.5rem);
@@ -640,6 +640,7 @@ html:has(.fz-viewer[open]) { overflow: hidden; }
   .fz-scrolly__frame img { transition: opacity 0.6s ease, scale 1s var(--fz-ease); scale: 1.05; }
   .fz-scrolly__frame img.is-lit { scale: 1; }
   .pv-nav.is-open { animation: fz-fade 0.3s ease both; }
+  .pv-nav.fz-ghost { animation: fz-fade 0.3s ease reverse both; pointer-events: none; }   /* zárás (fruzsi.js menu) */
   @media (hover: hover) {
     .fz-want:hover span { translate: 0.25rem 0; }
   }
@@ -1177,6 +1178,8 @@ html:not(.fz-menu) .pv:has(.fz-pin:not(.is-calm)) .pv-header:not(.is-scrolled) .
 }
 /* köröm-ablak a képnek; a kép belül ellenmozog */
 .fz-shelf.is-pinned #pv-items .pv-item__media { order: 0; aspect-ratio: 1; border-radius: var(--fz-nail); }
+/* --mh (JS): alacsony képernyőn a kép lapul, hogy a kártya kiférjen és a polc működjön */
+.fz-shelf.is-pinned #pv-items[style*="--mh"] .pv-item__media { aspect-ratio: auto; height: var(--mh); }
 .fz-shelf.is-pinned #pv-items .pv-item__media img { scale: 1.18; translate: calc(clamp(-0.6, var(--d), 0.6) * -14%) 0; will-change: translate; }
 .fz-shelf.is-pinned #pv-items .pv-item__body h3 { font-size: clamp(1.9rem, 8vw, 2.8rem); }
 .fz-shelf.is-pinned #pv-items .pv-item__body > p:not(.fz-meta) {

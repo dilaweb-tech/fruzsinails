@@ -97,6 +97,23 @@
     new MutationObserver(() => {
       document.documentElement.classList.toggle("fz-menu", burger.getAttribute("aria-expanded") === "true");
     }).observe(burger, { attributes: true, attributeFilter: ["aria-expanded"] });
+    /* zárás: a site.js azonnal leveszi az is-open-t (gomb, menüpont, Esc) – egy
+       néma másolat a helyén marad és kihalványul, a nyitás tükreként */
+    if (calm) return;
+    let was = nav.classList.contains("is-open");
+    new MutationObserver(() => {
+      const now = nav.classList.contains("is-open");
+      if (was && !now) {
+        const ghost = nav.cloneNode(true);
+        ghost.removeAttribute("id");
+        ghost.classList.add("is-open", "fz-ghost");
+        ghost.setAttribute("aria-hidden", "true");
+        ghost.inert = true;
+        ghost.addEventListener("animationend", () => ghost.remove(), { once: true });
+        nav.after(ghost);
+      }
+      was = now;
+    }).observe(nav, { attributes: true, attributeFilter: ["class"] });
   }
 
   /* --- Recept: a galéria-tétel `text` mezője → a foglalás szolgáltatása ---- */
@@ -271,9 +288,9 @@
 
     /* nyitás: a pakli felső fotója átrepül a nézegető képére */
     pile.addEventListener("click", () => {
-      const from = $(".fz-pile__stack img:last-child", pile), to = $("img", track.children[start]);
+      const from = $(".fz-pile__stack img:last-child", pile), to = $("img", track.children[0]);
       to.loading = "eager";
-      const show = () => { dlg.showModal(); track.scrollLeft = start * track.clientWidth; sync(); };
+      const show = () => { dlg.showModal(); track.scrollLeft = 0; sync(); };     /* a nézegető az első munkától indul */
       if (!document.startViewTransition || calm) return show();
       from.style.viewTransitionName = "fz-look";
       const vt = document.startViewTransition(() => { from.style.viewTransitionName = ""; show(); to.style.viewTransitionName = "fz-look"; });
@@ -625,12 +642,21 @@
     wrap.append(box);
     const count = $(".fz-shelf__bar span", stage), two = (n) => String(n).padStart(2, "0");
     let pinTop = 0, run = 1, travel = 0, offs = [], on = false;
+    const media = $(".pv-item__media", list);
     const size = () => {
       box.classList.add("is-pinned");
       box.style.height = "";
       list.style.setProperty("--x", "0px");
+      list.style.removeProperty("--mh");
       pinTop = parseFloat(getComputedStyle(stage).top) || 0;
-      on = stage.offsetHeight < screenH() - pinTop - 8;
+      /* telefonon a kártya ritkán fér ki teljes képpel: a kép annyit enged a
+         magasságából, amennyi kell (legalább 7rem), különben marad a lista */
+      const room = screenH() - pinTop - 8, over = stage.offsetHeight - room;
+      if (over > 0 && media) {
+        const mh = media.offsetHeight - over - 4;
+        if (mh >= 112) list.style.setProperty("--mh", `${mh}px`);
+      }
+      on = stage.offsetHeight < room;
       if (!on) return box.classList.remove("is-pinned");
       const pad = parseFloat(getComputedStyle(stage).paddingRight) || 0;
       travel = Math.max(0, list.scrollWidth - (stage.clientWidth - list.offsetLeft - pad));
