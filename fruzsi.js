@@ -30,6 +30,23 @@
     jobs.push(job);
     job()?.();
   };
+  /* Stabil képernyőmagasság: 100svh (a böngészősávval együtt mért nézet).
+     Telefonon az innerHeight görgetés közben változik (a böngésző – főleg a
+     Messenger/Snapchat beépített böngészője – be-/kicsúsztatja a sávját), és
+     minden ilyen resize átméretezte, sőt ki-be kapcsolta a kitűzött szakaszokat:
+     a lap ugrált az ujj alatt. Az svh ettől nem mozdul, a resize-feladat csak
+     valódi méretváltásra (szélesség, elforgatás, ablak) fut. */
+  const probe = document.createElement("div");
+  probe.style.cssText = "position:fixed;top:0;width:0;height:100svh;visibility:hidden;pointer-events:none";
+  document.body.append(probe);
+  const screenH = () => probe.offsetHeight || innerHeight;
+  const onResize = (fn) => {
+    let key = `${innerWidth}x${screenH()}`;
+    addEventListener("resize", () => {
+      const k = `${innerWidth}x${screenH()}`;
+      if (k !== key) { key = k; requestAnimationFrame(fn); }
+    });
+  };
 
   /* --- Szóvédjegy a fejlécben: ugyanaz a dőlt „nails”, mint a heróban ----- */
   function brand() {
@@ -184,13 +201,13 @@
     };
     let last = "";
     const update = () => {
-      const r = pin.getBoundingClientRect(), run = Math.max(1, pin.offsetHeight - innerHeight);
+      const r = pin.getBoundingClientRect(), run = Math.max(1, pin.offsetHeight - screenH());
       const p = Math.min(1, Math.max(0, -r.top / run)).toFixed(3);
       if (p !== last) return () => { last = p; stage.style.setProperty("--p", p); };
     };
     measure();
     onScroll(update);
-    addEventListener("resize", () => requestAnimationFrame(() => { measure(); last = ""; update()?.(); }));
+    onResize(() => { measure(); last = ""; update()?.(); });
     document.fonts?.ready.then(measure);
     requestAnimationFrame(() => pin.classList.add("is-in"));
   }
@@ -310,7 +327,7 @@
       cnt.textContent = `${String(k + 1).padStart(2, "0")} / ${String(looks.length).padStart(2, "0")}`;
     };
     onScroll(() => {
-      const r = box.getBoundingClientRect(), run = Math.max(1, r.height - innerHeight);
+      const r = box.getBoundingClientRect(), run = Math.max(1, r.height - screenH());
       const k = Math.min(looks.length - 1, Math.max(0, Math.floor((-r.top / run) * looks.length)));
       if (k !== at) return () => show(k);
     });
@@ -352,14 +369,14 @@
     let pinTop = 0, travel = 1, pinned = false;
     const size = () => {
       box.style.height = "";
-      pinned = stage.offsetHeight < innerHeight - (parseFloat(getComputedStyle(stage).top) || 0) - 16;
+      pinned = stage.offsetHeight < screenH() - (parseFloat(getComputedStyle(stage).top) || 0) - 16;
       box.classList.toggle("is-pinned", pinned);
-      travel = Math.max(innerHeight, words.length * 14);
+      travel = Math.max(screenH(), words.length * 14);
       pinTop = parseFloat(getComputedStyle(stage).top) || 0;
       if (pinned) box.style.height = `${stage.offsetHeight + travel}px`;
     };
     size();
-    addEventListener("resize", () => requestAnimationFrame(size));
+    onResize(size);
     document.fonts?.ready.then(size);
     let lastP = "", shown = -1;
     onScroll(() => {
@@ -395,9 +412,9 @@
     ft.classList.add("fz-foot");
     ft.insertAdjacentHTML("afterbegin", '<i class="fz-foot__line" aria-hidden="true"></i>');
     [...ft.children].forEach((el, i) => { el.style.setProperty("--i", i); el.style.setProperty("--dir", i % 2 ? 1 : -1); });
-    const fit = () => ft.classList.toggle("is-curtain", ft.offsetHeight < innerHeight * 0.92);
+    const fit = () => ft.classList.toggle("is-curtain", ft.offsetHeight < screenH() * 0.92);
     fit();
-    addEventListener("resize", () => requestAnimationFrame(fit));
+    onResize(fit);
     if (calm) ft.classList.add("is-in");
     /* nem IntersectionObserver: függönynél a lábléc végig a képernyő alján áll
        (csak takarva), ezért azt mérjük, mennyi bukkant elő a tartalom alól. */
@@ -455,12 +472,12 @@
       box.style.setProperty("--ph", "auto");
       const ph = Math.max(...els.map((el) => el.offsetHeight));
       box.style.setProperty("--ph", ph + "px");
-      travel = (n - 0.4) * 0.6 * innerHeight;
+      travel = (n - 0.4) * 0.6 * screenH();
       pinTop = parseFloat(getComputedStyle(stage).top) || 0;
       box.style.height = `${stage.offsetHeight + travel}px`;
     };
     size();
-    addEventListener("resize", () => requestAnimationFrame(size));
+    onResize(size);
     document.fonts?.ready.then(size);
 
     /* ár felpörgetése: számjegyek 0-tól a valódi értékig, egyszer lapenként */
@@ -584,7 +601,7 @@
     $("#pv-burger")?.addEventListener("click", () => requestAnimationFrame(move));
     nav.addEventListener("pointerover", (e) => { const a = e.target.closest(".pv-nav__top"); if (a && a !== hover) { hover = a; move(); } });
     nav.addEventListener("pointerleave", () => { hover = null; move(); });
-    addEventListener("resize", () => requestAnimationFrame(move));
+    onResize(move);
     document.fonts?.ready.then(move);
     move();
   }
@@ -613,7 +630,7 @@
       box.style.height = "";
       list.style.setProperty("--x", "0px");
       pinTop = parseFloat(getComputedStyle(stage).top) || 0;
-      on = stage.offsetHeight < innerHeight - pinTop - 8;
+      on = stage.offsetHeight < screenH() - pinTop - 8;
       if (!on) return box.classList.remove("is-pinned");
       const pad = parseFloat(getComputedStyle(stage).paddingRight) || 0;
       travel = Math.max(0, list.scrollWidth - (stage.clientWidth - list.offsetLeft - pad));
@@ -622,7 +639,7 @@
       box.style.height = `${stage.offsetHeight + run}px`;
     };
     size();
-    addEventListener("resize", () => requestAnimationFrame(size));
+    onResize(size);
     document.fonts?.ready.then(size);
     let last = "";
     onScroll(() => {

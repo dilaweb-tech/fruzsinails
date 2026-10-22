@@ -7,7 +7,8 @@ EXIF/GPS-adat nélkül lettek mentve.
 
 | Fájl | Hol van az oldalon | Nyers fájl |
 |---|---|---|
-| `hero-pink-kezek.jpg` | hero háttérkép | C0335154-….jpg |
+| `hero-fruzsinails.jpg` | hero háttérkép (4k_kep1.HEIC-ből) | saját fotó |
+| `hero-pink-kezek.jpg` | galéria | C0335154-….jpg |
 | `og-rozsaszin-kez.jpg` | megosztási kép (OG), 1200×630 | C0335154-….jpg |
 | `gellakk.jpg` | szolgáltatás: Géllakk | IMG_4908 |
 | `mukorom-epites.jpg` | szolgáltatás: Műköröm építés | IMG_5312 |
