@@ -455,7 +455,7 @@ img[src$="gellakk.jpg"] { object-position: 50% 22%; }
   --p: 0;
   display: grid;
   justify-items: center;
-  gap: 1.6rem;
+  gap: 3rem;                                    /* a kinyílt, döntött lapok sarka lelóg – a felirat ne érjen hozzá */
   width: 100%;
   margin: 0.5rem 0 1rem;
   padding: 2rem 0 0.5rem;
@@ -599,6 +599,10 @@ html:has(.fz-viewer[open]) { overflow: hidden; }
 #sec-map .pv-map__frame iframe { border-radius: 0; }
 
 .pv .pv-cta-bar .pv-btn { box-shadow: none; }
+/* a CTA-sáv lebeg (a lap végén nem foglal helyet), a lábléchez érve eltűnik (fruzsi.js footer) */
+.pv .pv-cta-bar { position: fixed; inset: auto 0 0; }
+.pv .pv-cta-bar.is-gone { opacity: 0; visibility: hidden; translate: 0 100%; }
+.pv:has(.pv-cta-bar.is-gone) .pv-top { inset-block-end: var(--pv-top-gap); }
 /* vissza a tetejére: csendes körvonal, nem második fukszia folt a CTA-sáv mellett */
 .pv .pv-top { display: none; border: 1px solid var(--fz-line); background: var(--fz-milk); color: var(--pv-text); box-shadow: none; }
 @container (min-width: 30rem) { .pv .pv-top { display: grid; } }     /* telefonon a CTA-sáv mellett fölösleges */
@@ -682,8 +686,9 @@ html:has(.fz-viewer[open]) { overflow: hidden; }
    közrefogja az ablakot.
    ========================================================================== */
 .pv-main > #sec-hero { padding-top: 0; }
-/* a fejléc 0.4rem-es saját térköze a --pv-nav-h-n felül lóg – a fotó a lap legtetejéig érjen */
-.pv:has(.fz-pin) .pv-main { margin-top: calc(-1 * var(--pv-nav-h) - 0.4rem); }
+/* a fejléc valódi magassága a --pv-nav-h becslésnél nagyobb (0.8rem térköz + 0.7rem kapszula +
+   2.75rem gomb + 2px float-keret) – ennyivel húzzuk fel, hogy a fotó fölött ne maradjon világos csík */
+.pv:has(.fz-pin) .pv-main { margin-top: calc(-1 * var(--pv-nav-h) - 0.5rem - 2px); }
 #sec-hero .pv-hero__inner:has(.fz-pin) { grid-template-columns: minmax(0, 1fr); }
 #sec-hero .pv-hero__media.fz-moved { display: none; }
 /* a nyitás után nincs hely-sor, bevezető és gombpár – a foglalás a fejlécben és a CTA-sávon */
@@ -939,9 +944,10 @@ html:not(.fz-menu) .pv:has(.fz-pin:not(.is-calm)) .pv-header:not(.is-scrolled) :
   --pv-muted: #c9a3ae;
   --pv-line: rgb(246 228 232 / 0.14);
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.9rem;
-  padding-block: 2.6rem 6rem;                      /* telefonon alul a ragadós CTA-sáv */
+  align-items: center;                             /* telefonon középre zárt oszlop */
+  gap: 1.1rem;
+  padding-block: 2.6rem calc(2.6rem + env(safe-area-inset-bottom, 0px));
+  text-align: center;
   background: #2a0714;
   color: #c9a3ae;
   border-top: 0;
@@ -951,9 +957,12 @@ html:not(.fz-menu) .pv:has(.fz-pin:not(.is-calm)) .pv-header:not(.is-scrolled) :
 .fz-foot.is-curtain { position: sticky; bottom: 0; z-index: 0; }
 .fz-foot a { color: #f6e4e8; }
 /* a cégnév-sor ugyanakkora, mint a többi – csak a színe világosabb */
-.fz-foot > span:first-of-type { color: #f6e4e8; }
-.fz-foot .pv-footer__links { gap: 0.5rem; }
-.fz-foot .pv-footer__links a { padding: 0.45rem 0.95rem; border: 1px solid rgb(246 228 232 / 0.25); border-radius: 999px; }
+.fz-foot > span:first-of-type { color: #f6e4e8; font-size: 1rem; }
+/* a „Minden jog fenntartva.” a cégnév alá simul – egy blokk, nem két szétszórt sor */
+.fz-foot > span:nth-of-type(2) { margin-top: -1rem; font-size: 0.8rem; }
+.fz-foot .pv-footer__links { justify-content: center; gap: 0.5rem; }
+.fz-foot .pv-footer__links a { padding: 0.4rem 0.9rem; border: 1px solid rgb(246 228 232 / 0.25); border-radius: 999px; font-size: 0.85rem; }
+.fz-foot .pv-credit { font-size: 0.8rem; opacity: 0.75; }
 .fz-foot__line { align-self: stretch; height: 1px; background: #ff4fa3; transform-origin: 0 50%; }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -968,7 +977,11 @@ html:not(.fz-menu) .pv:has(.fz-pin:not(.is-calm)) .pv-header:not(.is-scrolled) :
   .fz-foot.is-in > .fz-foot__line { scale: 1 1; }
 }
 @container (min-width: 44rem) {
-  .fz-foot { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; padding-bottom: 2.4rem; }
+  .fz-foot { flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: space-between; padding-bottom: 2.4rem; text-align: left; }
+  /* széles nézetben a régi, egysoros méretek */
+  .fz-foot > span:nth-of-type(2) { margin-top: 0; }
+  .fz-foot > span:is(:first-of-type, :nth-of-type(2)), .fz-foot .pv-footer__links a { font-size: inherit; }
+  .fz-foot .pv-credit { font-size: 0.9em; opacity: 1; }
   .fz-foot__line { flex-basis: 100%; }
 }
 
@@ -1002,14 +1015,19 @@ html.fz-focus .fz-veil { pointer-events: auto; }
 #sec-booking.fz-spot .pv-wrap { position: sticky; top: calc(var(--pv-nav-h, 4.4rem) + 0.5rem); z-index: 21; }
 /* tartalék a szekció alján: ennyi ideig áll kitűzve a kártya, amíg a fókusz felépül */
 #sec-booking.fz-spot::after { content: ""; display: block; height: 80svh; }
+/* telefonon a kártya kisebbről (82%) nő a teljes szélességig – a nagyítás látszik, és nem lóg ki;
+   széles nézetben 100 → 107% */
 #sec-booking.fz-spot #bk-root {
-  scale: calc(1 + var(--fz-focus, 0) * 0.07);
+  --fz-s0: 0.82;
+  --fz-grow: 0.18;
+  scale: calc(var(--fz-s0) + var(--fz-focus, 0) * var(--fz-grow));
   transform-origin: 50% 25%;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--pv-primary) calc(var(--fz-focus, 0) * 35%), transparent),
               0 50px 100px -40px rgb(42 7 20 / calc(var(--fz-focus, 0) * 0.7));
 }
 html.fz-near .pv-header__inner { filter: blur(calc(var(--fz-focus, 0) * 5px)); opacity: calc(1 - var(--fz-focus, 0) * 0.55); }
 html.fz-focus :is(.pv-cta-bar, .pv-top) { visibility: hidden; }
+@container (min-width: 44rem) { #sec-booking.fz-spot #bk-root { --fz-s0: 1; --fz-grow: 0.07; } }
 @media (prefers-reduced-motion: reduce) {
   #sec-booking.fz-spot #bk-root { scale: none; }
 }

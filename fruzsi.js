@@ -394,15 +394,16 @@
     const fit = () => ft.classList.toggle("is-curtain", ft.offsetHeight < innerHeight * 0.92);
     fit();
     addEventListener("resize", () => requestAnimationFrame(fit));
-    if (calm) return ft.classList.add("is-in");
+    if (calm) ft.classList.add("is-in");
     /* nem IntersectionObserver: függönynél a lábléc végig a képernyő alján áll
-       (csak takarva), ezért azt mérjük, mennyi bukkant elő a tartalom alól */
-    const main = $(".pv-main");
+       (csak takarva), ezért azt mérjük, mennyi bukkant elő a tartalom alól.
+       A lábléchez érve a CTA-sáv eltűnik (.is-gone) – a foglalás már fölötte van. */
+    const main = $(".pv-main"), bar = $("#pv-cta-bar");
     let on = false;
     onScroll(() => {
       const shown = innerHeight - (ft.classList.contains("is-curtain") ? main.getBoundingClientRect().bottom : ft.getBoundingClientRect().top);
       const want = shown > ft.offsetHeight * 0.35;
-      if (want !== on) return () => { on = want; ft.classList.toggle("is-in", want); };
+      if (want !== on) return () => { on = want; if (!calm) ft.classList.toggle("is-in", want); bar?.classList.toggle("is-gone", want); };
     });
   }
 
