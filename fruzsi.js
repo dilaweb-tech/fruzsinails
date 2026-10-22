@@ -57,8 +57,12 @@
         (open && !open.hidden && open.textContent.trim() ? `<strong>${esc(open.textContent.trim())}</strong>` : "") +
         (addr && addr.textContent.trim() ? `<span>${esc(addr.textContent.trim())}</span>` : "") +
         (tel && tel.textContent.trim() ? `<a href="${esc(tel.getAttribute("href"))}">${esc(tel.textContent.trim())}</a>` : "") +
-        `</div><a class="fz-menu-book" href="#sec-booking">Időpontot foglalok</a>`;
-      nav.append(aside);
+        `</div>`;
+      /* a foglalás a menüpontok között (az alsó CTA-sáv helyett) */
+      const book = document.createElement("div");
+      book.className = "pv-nav__item fz-nav-book";
+      book.innerHTML = `<a class="pv-nav__top" href="#sec-booking">Időpontfoglalás</a>`;
+      nav.append(book, aside);
       /* asztalon a fölé vitt pont a saját szekciója képét mutatja */
       const fig = $(".fz-menu-img", aside), pic = fig && $("img", fig);
       let want = first, timer;
@@ -396,14 +400,13 @@
     addEventListener("resize", () => requestAnimationFrame(fit));
     if (calm) ft.classList.add("is-in");
     /* nem IntersectionObserver: függönynél a lábléc végig a képernyő alján áll
-       (csak takarva), ezért azt mérjük, mennyi bukkant elő a tartalom alól.
-       A lábléchez érve a CTA-sáv eltűnik (.is-gone) – a foglalás már fölötte van. */
-    const main = $(".pv-main"), bar = $("#pv-cta-bar");
+       (csak takarva), ezért azt mérjük, mennyi bukkant elő a tartalom alól. */
+    const main = $(".pv-main");
     let on = false;
     onScroll(() => {
       const shown = innerHeight - (ft.classList.contains("is-curtain") ? main.getBoundingClientRect().bottom : ft.getBoundingClientRect().top);
       const want = shown > ft.offsetHeight * 0.35;
-      if (want !== on) return () => { on = want; if (!calm) ft.classList.toggle("is-in", want); bar?.classList.toggle("is-gone", want); };
+      if (want !== on) return () => { on = want; if (!calm) ft.classList.toggle("is-in", want); };
     });
   }
 
@@ -646,6 +649,10 @@
   }
 
   function build() {
+    /* nincs alsó CTA-sáv: a foglalás a menüben van. Kivéve a lapból, hogy a
+       pv.css :has(.pv-cta-bar.is-on) szabályai (eltűnő fejléc, megemelt
+       „fel” gomb) se lépjenek életbe – így a fejléc és a menü mindig elérhető. */
+    $("#pv-cta-bar")?.remove();
     brand();
     menu();
     navPill();
