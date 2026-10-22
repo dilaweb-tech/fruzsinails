@@ -461,8 +461,8 @@
     }
   },
   "design": {
-    "font": "hanken",
-    "fontHead": "hanken",
+    "font": "instrumentsans",
+    "fontHead": "instrumentsans",
     "align": "left",
     "radius": 16,
     "layout": "split",

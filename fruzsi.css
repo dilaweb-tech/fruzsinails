@@ -4,13 +4,15 @@
    ezt a két réteget tartja, a pv.css / site.js / booking.* a gyökérből jön.
 
    Irány: Fruzsi munkái divatlap-lookbookként. Tej alap, meggy tinta, a
-   fukszia CSAK akció. Kijelző: Bodoni Moda, szöveg: Hanken Grotesk.
+   fukszia CSAK akció. Kijelző: Instrument Serif, szöveg: Instrument Sans.
    Kézjegy: színkártya a heróban (fruzsi.js → .fz-look) – egyetlen mozgó elem.
    Minden más csendes: nincs üveg, ragyogás, csillám, árnyék-glória.
    ========================================================================== */
 .pv {
-  /* a site.js inline teszi ki a címbetűt (fontHead: hanken) – a Bodoni itt nyer */
-  --pv-font-head: "Bodoni Moda", "Didot", Georgia, serif !important;
+  /* a site.js inline teszi ki a címbetűt (fontHead: instrumentsans) – az Instrument Serif itt nyer */
+  --pv-font-head: "Instrument Serif", Georgia, serif !important;
+  /* az Instrument Serif csak 400-as: a vastagabb kérés ne műfélkövér legyen */
+  font-synthesis-weight: none;
   --fz-milk: #fffafb;                  /* kártya, lap */
   --fz-nude: #f4dcd6;                  /* az egyetlen színes sáv: árlista */
   --fz-chrome: #c9ccd4;                /* keret, hajszálvonal a mintákon */
@@ -140,7 +142,7 @@
 .pv-topbar { font-size: 0.76rem; color: var(--fz-muted); background: none; border: 0; }
 
 /* --------------------------------------------------------------------------
-   MENÜ – teljes képernyős lap, nagy Bodoni pontok
+   MENÜ – teljes képernyős lap, nagy serif pontok
    -------------------------------------------------------------------------- */
 .pv-nav.is-open {
   position: fixed;
