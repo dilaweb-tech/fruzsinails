@@ -167,6 +167,29 @@
   </dialog>
 
   <script src="booking.js"></script>
+  <!-- Friss verzió: a tárhely 10 percig gyorsítótáraz, a telefon a háttérből
+       visszahozott fület is a régi lappal mutatja. Betöltéskor és visszatéréskor
+       a hálózatról megnézzük a lap verzióját (a fruzsi.css ?v= száma); ha
+       újabb van kint, egyszer újratöltünk. -->
+  <script>
+  (() => {
+    const ver = (t) => (t.match(/fruzsi\.css\?v=(\d+)/) || [])[1];
+    const mine = ver(document.head.innerHTML);
+    let last = 0;
+    const check = () => {
+      if (!mine || Date.now() - last < 60000) return;
+      last = Date.now();
+      fetch(location.href.split("#")[0], { cache: "reload" }).then((r) => r.text()).then((t) => {
+        const v = ver(t);
+        try { if (!v || v === mine || sessionStorage.getItem("fz-ver") === v) return; sessionStorage.setItem("fz-ver", v); } catch (e) { return; }
+        location.reload();
+      }).catch(() => {});
+    };
+    addEventListener("pageshow", (e) => { if (e.persisted) { last = 0; check(); } });
+    document.addEventListener("visibilitychange", () => { if (document.visibilityState === "visible") check(); });
+    check();
+  })();
+  </script>
   <script src="site.js"></script>
   <!-- Adapter: DilaWEB backend (/api/*), azonos origin. -->
   <script type="module" src="booking-api.js"></script>
