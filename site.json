@@ -70,11 +70,11 @@
       },
       {
         "spot": "Rólam",
-        "src": "studio-munka.jpg",
+        "src": "fruzsi-rolam.jpg",
         "focus": "center",
         "media": "",
         "hero": false,
-        "alt": "Fruzsi munkaasztala: kézpárna és UV-lámpa a stúdióban"
+        "alt": "Fruzsi nyáron, fehér ruhában egy virágos tengerparti teraszon"
       },
       {
         "spot": "Hero",
@@ -118,83 +118,92 @@
     "lists": {
       "gallery": [
         {
+          "name": "Neon fukszia, szögletes",
+          "text": "Géllakk",
+          "image": "hero-pink-kezek.jpg",
+          "color": "#f5428f"
+        },
+        {
           "name": "Rózsaszín króm, 3D virággal",
-          "text": "",
+          "text": "Műköröm építés",
           "image": "galeria-rozsa-krom.jpg"
         },
         {
           "name": "Francia, kövekkel díszítve",
-          "text": "",
+          "text": "Töltés",
           "image": "galeria-francia-kovek.jpg"
         },
         {
           "name": "Piros stiletto",
-          "text": "",
+          "text": "Műköröm építés",
           "image": "galeria-piros-stiletto.jpg"
         },
         {
           "name": "Babarózsaszín, pöttyös díszítés",
-          "text": "",
-          "image": "galeria-pottyos.jpg"
+          "text": "Géllakk",
+          "image": "galeria-pottyos.jpg",
+          "color": "#f2c3d3"
         },
         {
           "name": "Kék króm francia",
-          "text": "",
+          "text": "Műköröm építés",
           "image": "galeria-kek-krom.jpg"
         },
         {
           "name": "Stiletto, kézzel festett virág",
-          "text": "",
-          "image": "galeria-festett-virag.jpg"
+          "text": "Műköröm építés",
+          "image": "galeria-festett-virag.jpg",
+          "color": "#e8c3b6"
         },
         {
           "name": "Bordó krokomintás",
-          "text": "",
+          "text": "Műköröm építés",
           "image": "galeria-bordo-kroko.jpg"
         },
         {
           "name": "Arany csillámos ombré",
-          "text": "",
+          "text": "Töltés",
           "image": "galeria-arany-ombre.jpg"
         },
         {
           "name": "Óceánkék, díszített mandula",
-          "text": "",
+          "text": "Műköröm építés",
           "image": "galeria-oceankek.jpg"
         },
         {
           "name": "Bordó mandula",
-          "text": "",
+          "text": "Géllakk",
           "image": "galeria-bordo-mandula.jpg"
         },
         {
           "name": "Rózsa ombré, festett díszítés",
-          "text": "",
+          "text": "Töltés",
           "image": "galeria-rozsa-ombre.jpg"
         },
         {
           "name": "Meggypiros, vékony francia csíkkal",
-          "text": "",
+          "text": "Géllakk",
           "image": "galeria-meggypiros.jpg"
         },
         {
           "name": "Sötétlila stiletto",
-          "text": "",
-          "image": "galeria-lila-stiletto.jpg"
+          "text": "Műköröm építés",
+          "image": "galeria-lila-stiletto.jpg",
+          "color": "#3d1e4f"
         },
         {
           "name": "Neon pink francia",
-          "text": "",
+          "text": "Töltés",
           "image": "galeria-neon-francia.jpg"
         },
         {
           "name": "Narancs, festett virággal",
-          "text": "",
+          "text": "Géllakk",
           "image": "galeria-narancs-virag.jpg"
         },
         {
           "name": "Narancs stiletto, kövekkel",
-          "text": "",
+          "text": "Műköröm építés",
           "image": "galeria-narancs-kovek.jpg"
         }
       ],
@@ -438,7 +447,7 @@
       "pv.galleryEyebrow": "Friss munkák",
       "pv.galleryTitle": "Galéria",
       "pv.aboutEyebrow": "Rólam",
-      "pv.aboutTitle": "Szia, Fruzsi vagyok",
+      "pv.aboutTitle": "Rólam pár információ",
       "sec.about": "Rólam",
       "pv.ratingEyebrow": "Amit a vendégek mondanak",
       "pv.ratingTitle": "Értékelések",
@@ -453,14 +462,14 @@
   },
   "design": {
     "font": "hanken",
-    "fontHead": "lora",
-    "align": "center",
-    "radius": 0,
+    "fontHead": "hanken",
+    "align": "left",
+    "radius": 16,
     "layout": "split",
-    "hero": "stage",
+    "hero": "right",
     "secHead": "stack",
     "edge": "none",
-    "flow": "stagger",
+    "flow": "stack",
     "cols": 2,
     "width": 58,
     "spacing": 118,
@@ -469,18 +478,18 @@
     "surface": "flat",
     "texture": "none",
     "bgDepth": "scroll",
-    "bgArt": "bloom",
+    "bgArt": "none",
     "bgMotion": "still",
     "bgSpot": "corner",
     "reveal": "fade",
-    "band": "soft",
-    "divider": "wave",
+    "band": "none",
+    "divider": "none",
     "accent": "none",
-    "sig": "ken",
-    "media": "arch",
-    "btn": "link",
+    "sig": "none",
+    "media": "plain",
+    "btn": "pill",
     "hover": "none",
-    "grade": "film",
+    "grade": "none",
     "tempo": "swing",
     "scale": "even",
     "navBg": "clear",
@@ -490,7 +499,7 @@
     "navPos": "sticky",
     "navProgress": "none",
     "navCall": "none",
-    "navTop": "info",
+    "navTop": "none",
     "seed": 42,
     "fontScale": "md",
     "fontScaleBy": {
@@ -503,17 +512,17 @@
     },
     "mode": "light",
     "colors": {
-      "dark": {
-        "bg": "#220611",
-        "text": "#f0ebe9",
-        "primary": "#aa3b76",
-        "secondary": "#833a64"
-      },
       "light": {
-        "bg": "#f9dde8",
-        "text": "#16110f",
-        "primary": "#ed0c84",
-        "secondary": "#e869b3"
+        "bg": "#FFF4F6",
+        "text": "#3A0A1C",
+        "primary": "#D1006B",
+        "secondary": "#F4DCD6"
+      },
+      "dark": {
+        "bg": "#2A0714",
+        "text": "#F6E4E8",
+        "primary": "#FF4FA3",
+        "secondary": "#5A1A33"
       }
     }
   },
@@ -569,14 +578,14 @@
     },
     {
       "id": "contact",
-      "on": true,
+      "on": false,
       "nav": true,
       "plate": false,
       "sub": []
     },
     {
       "id": "map",
-      "on": true,
+      "on": false,
       "nav": true,
       "plate": false,
       "sub": []
