@@ -146,6 +146,7 @@
 .pv-nav.is-open {
   position: fixed;
   inset: 0;
+  margin: 0;                         /* a sablon 0.4rem-es margója felül csíkot hagyna a kép fölött */
   max-height: none;
   z-index: -2;
   display: grid;
