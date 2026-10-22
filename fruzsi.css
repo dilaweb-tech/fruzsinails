@@ -1024,8 +1024,8 @@ html.fz-focus .fz-veil { pointer-events: auto; }
 #sec-booking.fz-spot #bk-root {
   --fz-s0: 0.82;
   --fz-grow: 0.18;
-  scale: calc(var(--fz-s0) + var(--fz-focus, 0) * var(--fz-grow));
-  transform-origin: 50% 25%;
+  scale: calc(var(--fz-fit, 1) * (var(--fz-s0) + var(--fz-focus, 0) * var(--fz-grow)));
+  transform-origin: 50% 0;
   box-shadow: 0 0 0 1px color-mix(in srgb, var(--pv-primary) calc(var(--fz-focus, 0) * 35%), transparent),
               0 50px 100px -40px rgb(42 7 20 / calc(var(--fz-focus, 0) * 0.7));
 }
@@ -1033,7 +1033,7 @@ html.fz-near .pv-header__inner { filter: blur(calc(var(--fz-focus, 0) * 5px)); o
 html.fz-focus .pv-top { visibility: hidden; }
 @container (min-width: 44rem) { #sec-booking.fz-spot #bk-root { --fz-s0: 1; --fz-grow: 0.07; } }
 @media (prefers-reduced-motion: reduce) {
-  #sec-booking.fz-spot #bk-root { scale: none; }
+  #sec-booking.fz-spot #bk-root { scale: var(--fz-fit, 1); }
 }
 
 /* ==========================================================================

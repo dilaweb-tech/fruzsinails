@@ -572,8 +572,20 @@
     /* a kártya kitűzve áll egy darabig (CSS: .pv-wrap sticky + 80svh tartalék
        a szekció alján), így a homály és a nagyítás hosszabb úton épül fel */
     const wrap = $(".pv-wrap", sec);
+    /* --fz-fit: a kitűzött cím + kártya a végső méretében is férjen ki a
+       képernyőre (alacsony telefonon kicsinyít, különben a kártya alja lelóg,
+       és a kitűzés végén ugrik egyet); a kártya felülről nő (CSS) */
+    const fit = () => {
+      const g = getComputedStyle(root), end = (+g.getPropertyValue("--fz-s0") || 1) + (+g.getPropertyValue("--fz-grow") || 0);
+      const top = (parseFloat(getComputedStyle(wrap).top) || 0) + root.getBoundingClientRect().top - wrap.getBoundingClientRect().top;
+      const f = Math.min(1, (screenH() - top - 12) / (root.offsetHeight * end));
+      root.style.setProperty("--fz-fit", Math.max(0.65, f).toFixed(3));
+    };
+    fit();
+    onResize(fit);
+    new ResizeObserver(fit).observe(root);   /* lépésváltáskor más a kártya magassága; a scale nem méretez → nincs hurok */
     onScroll(() => {
-      const vh = innerHeight, s = sec.getBoundingClientRect(), w = wrap.getBoundingClientRect();
+      const vh = screenH(), s = sec.getBoundingClientRect(), w = wrap.getBoundingClientRect();
       const enter = (vh - s.top) / (vh * 1.45), exit = (w.bottom - vh * 0.15) / (vh * 0.6);
       let p = Math.min(1, Math.max(0, Math.min(enter, exit)));
       if (p === 0) away = false;
