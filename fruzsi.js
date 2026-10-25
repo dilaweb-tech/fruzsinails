@@ -574,10 +574,19 @@
     const wrap = $(".pv-wrap", sec);
     /* --fz-fit: a kitűzött cím + kártya a végső méretében is férjen ki a
        képernyőre (alacsony telefonon kicsinyít, különben a kártya alja lelóg,
-       és a kitűzés végén ugrik egyet); a kártya felülről nő (CSS) */
+       és a kitűzés végén ugrik egyet); a kártya felülről nő (CSS).
+       Az összegzésnél (gombok, név, e-mail, telefon) nincs kicsinyítés – apró
+       lenne a mező –, helyette a kitűzés a kártya aljához igazodik. */
     const fit = () => {
+      wrap.style.top = "";
       const g = getComputedStyle(root), end = (+g.getPropertyValue("--fz-s0") || 1) + (+g.getPropertyValue("--fz-grow") || 0);
-      const top = (parseFloat(getComputedStyle(wrap).top) || 0) + root.getBoundingClientRect().top - wrap.getBoundingClientRect().top;
+      const pin = parseFloat(getComputedStyle(wrap).top) || 0;
+      if ($(".bk-facts", root)) {
+        root.style.setProperty("--fz-fit", "1");
+        wrap.style.top = `${Math.min(pin, screenH() - wrap.offsetHeight - 12)}px`;
+        return;
+      }
+      const top = pin + root.getBoundingClientRect().top - wrap.getBoundingClientRect().top;
       const f = Math.min(1, (screenH() - top - 12) / (root.offsetHeight * end));
       root.style.setProperty("--fz-fit", Math.max(0.65, f).toFixed(3));
     };

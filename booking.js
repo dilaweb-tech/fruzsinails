@@ -146,6 +146,8 @@
       "bk.pickService": "Melyik szolgáltatást kéri?",
       "bk.pickStaff": "Kihez szeretne jönni?",
       "bk.pickSlot": "Válasszon időpontot",
+      "bk.pickDay": "Válasszon napot",
+      "bk.pickTime": "Válasszon órát",
       "bk.prevWeek": "Előző hét",
       "bk.nextWeek": "Következő hét",
       "bk.loading": "Betöltés…",
@@ -205,6 +207,8 @@
       "bk.pickService": "Which service do you need?",
       "bk.pickStaff": "Who would you like to see?",
       "bk.pickSlot": "Pick a time",
+      "bk.pickDay": "Pick a day",
+      "bk.pickTime": "Pick an hour",
       "bk.prevWeek": "Previous week",
       "bk.nextWeek": "Next week",
       "bk.loading": "Loading…",
@@ -445,7 +449,9 @@
           </div>`;
       }).join("");
 
-      return head + chips + `<div class="bk-cal">${cols}</div>` +
+      /* számozott címke: felül a nap, alatta az óra – ne nézze be senki */
+      const pick = (n, key, cls = "") => `<p class="bk-pick${cls}"><span>${n}</span>${esc(t(key))}</p>`;
+      return head + pick(1, "bk.pickDay", " bk-pick--day") + chips + pick(2, "bk.pickTime") + `<div class="bk-cal">${cols}</div>` +
         (free ? "" : `<p class="bk-empty">${esc(t("bk.noSlotsWeek"))}</p>`);
     }
 

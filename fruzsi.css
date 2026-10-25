@@ -409,6 +409,9 @@ img[src$="gellakk.jpg"] { object-position: 50% 22%; }
 #bk-root .bk-cal__bar b { font-weight: 500; }
 #bk-root .bk-nav { width: 2.75rem; height: 2.75rem; border: 1px solid var(--fz-line); background: none; color: var(--pv-text); font-size: 0.75rem; }
 #bk-root .bk-nav:hover:not(:disabled) { border-color: var(--pv-text); }
+#bk-root .bk-pick { font-family: var(--pv-font); color: var(--pv-text); }
+#bk-root .bk-pick:not(.bk-pick--day) { padding-top: 0.9rem; border-top: 1px solid var(--fz-line); }
+#bk-root .bk-pick--day { display: flex; }      /* itt mindig csipeszes a napválasztó */
 #bk-root .bk-chips { display: flex; gap: 0.45rem; padding: 0.15rem 0.1rem 0.4rem; scrollbar-width: none; }
 #bk-root .bk-chips::-webkit-scrollbar { display: none; }
 #bk-root .bk-chip { min-height: 2.75rem; padding: 0.5rem 1rem; border: 1px solid var(--fz-line); background: none; font-size: 0.85rem; font-weight: 600; text-transform: capitalize; }
