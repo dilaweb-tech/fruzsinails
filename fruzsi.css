@@ -201,8 +201,11 @@
   .fz-menu-img.is-swap img { opacity: 0; }
 }
 html.fz-menu { overflow: hidden; }
-/* a 50vw-s teljes szélességű szakaszok asztalon a görgetősávval együtt mérnek – ne legyen vízszintes görgetés */
-.pv { overflow-x: clip; }
+/* a vízszintes vágás a gyökéren (a nézeten) van, nem szekción: iOS 26 Safariban a
+   kitűzött (sticky) elem fölötti overflow: clip rezegteti a kitűzést görgetés közben.
+   Ez fogja meg a 50vw-s teljes szélességű szakaszokat (asztalon a görgetősávval együtt
+   mérnek), a szétnyílt paklit és a becsúszó polaroidot is. */
+html { overflow-x: clip; }
 
 /* ==========================================================================
    2. HERO – név, színkártya, a kiválasztott minta receptje
@@ -210,7 +213,7 @@ html.fz-menu { overflow: hidden; }
    display:contents, így a gyerekei és a kép egy rácsban rendeződnek).
    ========================================================================== */
 /* az átlátszó fejléc a hero fölé lóg (--pv-nav-h) – ennyi kell fölé, nem több */
-.pv-main > #sec-hero { overflow-x: clip; background: none; padding-top: calc(var(--pv-nav-h) + clamp(0.6rem, 3cqi, 2.5rem)); }
+.pv-main > #sec-hero { background: none; padding-top: calc(var(--pv-nav-h) + clamp(0.6rem, 3cqi, 2.5rem)); }
 #sec-hero .pv-hero__inner { grid-template-columns: minmax(0, 1fr); gap: 1.1rem; }
 #sec-hero .pv-hero__copy { display: contents; }
 #sec-hero .pv-eyebrow { order: 1; flex-wrap: wrap; }
@@ -466,9 +469,10 @@ img[src$="gellakk.jpg"] { object-position: 50% 22%; }
   display: grid;
   justify-items: center;
   gap: 3rem;                                    /* a kinyílt, döntött lapok sarka lelóg – a felirat ne érjen hozzá */
-  width: 100%;
-  margin: 0.5rem 0 1rem;
+  width: 100vw;                                 /* teljes szélességben vág: a szétnyílt lapok széle ne szélesítse a lapot */
+  margin: 0.5rem calc(50% - 50vw) 1rem;
   padding: 2rem 0 0.5rem;
+  overflow-x: clip;
   border: 0;
   background: none;
   color: inherit;
@@ -625,7 +629,6 @@ html:has(.fz-viewer[open]) { overflow: hidden; }
   --fz-line: rgb(246 228 232 / 0.14);
   background: #2a0714;
   color: #f6e4e8;
-  overflow-x: clip;                  /* a szétnyílt pakli széle ne szélesítse a lapot telefonon */
 }
 #sec-gallery :is(h2, .pv-item__cap) { color: #f6e4e8; }
 .fz-scrolly { height: calc(var(--n) * 110svh); margin: 1.6rem 0 3rem; }
@@ -1063,7 +1066,6 @@ html.fz-focus .pv-top { visibility: hidden; }
   gap: 0 1rem;
 }
 #sec-about .pv-about__inner:has(.fz-story) { display: block; }
-#sec-about { overflow-x: clip; }     /* a becsúszó polaroid ne szélesítse a lapot telefonon */
 .fz-story.is-pinned .fz-story__stage { position: sticky; top: calc(var(--pv-nav-h, 4.4rem) + 0.8rem); }
 .fz-story__stage .pv-about__copy { grid-area: copy; grid-column: 1 / -1; grid-row: 1; }
 /* polaroid: fehér keret, alul szélesebb; ferdén érkezik, a végére egyenes */
