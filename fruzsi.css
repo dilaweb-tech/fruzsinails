@@ -201,6 +201,8 @@
   .fz-menu-img.is-swap img { opacity: 0; }
 }
 html.fz-menu { overflow: hidden; }
+/* a 50vw-s teljes szélességű szakaszok asztalon a görgetősávval együtt mérnek – ne legyen vízszintes görgetés */
+.pv { overflow-x: clip; }
 
 /* ==========================================================================
    2. HERO – név, színkártya, a kiválasztott minta receptje
