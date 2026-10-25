@@ -445,6 +445,14 @@ img[src$="gellakk.jpg"] { object-position: 50% 22%; }
 #bk-root .bk-panel { border-radius: 1.25rem; }
 #bk-root .bk-inline { border-radius: 0.9rem; }
 @media (min-width: 40rem) { #bk-root .bk-confirm { align-self: flex-start; } }
+/* széles kártyán az összegzés két hasábban: balra a foglalás, jobbra az adatok – így kifér a képernyőre */
+@container (min-width: 44rem) {
+  #bk-root[data-step="4"] .bk-body { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem 2rem; align-items: start; }
+  #bk-root[data-step="4"] .bk-body > .bk-h { grid-column: 1 / -1; }
+  #bk-root[data-step="4"] .bk-facts { grid-column: 1; grid-row: 2 / span 3; }
+  #bk-root[data-step="4"] .bk-body > :not(.bk-h, .bk-facts) { grid-column: 2; }
+  #bk-root[data-step="4"] .bk-h4 { margin-top: 0; }
+}
 
 /* ==========================================================================
    6. LOOKBOOK – fotópakli + nézegető (fruzsi.js lookbook)
