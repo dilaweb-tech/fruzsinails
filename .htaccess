@@ -27,7 +27,7 @@
     #
     # A .json BENNE van: azt a site.js tölti be (site.json). A minta-oldalak
     # (peldak/) ettől függetlenül zárva maradnak, lásd lentebb.
-    RewriteCond %{REQUEST_URI} !^/robots\.txt$
+    RewriteCond %{REQUEST_URI} !^/(robots\.txt|sitemap\.xml)$
     RewriteCond %{REQUEST_URI} !^/\.well-known/
     RewriteCond %{REQUEST_URI} \.[A-Za-z0-9]+$
     RewriteCond %{REQUEST_URI} !\.(html|css|js|json|svg|png|jpe?g|webp|avif|ico|woff2)$ [NC]
